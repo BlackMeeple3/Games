@@ -11,14 +11,12 @@ const games = [
   { id: 'game-3', name: 'Forest Shuffle', description: `Forest Shuffle è un gioco di carte strategico per 2‑5 giocatori della durata di circa 40‑60 minuti, in cui i partecipanti competono per raccogliere gli alberi più preziosi e attirare specie diverse per creare un habitat forestale equilibrato e ottenere il maggior numero di punti vittoria.`, image: 'games/game-3.jpg' },
   { id: 'game-4', name: 'Carcassone', description: `Carcassonne è un gioco da tavolo per 2-5 giocatori della durata di circa 30-45 minuti, in cui i partecipanti piazzano tessere per costruire città, strade e campi, collocando i propri meeple strategicamente per guadagnare punti vittoria e dominare il paesaggio medievale.`, image: 'games/game-4.jpg' },
   { id: 'game-5', name: 'Puerto Rico', description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull’isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`, image: 'games/game-5.jpg' },
-  { id: 'game-6', name: 'Castles of Burgundy', description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`, image: 'games/game-6.jpg' },
-  ...Array.from({ length: 45 }, (_, i) => ({
-    id: `game-${i + 7}`,
-    name: `Gioco ${i + 7}`,
-    description: `Descrizione gioco ${i + 7}`,
-    image: `games/game-${i + 7}.jpg`
-  }))
+  { id: 'game-6', name: 'Castles of Burgundy', description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`, image: 'games/game-6.jpg' }
+  
 ];
+
+// ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
+let games = [];
 
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
@@ -40,12 +38,11 @@ const chartCanvas = document.getElementById('voteChart');
 let selected = [];
 let isAdmin = false;
 
-// --- 4️⃣ Riferimenti popup ---
+// --- 4️⃣ Popup ---
 const popupOverlay = document.getElementById('popupOverlay');
 const popupText = document.getElementById('popupText');
 const popupClose = document.getElementById('popupClose');
 
-// Funzioni popup
 function showPopup(text) {
   popupText.innerHTML = text;
   popupOverlay.classList.add('active');
@@ -55,51 +52,64 @@ function closePopup() {
   popupOverlay.classList.remove('active');
 }
 
-// Eventi chiusura popup
 popupClose.onclick = closePopup;
 popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
 
-// --- 5️⃣ Render griglia giochi solo immagini esistenti (con popup) ---
-games.forEach(game => {
-  const img = new Image();
-  img.src = game.image;
+// --- 5️⃣ CARICAMENTO GIOCHI (immagini valide, ordine alfabetico, max 50) ---
+function loadGames() {
+  const checks = gamesRaw.map(game => {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.src = game.image;
+      img.onload = () => resolve(game);
+      img.onerror = () => resolve(null);
+    });
+  });
 
-  img.onload = () => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
-      <img src="${game.image}" alt="${game.name}">
-      <div class="info-icon">ℹ️</div>
-      <div class="game-info">
-        <div class="game-name">${game.name}</div>
-      </div>
-    `;
+  Promise.all(checks).then(validGames => {
+    games = validGames
+      .filter(Boolean)
+      .sort((a, b) => a.name.localeCompare(b.name, 'it'))
+      .slice(0, 50);
 
-    // Selezione gioco al click sulla card (esclusa l'icona)
-    div.onclick = (e) => {
-      if (e.target.classList.contains('info-icon')) return;
-      if (selected.includes(game.id)) {
-        selected = selected.filter(id => id !== game.id);
-        div.classList.remove('selected');
-      } else {
-        selected.push(game.id);
-        div.classList.add('selected');
-      }
-      submitBtn.style.display = selected.length ? 'block' : 'none';
-    };
+    games.forEach(renderGame);
+  });
+}
 
-    // Mostra popup al click sull'icona info
-    const infoIcon = div.querySelector('.info-icon');
-    infoIcon.onclick = (e) => {
-      e.stopPropagation();
-      showPopup(game.description);
-    };
+function renderGame(game) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <img src="${game.image}" alt="${game.name}">
+    <div class="info-icon">ℹ️</div>
+    <div class="game-info">
+      <div class="game-name">${game.name}</div>
+    </div>
+  `;
 
-    grid.appendChild(div);
+  div.onclick = (e) => {
+    if (e.target.classList.contains('info-icon')) return;
+
+    if (selected.includes(game.id)) {
+      selected = selected.filter(id => id !== game.id);
+      div.classList.remove('selected');
+    } else {
+      selected.push(game.id);
+      div.classList.add('selected');
+    }
+
+    submitBtn.style.display = selected.length ? 'block' : 'none';
   };
-});
+
+  div.querySelector('.info-icon').onclick = (e) => {
+    e.stopPropagation();
+    showPopup(game.description);
+  };
+
+  grid.appendChild(div);
+}
 
 // --- 6️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
@@ -124,10 +134,7 @@ sendBtn.onclick = async () => {
     .single();
 
   if (error) {
-    console.error("Errore Supabase partecipante:", error);
-    alert('Errore Supabase: ' + error.message);
-    nameSection.classList.add('hidden');
-    document.body.style.overflow = 'auto';
+    alert(error.message);
     return;
   }
 
@@ -141,20 +148,17 @@ sendBtn.onclick = async () => {
     .insert(rows);
 
   if (selectionError) {
-    console.error("Errore Supabase selezioni:", selectionError);
-    alert('Errore salvataggio selezioni: ' + selectionError.message);
-    nameSection.classList.add('hidden');
-    document.body.style.overflow = 'auto';
+    alert(selectionError.message);
     return;
   }
 
   alert('Scelte inviate!');
   selected = [];
   document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-  nameSection.classList.add('hidden');
-  document.body.style.overflow = 'auto';
   nameInput.value = '';
   submitBtn.style.display = 'none';
+  nameSection.classList.add('hidden');
+  document.body.style.overflow = 'auto';
 };
 
 // --- 9️⃣ ADMIN PANEL ---
@@ -173,8 +177,7 @@ closeAdminBtn.onclick = () => {
 };
 
 adminLoginBtn.onclick = () => {
-  const password = adminPasswordInput.value;
-  if (password === 'ori3') {
+  if (adminPasswordInput.value === 'ori3') {
     isAdmin = true;
     adminPasswordSection.classList.add('hidden');
     adminContent.classList.remove('hidden');
@@ -205,7 +208,7 @@ async function loadAdminData() {
   displayChart(selections);
 }
 
-// --- 1️⃣1️⃣ Mostra tabella voti ---
+// --- 1️⃣1️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
   const tableDiv = document.getElementById('votesTable');
   let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
@@ -213,15 +216,13 @@ function displayVotesTable(participants, selections) {
   participants.forEach(p => {
     const userSelections = selections
       .filter(s => s.participant_id === p.id)
-      .map(s => {
-        const game = games.find(g => g.id === s.game_id);
-        return game ? game.name : s.game_id;
-      })
+      .map(s => games.find(g => g.id === s.game_id)?.name || s.game_id)
       .join(', ');
 
     html += `
       <div style="padding:12px; border-bottom:1px solid #eee;">
-        <strong>${p.name || 'Anonimo'}</strong> (${new Date(p.created_at).toLocaleString('it-IT')})<br>
+        <strong>${p.name || 'Anonimo'}</strong>
+        (${new Date(p.created_at).toLocaleString('it-IT')})<br>
         <small>Voti: ${userSelections || 'Nessuno'}</small>
       </div>
     `;
@@ -231,60 +232,72 @@ function displayVotesTable(participants, selections) {
   tableDiv.innerHTML = html;
 }
 
-// --- 1️⃣2️⃣ Mostra grafico ---
+// --- 1️⃣2️⃣ Grafico ---
 function displayChart(selections) {
   const voteCounts = {};
   selections.forEach(s => {
     voteCounts[s.game_id] = (voteCounts[s.game_id] || 0) + 1;
   });
 
-  const sortedGames = Object.entries(voteCounts).sort((a,b) => b[1]-a[1]);
+  const sortedGames = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
 
   if (sortedGames.length === 0) {
     document.getElementById('chartContainer').innerHTML = '<p>Nessun voto ancora</p>';
     return;
   }
 
-  const labels = sortedGames.map(([gameId]) => {
-    const game = games.find(g => g.id === gameId);
-    return game ? game.name : gameId;
-  });
-  const data = sortedGames.map(([,count]) => count);
-  const colors = sortedGames.map((_,i) => `hsl(${(i*137.5)%360},70%,60%)`);
+  const labels = sortedGames.map(([id]) => games.find(g => g.id === id)?.name || id);
+  const data = sortedGames.map(([, count]) => count);
+  const colors = sortedGames.map((_, i) => `hsl(${(i * 137.5) % 360},70%,60%)`);
 
   const ctx = chartCanvas.getContext('2d');
-  if(window.adminChart) window.adminChart.destroy();
+  if (window.adminChart) window.adminChart.destroy();
 
   window.adminChart = new Chart(ctx, {
     type: 'bar',
-    data: { labels, datasets:[{ label:'Numero Voti', data, backgroundColor:colors, borderColor:colors.map(c=>c.replace('60%','40%')), borderWidth:2 }]},
+    data: {
+      labels,
+      datasets: [{
+        label: 'Numero Voti',
+        data,
+        backgroundColor: colors,
+        borderColor: colors.map(c => c.replace('60%', '40%')),
+        borderWidth: 2
+      }]
+    },
     options: {
-      responsive:true,
-      maintainAspectRatio:false,
-      scales:{
-        y:{ beginAtZero:true, ticks:{ stepSize:1 }},
-        x:{ ticks:{ autoSkip:false, maxRotation:45, minRotation:45 }}
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 } },
+        x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 45 } }
       },
-      plugins:{ legend:{ display:false }, title:{ display:true, text:'Giochi Più Votati', font:{ size:18, weight:'bold' } } }
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Giochi Più Votati', font: { size: 18, weight: 'bold' } }
+      }
     }
   });
 }
 
 // --- 1️⃣3️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
-  if(!confirm('Sei sicuro di voler cancellare TUTTI i dati? Questa azione è irreversibile!')) return;
+  if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
 
   try {
-    const { error: selectionsError } = await supabaseClient.from('selections').delete().gte('id',0);
-    if(selectionsError){ alert('Errore eliminazione selezioni: '+selectionsError.message); return; }
+    const { error: e1 } = await supabaseClient.from('selections').delete().gte('id', 0);
+    if (e1) throw e1;
 
-    const { error: participantsError } = await supabaseClient.from('participants').delete().gte('id',0);
-    if(participantsError){ alert('Errore eliminazione partecipanti: '+participantsError.message); return; }
+    const { error: e2 } = await supabaseClient.from('participants').delete().gte('id', 0);
+    if (e2) throw e2;
 
     alert('Tutti i dati sono stati cancellati!');
     loadAdminData();
-  } catch(error){
-    console.error('Errore durante reset:', error);
-    alert('Errore durante il reset dei dati');
+  } catch (err) {
+    alert('Errore durante il reset');
+    console.error(err);
   }
 };
+
+// --- 🚀 AVVIO ---
+loadGames();
