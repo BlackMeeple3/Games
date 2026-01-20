@@ -1,7 +1,7 @@
 // --- 1️⃣ Supabase client ---
 const supabaseClient = window.supabase.createClient(
-  'https://axdwlpufjxbjxqtuveal.supabase.co',  // sostituisci con il tuo URL
-  'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg' // sostituisci con la tua anon key
+  'https://axdwlpufjxbjxqtuveal.supabase.co',  
+  'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
 );
 
 // --- 2️⃣ Lista giochi ---
@@ -13,9 +13,10 @@ const games = Array.from({ length: 50 }, (_, i) => ({
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
 const submitBtn = document.getElementById('submitBtn');
-const modal = document.getElementById('modal');
+const nameSection = document.getElementById('nameSection');
 const nameInput = document.getElementById('nameInput');
 const sendBtn = document.getElementById('send');
+const closeNameSectionBtn = document.getElementById('closeNameSection');
 
 let selected = [];
 
@@ -33,24 +34,25 @@ games.forEach(game => {
       selected.push(game.id);
       div.classList.add('selected');
     }
+    // Mostra il pulsante solo se ci sono selezioni
     submitBtn.style.display = selected.length ? 'block' : 'none';
   };
 
   grid.appendChild(div);
 });
 
-// --- 5️⃣ Mostra il modal quando clicchi Invia ---
+// --- 5️⃣ Mostra sezione nome solo quando clicchi Invia ---
 submitBtn.onclick = () => {
-  modal.classList.remove('hidden');
-  // blocco scroll solo sotto il modal
+  nameSection.classList.remove('hidden');
+  // blocco scroll della pagina sotto
   document.body.style.overflow = 'hidden';
 };
 
-// --- 6️⃣ Funzione chiudi modal ---
-function closeModal() {
-  modal.classList.add('hidden');
+// --- 6️⃣ Chiudi sezione nome ---
+closeNameSectionBtn.onclick = () => {
+  nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto'; // riabilita scroll pagina
-}
+};
 
 // --- 7️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
@@ -65,7 +67,8 @@ sendBtn.onclick = async () => {
 
   if (error) {
     alert('Errore Supabase: ' + error.message);
-    closeModal();
+    nameSection.classList.add('hidden');
+    document.body.style.overflow = 'auto';
     return;
   }
 
@@ -81,13 +84,15 @@ sendBtn.onclick = async () => {
 
   if (selectionError) {
     alert('Errore salvataggio selezioni: ' + selectionError.message);
-    closeModal();
+    nameSection.classList.add('hidden');
+    document.body.style.overflow = 'auto';
     return;
   }
 
   alert('Scelte inviate!');
   selected = [];
-  closeModal();
+  nameSection.classList.add('hidden');
+  document.body.style.overflow = 'auto';
   // reset input
   nameInput.value = '';
   // nascondi bottone invio
