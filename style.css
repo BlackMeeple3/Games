@@ -361,7 +361,7 @@ h1 {
 
 /* Popup vero e proprio */
 .popup-content {
-  background: rgba(255, 255, 255, 0.0); /* completamente trasparente */
+  background: rgba(255, 255, 255, 0.2); /* completamente trasparente */
   /* oppure un po’ di trasparenza */
   /* background: rgba(255, 255, 255, 0.2); */
   padding: 20px 30px;
