@@ -41,7 +41,69 @@ const gamesRaw = [
     name: 'The Castles of Burgundy',
     description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`,
     image: 'games/game-6.jpg'
-  }
+  },
+  {
+  id: 'game-7',
+  name: 'HEAT',
+  description: `**HEAT** è un gioco da tavolo di corse automobilistiche per 1-6 giocatori della durata di circa 30-60 minuti, in cui i partecipanti gestiscono velocità, curve e stress del motore per tagliare il traguardo per primi, combinando gestione della mano e tattica.`,
+  image: 'games/heat_.jpg'
+},
+{
+  id: 'game-8',
+  name: '7 Wonders',
+  description: `**7 Wonders** è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l’economia, la scienza e l’esercito per ottenere il maggior numero di punti vittoria.`,
+  image: 'games/7 wonders_.jpg'
+},
+{
+  id: 'game-9',
+  name: 'Ticket to Ride',
+  description: `**Ticket to Ride** è un gioco da tavolo per 2-5 giocatori della durata di circa 30-60 minuti, in cui i partecipanti costruiscono linee ferroviarie collegando città su una mappa, completando obiettivi segreti e ottimizzando percorsi per fare punti.`,
+  image: 'games/ticket_.jpg'
+},
+{
+  id: 'game-10',
+  name: 'Wingspan',
+  description: `**Wingspan** è un gioco da tavolo strategico per 1-5 giocatori della durata di circa 40-70 minuti, in cui i partecipanti attirano uccelli nei propri habitat, creando sinergie tra carte per ottenere risorse, uova e punti vittoria.`,
+  image: 'games/wingspan_.jpg'
+},
+{
+  id: 'game-11',
+  name: 'Skull King',
+  description: `**Skull King** è un gioco di carte di prese per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
+  image: 'games/skull.jpg'
+},
+{
+  id: 'game-12',
+  name: 'Samurai Sword',
+  description: `**Samurai Sword** è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, ambientato nel Giappone feudale, in cui i partecipanti assumono ruoli segreti e si sfidano usando carte azione per eliminare gli avversari e raggiungere i propri obiettivi.`,
+  image: 'games/samurai_.jpg'
+},
+{
+  id: 'game-13',
+  name: 'Lost Ruins of Arnak',
+  description: `**Lost Ruins of Arnak** è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un’isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
+  image: 'games/arnak.jpg'
+},
+{
+  id: 'game-14',
+  name: 'Dorfromantik: The Board Game',
+  description: `**Dorfromantik: The Board Game** è un gioco cooperativo per 1-6 giocatori della durata di circa 30-60 minuti, in cui i partecipanti costruiscono un paesaggio armonioso piazzando tessere per completare obiettivi e sbloccare nuovi contenuti.`,
+  image: 'games/dork_.jpg'
+},
+{
+  id: 'game-15',
+  name: 'Monsters of Loch Lomond',
+  description: `**Monsters of Loch Lomond** è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
+  image: 'games/monster_.jpg'
+},
+{
+  id: 'game-16',
+  name: 'Scotland Yard',
+  description: `**Scotland Yard** è un gioco da tavolo di deduzione per 3-6 giocatori della durata di circa 45-60 minuti, in cui un giocatore interpreta Mister X mentre gli altri sono detective che collaborano per rintracciarlo muovendosi su una mappa di Londra usando indizi e logica.`,
+  image: 'games/scotland_.jpg'
+}
+
+
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
