@@ -1,4 +1,4 @@
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   'SUPABASE_URL',
   'SUPABASE_ANON_KEY'
 )
@@ -38,18 +38,23 @@ submitBtn.onclick = () => modal.classList.remove('hidden')
 document.getElementById('send').onclick = async () => {
   const name = document.getElementById('nameInput').value || null
 
-  const { data: participant } = await supabase
+  const { data: participant, error } = await supabaseClient
     .from('participants')
     .insert({ name })
     .select()
     .single()
+
+  if (error) {
+    alert('Errore Supabase')
+    return
+  }
 
   const rows = selected.map(game_id => ({
     participant_id: participant.id,
     game_id
   }))
 
-  await supabase.from('selections').insert(rows)
+  await supabaseClient.from('selections').insert(rows)
 
   modal.classList.add('hidden')
   alert('Scelte inviate!')
