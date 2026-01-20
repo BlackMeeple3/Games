@@ -1,7 +1,7 @@
 // --- 1️⃣ Supabase client ---
 const supabaseClient = window.supabase.createClient(
   'https://axdwlpufjxbjxqtuveal.supabase.co',  
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4ZHdscHVmanhianhxdHV2ZWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyODUxNjYsImV4cCI6MjA1Mjg2MTE2Nn0.8fDN7hDJgqnTYq8RxA_9NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
+  'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'  // La tua chiave originale
 );
 
 // --- 2️⃣ Lista giochi ---
