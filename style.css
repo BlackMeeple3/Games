@@ -343,13 +343,14 @@ h1 {
   display: none;
 }
 /* Sfondo popup */
+/* Sfondo popup */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.5); /* sfondo overlay semi-trasparente */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -361,9 +362,8 @@ h1 {
 
 /* Popup vero e proprio */
 .popup-content {
-  background: rgba(255, 255, 255, 0.2); /* completamente trasparente */
-  /* oppure un po’ di trasparenza */
-  /* background: rgba(255, 255, 255, 0.2); */
+  background: rgba(0, 0, 0, 0.85); /* nero poco trasparente */
+  color: white;                     /* testo bianco */
   padding: 20px 30px;
   border-radius: 12px;
   max-width: 400px;
@@ -373,8 +373,8 @@ h1 {
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
   opacity: 0;
   position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
-
 
 /* Mostra popup */
 .popup-overlay.active {
@@ -395,7 +395,7 @@ h1 {
   cursor: pointer;
   font-weight: bold;
   font-size: 20px;
-  color: #333;
+  color: white;
 }
 
 /* Hover fantasioso sulla X */
@@ -404,3 +404,4 @@ h1 {
   transform: rotate(90deg) scale(1.2);
   transition: transform 0.3s, color 0.3s;
 }
+
