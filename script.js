@@ -5,18 +5,48 @@ const supabaseClient = window.supabase.createClient(
 );
 
 // --- 2️⃣ Lista giochi con nomi e descrizioni ---
-const games = [
-  { id: 'game-1', name: 'Cascadia', description: `**Cascadia** è un gioco da tavolo per 1-4 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono ecosistemi combinando tessere habitat e gettoni fauna per ottenere punti vittoria, bilanciando strategia e semplicità.`, image: 'games/game-1.jpg' },
-  { id: 'game-2', name: 'Blood Rage', description: `**Blood Rage** è un gioco da tavolo per 2-4 giocatori della durata di circa 60-90 minuti, in cui i partecipanti guidano clan vichinghi in battaglie epiche, saccheggiando terre, guadagnando gloria e avanzando sul Ragnarök, combinando strategia di combattimento, gestione carte e controllo del territorio.`, image: 'games/game-2.jpg' },
-  { id: 'game-3', name: 'Forest Shuffle', description: `Forest Shuffle è un gioco di carte strategico per 2‑5 giocatori della durata di circa 40‑60 minuti, in cui i partecipanti competono per raccogliere gli alberi più preziosi e attirare specie diverse per creare un habitat forestale equilibrato e ottenere il maggior numero di punti vittoria.`, image: 'games/game-3.jpg' },
-  { id: 'game-4', name: 'Carcassone', description: `Carcassonne è un gioco da tavolo per 2-5 giocatori della durata di circa 30-45 minuti, in cui i partecipanti piazzano tessere per costruire città, strade e campi, collocando i propri meeple strategicamente per guadagnare punti vittoria e dominare il paesaggio medievale.`, image: 'games/game-4.jpg' },
-  { id: 'game-5', name: 'Puerto Rico', description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull’isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`, image: 'games/game-5.jpg' },
-  { id: 'game-6', name: 'Castles of Burgundy', description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`, image: 'games/game-6.jpg' }
-  
+const gamesRaw = [
+  {
+    id: 'game-1',
+    name: 'Cascadia',
+    description: `**Cascadia** è un gioco da tavolo per 1-4 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono ecosistemi combinando tessere habitat e gettoni fauna per ottenere punti vittoria, bilanciando strategia e semplicità.`,
+    image: 'games/game-1.jpg'
+  },
+  {
+    id: 'game-2',
+    name: 'Blood Rage',
+    description: `**Blood Rage** è un gioco da tavolo per 2-4 giocatori della durata di circa 60-90 minuti, in cui i partecipanti guidano clan vichinghi in battaglie epiche, saccheggiando terre, guadagnando gloria e avanzando sul Ragnarök, combinando strategia di combattimento, gestione carte e controllo del territorio.`,
+    image: 'games/game-2.jpg'
+  },
+  {
+    id: 'game-3',
+    name: 'Forest Shuffle',
+    description: `Forest Shuffle è un gioco di carte strategico per 2-5 giocatori della durata di circa 40-60 minuti, in cui i partecipanti competono per raccogliere gli alberi più preziosi e attirare specie diverse per creare un habitat forestale equilibrato e ottenere il maggior numero di punti vittoria.`,
+    image: 'games/game-3.jpg'
+  },
+  {
+    id: 'game-4',
+    name: 'Carcassonne',
+    description: `Carcassonne è un gioco da tavolo per 2-5 giocatori della durata di circa 30-45 minuti, in cui i partecipanti piazzano tessere per costruire città, strade e campi, collocando i propri meeple strategicamente per guadagnare punti vittoria e dominare il paesaggio medievale.`,
+    image: 'games/game-4.jpg'
+  },
+  {
+    id: 'game-5',
+    name: 'Puerto Rico',
+    description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull’isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`,
+    image: 'games/game-5.jpg'
+  },
+  {
+    id: 'game-6',
+    name: 'The Castles of Burgundy',
+    description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`,
+    image: 'games/game-6.jpg'
+  }
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
 let games = [];
+
 
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
