@@ -20,25 +20,31 @@ const closeNameSectionBtn = document.getElementById('closeNameSection');
 
 let selected = [];
 
-// --- 4️⃣ Render griglia giochi ---
+// --- 4️⃣ Render griglia giochi solo immagini esistenti ---
 games.forEach(game => {
-  const div = document.createElement('div');
-  div.className = 'card';
-  div.innerHTML = `<img src="${game.image}" alt="Gioco ${game.id}">`;
+  const img = new Image();
+  img.src = game.image;
 
-  div.onclick = () => {
-    if (selected.includes(game.id)) {
-      selected = selected.filter(id => id !== game.id);
-      div.classList.remove('selected');
-    } else {
-      selected.push(game.id);
-      div.classList.add('selected');
-    }
-    // Mostra il pulsante solo se ci sono selezioni
-    submitBtn.style.display = selected.length ? 'block' : 'none';
+  // Verifica che l'immagine esista
+  img.onload = () => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<img src="${game.image}" alt="Gioco ${game.id}">`;
+
+    div.onclick = () => {
+      if (selected.includes(game.id)) {
+        selected = selected.filter(id => id !== game.id);
+        div.classList.remove('selected');
+      } else {
+        selected.push(game.id);
+        div.classList.add('selected');
+      }
+      // Mostra il pulsante solo se ci sono selezioni
+      submitBtn.style.display = selected.length ? 'block' : 'none';
+    };
+
+    grid.appendChild(div);
   };
-
-  grid.appendChild(div);
 });
 
 // --- 5️⃣ Mostra sezione nome solo quando clicchi Invia ---
@@ -66,6 +72,7 @@ sendBtn.onclick = async () => {
     .single();
 
   if (error) {
+    console.error("Errore Supabase partecipante:", error);
     alert('Errore Supabase: ' + error.message);
     nameSection.classList.add('hidden');
     document.body.style.overflow = 'auto';
@@ -83,6 +90,7 @@ sendBtn.onclick = async () => {
     .insert(rows);
 
   if (selectionError) {
+    console.error("Errore Supabase selezioni:", selectionError);
     alert('Errore salvataggio selezioni: ' + selectionError.message);
     nameSection.classList.add('hidden');
     document.body.style.overflow = 'auto';
