@@ -6,11 +6,11 @@ const supabaseClient = window.supabase.createClient(
 
 // --- 2️⃣ Lista giochi con nomi e descrizioni ---
 const games = [
-  { id: 'game-1', name: 'Gioco 1', description: 'Descrizione gioco 1', image: 'games/game-1.jpg' },
-  { id: 'game-2', name: 'Gioco 2', description: 'Descrizione gioco 2', image: 'games/game-2.jpg' },
-  { id: 'game-3', name: 'Gioco 3', description: 'Descrizione gioco 3', image: 'games/game-3.jpg' },
-  { id: 'game-4', name: 'Gioco 4', description: 'Descrizione gioco 4', image: 'games/game-4.jpg' },
-  { id: 'game-5', name: 'Gioco 5', description: 'Descrizione gioco 5', image: 'games/game-5.jpg' },
+  { id: 'game-1', name: 'Carcassone', description: 'Gioco di posizionemento tessere da 2 a 5 giocatori, durata 30-45 min ', image: 'games/game-1.jpg' },
+  { id: 'game-2', name: 'Puerto rico', description: 'Descrizione gioco 2', image: 'games/game-2.jpg' },
+  { id: 'game-3', name: 'Cascadia', description: 'Descrizione gioco 3', image: 'games/game-3.jpg' },
+  { id: 'game-4', name: 'Forest shuffle', description: 'Descrizione gioco 4', image: 'games/game-4.jpg' },
+  { id: 'game-5', name: 'Blood Rage', description: 'Descrizione gioco 5', image: 'games/game-5.jpg' },
   // Aggiungi qui gli altri giochi con i loro nomi e descrizioni
   ...Array.from({ length: 45 }, (_, i) => ({
     id: `game-${i + 6}`,
