@@ -1,7 +1,7 @@
 // --- 1️⃣ Supabase client ---
 const supabaseClient = window.supabase.createClient(
   'https://axdwlpufjxbjxqtuveal.supabase.co',  
-  'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4ZHdscHVmanhianhxdHV2ZWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyODUxNjYsImV4cCI6MjA1Mjg2MTE2Nn0.8fDN7hDJgqnTYq8RxA_9NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
 );
 
 // --- 2️⃣ Lista giochi ---
@@ -17,20 +17,28 @@ const nameSection = document.getElementById('nameSection');
 const nameInput = document.getElementById('nameInput');
 const sendBtn = document.getElementById('send');
 const closeNameSectionBtn = document.getElementById('closeNameSection');
+const adminBtn = document.getElementById('adminBtn');
+const adminPanel = document.getElementById('adminPanel');
+const adminPasswordSection = document.getElementById('adminPasswordSection');
+const adminPasswordInput = document.getElementById('adminPasswordInput');
+const adminLoginBtn = document.getElementById('adminLoginBtn');
+const closeAdminBtn = document.getElementById('closeAdminBtn');
+const adminContent = document.getElementById('adminContent');
+const resetDataBtn = document.getElementById('resetDataBtn');
+const chartCanvas = document.getElementById('voteChart');
 
 let selected = [];
+let isAdmin = false;
 
 // --- 4️⃣ Render griglia giochi solo immagini esistenti ---
 games.forEach(game => {
   const img = new Image();
   img.src = game.image;
-
-  // Verifica che l'immagine esista
+  
   img.onload = () => {
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `<img src="${game.image}" alt="Gioco ${game.id}">`;
-
     div.onclick = () => {
       if (selected.includes(game.id)) {
         selected = selected.filter(id => id !== game.id);
@@ -39,38 +47,34 @@ games.forEach(game => {
         selected.push(game.id);
         div.classList.add('selected');
       }
-      // Mostra il pulsante solo se ci sono selezioni
       submitBtn.style.display = selected.length ? 'block' : 'none';
     };
-
     grid.appendChild(div);
   };
 });
 
-// --- 5️⃣ Mostra sezione nome solo quando clicchi Invia ---
+// --- 5️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
-  // blocco scroll della pagina sotto
   document.body.style.overflow = 'hidden';
 };
 
 // --- 6️⃣ Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
   nameSection.classList.add('hidden');
-  document.body.style.overflow = 'auto'; // riabilita scroll pagina
+  document.body.style.overflow = 'auto';
 };
 
 // --- 7️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
   const name = nameInput.value.trim() || null;
-
-  // Inserisci partecipante
+  
   const { data: participant, error } = await supabaseClient
     .from('participants')
     .insert({ name })
     .select()
     .single();
-
+  
   if (error) {
     console.error("Errore Supabase partecipante:", error);
     alert('Errore Supabase: ' + error.message);
@@ -78,17 +82,16 @@ sendBtn.onclick = async () => {
     document.body.style.overflow = 'auto';
     return;
   }
-
-  // Inserisci selezioni
+  
   const rows = selected.map(game_id => ({
     participant_id: participant.id,
     game_id
   }));
-
+  
   const { error: selectionError } = await supabaseClient
     .from('selections')
     .insert(rows);
-
+  
   if (selectionError) {
     console.error("Errore Supabase selezioni:", selectionError);
     alert('Errore salvataggio selezioni: ' + selectionError.message);
@@ -96,13 +99,194 @@ sendBtn.onclick = async () => {
     document.body.style.overflow = 'auto';
     return;
   }
-
+  
   alert('Scelte inviate!');
   selected = [];
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
-  // reset input
   nameInput.value = '';
-  // nascondi bottone invio
   submitBtn.style.display = 'none';
+};
+
+// --- 8️⃣ ADMIN PANEL ---
+adminBtn.onclick = () => {
+  adminPanel.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+};
+
+closeAdminBtn.onclick = () => {
+  adminPanel.classList.add('hidden');
+  document.body.style.overflow = 'auto';
+  isAdmin = false;
+  adminPasswordSection.classList.remove('hidden');
+  adminContent.classList.add('hidden');
+  adminPasswordInput.value = '';
+};
+
+adminLoginBtn.onclick = () => {
+  const password = adminPasswordInput.value;
+  if (password === 'ori3') {
+    isAdmin = true;
+    adminPasswordSection.classList.add('hidden');
+    adminContent.classList.remove('hidden');
+    loadAdminData();
+  } else {
+    alert('Password errata!');
+    adminPasswordInput.value = '';
+  }
+};
+
+// --- 9️⃣ Carica dati admin ---
+async function loadAdminData() {
+  // Carica partecipanti
+  const { data: participants } = await supabaseClient
+    .from('participants')
+    .select('*')
+    .order('created_at', { ascending: false });
+  
+  // Carica selezioni
+  const { data: selections } = await supabaseClient
+    .from('selections')
+    .select('*');
+  
+  if (!participants || !selections) {
+    alert('Errore nel caricamento dei dati');
+    return;
+  }
+  
+  // Mostra tabella voti
+  displayVotesTable(participants, selections);
+  
+  // Mostra grafico
+  displayChart(selections);
+}
+
+// --- 🔟 Mostra tabella voti ---
+function displayVotesTable(participants, selections) {
+  const tableDiv = document.getElementById('votesTable');
+  let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
+  
+  participants.forEach(p => {
+    const userSelections = selections
+      .filter(s => s.participant_id === p.id)
+      .map(s => s.game_id)
+      .join(', ');
+    
+    html += `
+      <div style="padding:12px; border-bottom:1px solid #eee;">
+        <strong>${p.name || 'Anonimo'}</strong> (${new Date(p.created_at).toLocaleString('it-IT')})<br>
+        <small>Voti: ${userSelections || 'Nessuno'}</small>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  tableDiv.innerHTML = html;
+}
+
+// --- 1️⃣1️⃣ Mostra grafico ---
+function displayChart(selections) {
+  // Conta voti per gioco
+  const voteCounts = {};
+  selections.forEach(s => {
+    voteCounts[s.game_id] = (voteCounts[s.game_id] || 0) + 1;
+  });
+  
+  // Ordina per numero voti (decrescente)
+  const sortedGames = Object.entries(voteCounts)
+    .sort((a, b) => b[1] - a[1]);
+  
+  if (sortedGames.length === 0) {
+    document.getElementById('chartContainer').innerHTML = '<p>Nessun voto ancora</p>';
+    return;
+  }
+  
+  const labels = sortedGames.map(([game]) => game.replace('game-', 'G'));
+  const data = sortedGames.map(([, count]) => count);
+  
+  // Colori vivaci
+  const colors = sortedGames.map((_, i) => {
+    const hue = (i * 137.5) % 360; // Golden angle
+    return `hsl(${hue}, 70%, 60%)`;
+  });
+  
+  // Crea grafico con Chart.js
+  const ctx = chartCanvas.getContext('2d');
+  
+  // Distruggi grafico precedente se esistente
+  if (window.adminChart) {
+    window.adminChart.destroy();
+  }
+  
+  window.adminChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Numero Voti',
+        data: data,
+        backgroundColor: colors,
+        borderColor: colors.map(c => c.replace('60%', '40%')),
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Giochi Più Votati',
+          font: {
+            size: 18,
+            weight: 'bold'
+          }
+        }
+      }
+    }
+  });
+}
+
+// --- 1️⃣2️⃣ Reset dati ---
+resetDataBtn.onclick = async () => {
+  if (!confirm('Sei sicuro di voler cancellare TUTTI i dati? Questa azione è irreversibile!')) {
+    return;
+  }
+  
+  // Elimina tutte le selezioni
+  const { error: selectionsError } = await supabaseClient
+    .from('selections')
+    .delete()
+    .neq('id', 0); // Trucco per eliminare tutto
+  
+  if (selectionsError) {
+    alert('Errore eliminazione selezioni: ' + selectionsError.message);
+    return;
+  }
+  
+  // Elimina tutti i partecipanti
+  const { error: participantsError } = await supabaseClient
+    .from('participants')
+    .delete()
+    .neq('id', 0);
+  
+  if (participantsError) {
+    alert('Errore eliminazione partecipanti: ' + participantsError.message);
+    return;
+  }
+  
+  alert('Tutti i dati sono stati cancellati!');
+  loadAdminData();
 };
