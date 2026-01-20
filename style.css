@@ -43,6 +43,38 @@ h1 {
   object-fit: cover;
   display: block;
 }
+
+/* Info gioco (nome e descrizione) */
+.game-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  color: white;
+  padding: 12px 8px 8px 8px;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+  pointer-events: none;
+}
+
+.card:hover .game-info,
+.card:active .game-info,
+.card.selected .game-info {
+  transform: translateY(0);
+}
+
+.game-name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.game-description {
+  font-size: 12px;
+  opacity: 0.9;
+  line-height: 1.3;
+}
 /* Selezione gioco */
 .card.selected {
   transform: scale(0.96);
@@ -136,6 +168,7 @@ h1 {
   font-size: 16px;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 #nameSection input:focus {
   border-color: black;
@@ -152,6 +185,7 @@ h1 {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
+  box-sizing: border-box;
 }
 #nameSection button#send:hover,
 #nameSection button#send:active {
@@ -227,6 +261,12 @@ h1 {
   margin: 16px 0;
   font-size: 16px;
   outline: none;
+  box-sizing: border-box;
+}
+
+#adminPasswordSection input:focus,
+#adminContent input:focus {
+  border-color: black;
 }
 
 .admin-btn {
@@ -240,6 +280,7 @@ h1 {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s;
+  box-sizing: border-box;
 }
 
 .admin-btn:hover {
@@ -258,6 +299,7 @@ h1 {
   cursor: pointer;
   margin-top: 20px;
   transition: background 0.2s;
+  box-sizing: border-box;
 }
 
 .reset-btn:hover {
