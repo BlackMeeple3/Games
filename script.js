@@ -4,11 +4,21 @@ const supabaseClient = window.supabase.createClient(
   'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'  // La tua chiave originale
 );
 
-// --- 2️⃣ Lista giochi ---
-const games = Array.from({ length: 50 }, (_, i) => ({
-  id: `game-${i + 1}`,
-  image: `games/game-${i + 1}.jpg`
-}));
+// --- 2️⃣ Lista giochi con nomi e descrizioni ---
+const games = [
+  { id: 'game-1', name: 'Gioco 1', description: 'Descrizione gioco 1', image: 'games/game-1.jpg' },
+  { id: 'game-2', name: 'Gioco 2', description: 'Descrizione gioco 2', image: 'games/game-2.jpg' },
+  { id: 'game-3', name: 'Gioco 3', description: 'Descrizione gioco 3', image: 'games/game-3.jpg' },
+  { id: 'game-4', name: 'Gioco 4', description: 'Descrizione gioco 4', image: 'games/game-4.jpg' },
+  { id: 'game-5', name: 'Gioco 5', description: 'Descrizione gioco 5', image: 'games/game-5.jpg' },
+  // Aggiungi qui gli altri giochi con i loro nomi e descrizioni
+  ...Array.from({ length: 45 }, (_, i) => ({
+    id: `game-${i + 6}`,
+    name: `Gioco ${i + 6}`,
+    description: `Descrizione gioco ${i + 6}`,
+    image: `games/game-${i + 6}.jpg`
+  }))
+];
 
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
@@ -38,7 +48,14 @@ games.forEach(game => {
   img.onload = () => {
     const div = document.createElement('div');
     div.className = 'card';
-    div.innerHTML = `<img src="${game.image}" alt="Gioco ${game.id}">`;
+    div.innerHTML = `
+      <img src="${game.image}" alt="${game.name}">
+      <div class="game-info">
+        <div class="game-name">${game.name}</div>
+        <div class="game-description">${game.description}</div>
+      </div>
+    `;
+    
     div.onclick = () => {
       if (selected.includes(game.id)) {
         selected = selected.filter(id => id !== game.id);
@@ -49,6 +66,7 @@ games.forEach(game => {
       }
       submitBtn.style.display = selected.length ? 'block' : 'none';
     };
+    
     grid.appendChild(div);
   };
 });
@@ -170,7 +188,10 @@ function displayVotesTable(participants, selections) {
   participants.forEach(p => {
     const userSelections = selections
       .filter(s => s.participant_id === p.id)
-      .map(s => s.game_id)
+      .map(s => {
+        const game = games.find(g => g.id === s.game_id);
+        return game ? game.name : s.game_id;
+      })
       .join(', ');
     
     html += `
@@ -202,7 +223,10 @@ function displayChart(selections) {
     return;
   }
   
-  const labels = sortedGames.map(([game]) => game.replace('game-', 'G'));
+  const labels = sortedGames.map(([gameId]) => {
+    const game = games.find(g => g.id === gameId);
+    return game ? game.name : gameId;
+  });
   const data = sortedGames.map(([, count]) => count);
   
   // Colori vivaci
@@ -240,6 +264,13 @@ function displayChart(selections) {
           ticks: {
             stepSize: 1
           }
+        },
+        x: {
+          ticks: {
+            autoSkip: false,
+            maxRotation: 45,
+            minRotation: 45
+          }
         }
       },
       plugins: {
@@ -265,28 +296,33 @@ resetDataBtn.onclick = async () => {
     return;
   }
   
-  // Elimina tutte le selezioni
-  const { error: selectionsError } = await supabaseClient
-    .from('selections')
-    .delete()
-    .neq('id', 0); // Trucco per eliminare tutto
-  
-  if (selectionsError) {
-    alert('Errore eliminazione selezioni: ' + selectionsError.message);
-    return;
+  try {
+    // Elimina tutte le selezioni
+    const { error: selectionsError } = await supabaseClient
+      .from('selections')
+      .delete()
+      .gte('id', 0); // Elimina tutte le righe
+    
+    if (selectionsError) {
+      alert('Errore eliminazione selezioni: ' + selectionsError.message);
+      return;
+    }
+    
+    // Elimina tutti i partecipanti
+    const { error: participantsError } = await supabaseClient
+      .from('participants')
+      .delete()
+      .gte('id', 0); // Elimina tutte le righe
+    
+    if (participantsError) {
+      alert('Errore eliminazione partecipanti: ' + participantsError.message);
+      return;
+    }
+    
+    alert('Tutti i dati sono stati cancellati!');
+    loadAdminData();
+  } catch (error) {
+    console.error('Errore durante reset:', error);
+    alert('Errore durante il reset dei dati');
   }
-  
-  // Elimina tutti i partecipanti
-  const { error: participantsError } = await supabaseClient
-    .from('participants')
-    .delete()
-    .neq('id', 0);
-  
-  if (participantsError) {
-    alert('Errore eliminazione partecipanti: ' + participantsError.message);
-    return;
-  }
-  
-  alert('Tutti i dati sono stati cancellati!');
-  loadAdminData();
 };
