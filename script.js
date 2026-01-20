@@ -42,23 +42,26 @@ const chartCanvas = document.getElementById('voteChart');
 let selected = [];
 let isAdmin = false;
 
-// --- 4️⃣ Render griglia giochi solo immagini esistenti ---
+// --- 4️⃣ Render griglia giochi solo immagini esistenti (con icona info) ---
 games.forEach(game => {
   const img = new Image();
   img.src = game.image;
-  
+
   img.onload = () => {
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `
       <img src="${game.image}" alt="${game.name}">
+      <div class="info-icon">ℹ️</div>
       <div class="game-info">
         <div class="game-name">${game.name}</div>
-        <div class="game-description">${game.description}</div>
+        <div class="game-description hidden">${game.description}</div>
       </div>
     `;
-    
-    div.onclick = () => {
+
+    // Selezione gioco al click sulla card (esclusa l'icona)
+    div.onclick = (e) => {
+      if (e.target.classList.contains('info-icon')) return; // Ignora click su info
       if (selected.includes(game.id)) {
         selected = selected.filter(id => id !== game.id);
         div.classList.remove('selected');
@@ -68,10 +71,19 @@ games.forEach(game => {
       }
       submitBtn.style.display = selected.length ? 'block' : 'none';
     };
-    
+
+    // Mostra/nascondi descrizione al click sull'icona info
+    const infoIcon = div.querySelector('.info-icon');
+    const description = div.querySelector('.game-description');
+    infoIcon.onclick = (e) => {
+      e.stopPropagation(); // Blocca propagazione al click della card
+      description.classList.toggle('hidden');
+    };
+
     grid.appendChild(div);
   };
 });
+
 
 // --- 5️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
