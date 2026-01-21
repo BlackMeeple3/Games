@@ -270,8 +270,10 @@ popupClose.onclick = closePopup;
 popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
+
 // --- 6️⃣ CARICAMENTO GIOCHI ---
-// Modifica la funzione loadGames
+let gamesLoaded = false;
+
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -306,15 +308,49 @@ function loadGames() {
   });
 }
 
+// --- 7️⃣ GESTIONE VIDEO INTRO ---
+const introVideo = document.getElementById('introVideo');
+let videoEnded = false;
+
+// Prova a riprodurre il video appena possibile
+introVideo.onloadeddata = () => {
+  const playPromise = introVideo.play();
+  
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.log('Autoplay bloccato, serve interazione utente');
+      // Fallback: se l'autoplay è bloccato, salta direttamente
+      videoEnded = true;
+      if (gamesLoaded) {
+        hideLoadingScreen();
+      }
+    });
+  }
+};
+
+introVideo.onended = () => {
+  videoEnded = true;
+  if (gamesLoaded) {
+    hideLoadingScreen();
+  }
+};
+
+// Forza il caricamento del video
+introVideo.load();
+
 // Fallback di sicurezza (10 secondi max)
 setTimeout(() => {
   if (!loadingScreen.classList.contains('fade-out')) {
     hideLoadingScreen();
   }
 }, 10000);
-    
-    
-// --- 7️⃣ CREAZIONE FILTRI ---
+
+function hideLoadingScreen() {
+  loadingScreen.classList.add('fade-out');
+  document.body.classList.add('loaded');
+}
+
+// --- 8️⃣ CREAZIONE FILTRI ---
 function createFilters() {
   // Estrai tutte le macrocategorie uniche
   const categories = [...new Set(games.map(g => g.macroCategory))].sort();
@@ -419,7 +455,7 @@ clearFiltersBtn.onclick = () => {
   renderGames();
 };
 
-// --- 8️⃣ RENDERING GIOCHI ---
+// --- 9️⃣ RENDERING GIOCHI ---
 function renderGames() {
   grid.innerHTML = '';
   
@@ -503,19 +539,19 @@ function renderGame(game) {
   grid.appendChild(div);
 }
 
-// --- 9️⃣ Mostra sezione nome ---
+// --- 🔟 Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
 
-// --- 🔟 Chiudi sezione nome ---
+// --- 1️⃣1️⃣ Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
 };
 
-// --- 1️⃣1️⃣ Invia dati a Supabase ---
+// --- 1️⃣2️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
   const name = nameInput.value.trim() || null;
 
@@ -553,7 +589,7 @@ sendBtn.onclick = async () => {
   document.body.style.overflow = 'auto';
 };
 
-// --- 1️⃣2️⃣ ADMIN PANEL ---
+// --- 1️⃣3️⃣ ADMIN PANEL ---
 adminBtn.onclick = () => {
   adminPanel.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -580,7 +616,7 @@ adminLoginBtn.onclick = () => {
   }
 };
 
-// --- 1️⃣3️⃣ Filtro date admin ---
+// --- 1️⃣4️⃣ Filtro date admin ---
 applyDateFilter.onclick = () => {
   dateFilterRange.from = dateFrom.value || null;
   dateFilterRange.to = dateTo.value || null;
@@ -595,7 +631,7 @@ resetDateFilter.onclick = () => {
   loadAdminData();
 };
 
-// --- 1️⃣4️⃣ Carica dati admin ---
+// --- 1️⃣5️⃣ Carica dati admin ---
 async function loadAdminData() {
   let participantsQuery = supabaseClient
     .from('participants')
@@ -636,7 +672,8 @@ async function loadAdminData() {
   displayChart(selections || []);
 }
 
-// --- 1️⃣5️⃣ Tabella voti ---
+
+// --- 1️⃣6️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
   const tableDiv = document.getElementById('votesTable');
   let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
@@ -660,7 +697,7 @@ function displayVotesTable(participants, selections) {
   tableDiv.innerHTML = html;
 }
 
-// --- 1️⃣6️⃣ Grafico ---
+// --- 1️⃣7️⃣ Grafico ---
 function displayChart(selections) {
   const voteCounts = {};
   selections.forEach(s => {
@@ -708,7 +745,7 @@ function displayChart(selections) {
   });
 }
 
-// --- 1️⃣7️⃣ Reset dati ---
+// --- 1️⃣8️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
   if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
 
@@ -728,27 +765,4 @@ resetDataBtn.onclick = async () => {
 };
 
 // --- 🚀 AVVIO ---
-// Inizia a caricare il video SUBITO
-const introVideo = document.getElementById('introVideo');
-let videoEnded = false;
-let gamesLoaded = false;
-
-introVideo.onloadeddata = () => {
-  introVideo.play();
-};
-
-introVideo.onended = () => {
-  videoEnded = true;
-  if (gamesLoaded) {
-    hideLoadingScreen();
-  }
-};
-
-function hideLoadingScreen() {
-  loadingScreen.classList.add('fade-out');
-  document.body.classList.add('loaded');
-}
-
-
-
 loadGames();
