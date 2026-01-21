@@ -2,11 +2,26 @@
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  background: #f5f5f5;
+
+  /* 🔥 SFONDO */
+   background-image: url('games/sfondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
   position: relative;
 }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
 
 /* Titolo */
 h1 {
@@ -556,3 +571,30 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+body.start-animation {
+  animation: crazyEntrance 1.4s cubic-bezier(.17,.67,.32,1.4);
+}
+
+@keyframes crazyEntrance {
+  0% {
+    transform: scale(1.4) rotate(-6deg);
+    filter: blur(14px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.95) rotate(2deg);
+    filter: blur(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    filter: blur(0);
+  }
+}
+
