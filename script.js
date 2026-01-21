@@ -270,8 +270,8 @@ popupClose.onclick = closePopup;
 popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
-
 // --- 6️⃣ CARICAMENTO GIOCHI ---
+// Modifica la funzione loadGames
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -297,22 +297,23 @@ function loadGames() {
     createFilters();
     renderGames();
     
-    // Ascolta la fine del video
-    const introVideo = document.getElementById('introVideo');
-    introVideo.onended = () => {
-      loadingScreen.classList.add('fade-out');
-      document.body.classList.add('loaded');
-    };
+    gamesLoaded = true;
     
-    // Fallback se il video non parte (dopo 5 secondi)
-    setTimeout(() => {
-      if (!loadingScreen.classList.contains('fade-out')) {
-        loadingScreen.classList.add('fade-out');
-        document.body.classList.add('loaded');
-      }
-    }, 5000);
+    // Se il video è già finito, nascondi subito
+    if (videoEnded) {
+      hideLoadingScreen();
+    }
   });
 }
+
+// Fallback di sicurezza (10 secondi max)
+setTimeout(() => {
+  if (!loadingScreen.classList.contains('fade-out')) {
+    hideLoadingScreen();
+  }
+}, 10000);
+    
+    
 // --- 7️⃣ CREAZIONE FILTRI ---
 function createFilters() {
   // Estrai tutte le macrocategorie uniche
@@ -727,4 +728,27 @@ resetDataBtn.onclick = async () => {
 };
 
 // --- 🚀 AVVIO ---
+// Inizia a caricare il video SUBITO
+const introVideo = document.getElementById('introVideo');
+let videoEnded = false;
+let gamesLoaded = false;
+
+introVideo.onloadeddata = () => {
+  introVideo.play();
+};
+
+introVideo.onended = () => {
+  videoEnded = true;
+  if (gamesLoaded) {
+    hideLoadingScreen();
+  }
+};
+
+function hideLoadingScreen() {
+  loadingScreen.classList.add('fade-out');
+  document.body.classList.add('loaded');
+}
+
+
+
 loadGames();
