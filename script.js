@@ -211,7 +211,8 @@ let selected = [];
 let isAdmin = false;
 let activeFilters = {
   categories: [],
-  tags: []
+  maxPlayers: null,
+  maxTime: null
 };
 
 // --- 4️⃣ Popup ---
@@ -289,11 +290,6 @@ function createFilters() {
   // Estrai tutte le macrocategorie uniche
   const categories = [...new Set(games.map(g => g.macroCategory))].sort();
   
-  // Estrai tutti i tags unici
-  const allTags = new Set();
-  games.forEach(g => g.tags.forEach(t => allTags.add(t)));
-  const tags = [...allTags].sort();
-  
   // Crea pulsanti categoria
   categories.forEach(cat => {
     const btn = document.createElement('button');
@@ -303,14 +299,42 @@ function createFilters() {
     categoryFiltersDiv.appendChild(btn);
   });
   
-  // Crea pulsanti tags
-  tags.forEach(tag => {
+  // Filtri numero giocatori
+  tagFiltersDiv.innerHTML = '<div style="margin-bottom: 10px;"><strong>Max Giocatori:</strong></div>';
+  const playersDiv = document.createElement('div');
+  playersDiv.style.display = 'flex';
+  playersDiv.style.gap = '8px';
+  playersDiv.style.flexWrap = 'wrap';
+  playersDiv.style.marginBottom = '20px';
+  
+  [2, 3, 4, 5, 6, 7, 8].forEach(num => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
-    btn.textContent = tag;
-    btn.onclick = () => toggleTagFilter(tag, btn);
-    tagFiltersDiv.appendChild(btn);
+    btn.textContent = `${num}+`;
+    btn.onclick = () => togglePlayersFilter(num, btn);
+    playersDiv.appendChild(btn);
   });
+  tagFiltersDiv.appendChild(playersDiv);
+  
+  // Filtri durata
+  const durationLabel = document.createElement('div');
+  durationLabel.innerHTML = '<strong>Max Durata (min):</strong>';
+  durationLabel.style.marginBottom = '10px';
+  tagFiltersDiv.appendChild(durationLabel);
+  
+  const durationDiv = document.createElement('div');
+  durationDiv.style.display = 'flex';
+  durationDiv.style.gap = '8px';
+  durationDiv.style.flexWrap = 'wrap';
+  
+  [30, 45, 60, 90, 120, 150].forEach(time => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = `≤${time}'`;
+    btn.onclick = () => toggleTimeFilter(time, btn);
+    durationDiv.appendChild(btn);
+  });
+  tagFiltersDiv.appendChild(durationDiv);
 }
 
 function toggleCategoryFilter(category, btn) {
@@ -325,27 +349,44 @@ function toggleCategoryFilter(category, btn) {
   updateFilters();
 }
 
-function toggleTagFilter(tag, btn) {
-  const idx = activeFilters.tags.indexOf(tag);
-  if (idx > -1) {
-    activeFilters.tags.splice(idx, 1);
+function togglePlayersFilter(num, btn) {
+  if (activeFilters.maxPlayers === num) {
+    activeFilters.maxPlayers = null;
     btn.classList.remove('active');
   } else {
-    activeFilters.tags.push(tag);
+    // Rimuovi active da tutti i bottoni giocatori
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    activeFilters.maxPlayers = num;
+    btn.classList.add('active');
+  }
+  updateFilters();
+}
+
+function toggleTimeFilter(time, btn) {
+  if (activeFilters.maxTime === time) {
+    activeFilters.maxTime = null;
+    btn.classList.remove('active');
+  } else {
+    // Rimuovi active da tutti i bottoni durata
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    activeFilters.maxTime = time;
     btn.classList.add('active');
   }
   updateFilters();
 }
 
 function updateFilters() {
-  const hasFilters = activeFilters.categories.length > 0 || activeFilters.tags.length > 0;
+  const hasFilters = activeFilters.categories.length > 0 || 
+                     activeFilters.maxPlayers !== null || 
+                     activeFilters.maxTime !== null;
   clearFiltersBtn.style.display = hasFilters ? 'inline-block' : 'none';
   renderGames();
 }
 
 clearFiltersBtn.onclick = () => {
   activeFilters.categories = [];
-  activeFilters.tags = [];
+  activeFilters.maxPlayers = null;
+  activeFilters.maxTime = null;
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
   clearFiltersBtn.style.display = 'none';
   renderGames();
@@ -364,9 +405,15 @@ function renderGames() {
     );
   }
   
-  if (activeFilters.tags.length > 0) {
+  if (activeFilters.maxPlayers !== null) {
     filteredGames = filteredGames.filter(g => 
-      activeFilters.tags.some(tag => g.tags.includes(tag))
+      g.players.max >= activeFilters.maxPlayers
+    );
+  }
+  
+  if (activeFilters.maxTime !== null) {
+    filteredGames = filteredGames.filter(g => 
+      g.time.max <= activeFilters.maxTime
     );
   }
   
