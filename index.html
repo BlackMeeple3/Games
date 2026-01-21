@@ -7,17 +7,16 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   
   <!-- LOADING SCREEN -->
-<div id="loadingScreen">
-  <video autoplay muted playsinline id="introVideo" style="width: 100%; height: 100%; object-fit: cover;">
-    <source src="games/intro.mov" type="video/quicktime">
-    <source src="games/intro.mp4" type="video/mp4">
-  </video>
-</div>
+  <div id="loadingScreen">
+    <video id="introVideo" muted playsinline autoplay style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="games/intro.mp4" type="video/mp4">
+      <source src="games/intro.mov" type="video/quicktime">
+      Il tuo browser non supporta il tag video.
+    </video>
+  </div>
   
-
   <!-- Pulsante Admin -->
   <button id="adminBtn" class="admin-icon" title="Admin">⚙️</button>
   
