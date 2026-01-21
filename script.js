@@ -53,7 +53,7 @@ const gamesRaw = [
   {
     id: 'game-5',
     name: 'Puerto Rico',
-    description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull’isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`,
+    description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull'isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`,
     image: 'games/game-5.jpg',
     players: { min: 2, max: 5 },
     time: { min: 90, max: 150 },
@@ -86,7 +86,7 @@ const gamesRaw = [
   {
     id: 'game-8',
     name: '7 Wonders',
-    description: `7 Wonders è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l’economia, la scienza e l’esercito per ottenere il maggior numero di punti vittoria.`,
+    description: `7 Wonders è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l'economia, la scienza e l'esercito per ottenere il maggior numero di punti vittoria.`,
     image: 'games/7 wonders_.jpg',
     players: { min: 3, max: 7 },
     time: { min: 30, max: 30 },
@@ -141,7 +141,7 @@ const gamesRaw = [
   {
     id: 'game-13',
     name: 'Lost Ruins of Arnak',
-    description: `Lost Ruins of Arnak è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un’isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
+    description: `Lost Ruins of Arnak è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un'isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
     image: 'games/arnak.jpg',
     players: { min: 1, max: 4 },
     time: { min: 60, max: 120 },
@@ -187,9 +187,6 @@ const gamesRaw = [
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
 let games = [];
 
-
-
-
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
 const submitBtn = document.getElementById('submitBtn');
@@ -206,17 +203,46 @@ const closeAdminBtn = document.getElementById('closeAdminBtn');
 const adminContent = document.getElementById('adminContent');
 const resetDataBtn = document.getElementById('resetDataBtn');
 const chartCanvas = document.getElementById('voteChart');
+const categoryFiltersDiv = document.getElementById('categoryFilters');
+const tagFiltersDiv = document.getElementById('tagFilters');
+const clearFiltersBtn = document.getElementById('clearFilters');
 
 let selected = [];
 let isAdmin = false;
+let activeFilters = {
+  categories: [],
+  tags: []
+};
 
 // --- 4️⃣ Popup ---
 const popupOverlay = document.getElementById('popupOverlay');
 const popupText = document.getElementById('popupText');
 const popupClose = document.getElementById('popupClose');
 
-function showPopup(text) {
-  popupText.innerHTML = text;
+function showPopup(game) {
+  const difficultyStars = '★'.repeat(game.difficulty) + '☆'.repeat(5 - game.difficulty);
+  
+  popupText.innerHTML = `
+    <h3>${game.name}</h3>
+    <div class="popup-section">
+      <span class="popup-label">Giocatori:</span> ${game.players.min}-${game.players.max}
+    </div>
+    <div class="popup-section">
+      <span class="popup-label">Durata:</span> ${game.time.min}-${game.time.max} min
+    </div>
+    <div class="popup-section">
+      <span class="popup-label">Categoria:</span> ${game.macroCategory}
+    </div>
+    <div class="popup-section">
+      <span class="popup-label">Difficoltà:</span> ${difficultyStars}
+    </div>
+    <div class="popup-section">
+      <span class="popup-label">Tags:</span> ${game.tags.join(', ')}
+    </div>
+    <div class="popup-section" style="margin-top: 16px;">
+      ${game.description}
+    </div>
+  `;
   popupOverlay.classList.add('active');
 }
 
@@ -229,7 +255,7 @@ popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
 
-// --- 5️⃣ CARICAMENTO GIOCHI (immagini valide, ordine alfabetico, max 50) ---
+// --- 5️⃣ CARICAMENTO GIOCHI ---
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -243,18 +269,139 @@ function loadGames() {
   Promise.all(checks).then(validGames => {
     games = validGames
       .filter(Boolean)
-      .sort((a, b) => a.name.localeCompare(b.name, 'it'))
       .slice(0, 50);
 
-    games.forEach(renderGame);
+    // Ordina per macroCategory prima, poi alfabeticamente
+    games.sort((a, b) => {
+      if (a.macroCategory !== b.macroCategory) {
+        return a.macroCategory.localeCompare(b.macroCategory, 'it');
+      }
+      return a.name.localeCompare(b.name, 'it');
+    });
+
+    createFilters();
+    renderGames();
+  });
+}
+
+// --- 6️⃣ CREAZIONE FILTRI ---
+function createFilters() {
+  // Estrai tutte le macrocategorie uniche
+  const categories = [...new Set(games.map(g => g.macroCategory))].sort();
+  
+  // Estrai tutti i tags unici
+  const allTags = new Set();
+  games.forEach(g => g.tags.forEach(t => allTags.add(t)));
+  const tags = [...allTags].sort();
+  
+  // Crea pulsanti categoria
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = cat;
+    btn.onclick = () => toggleCategoryFilter(cat, btn);
+    categoryFiltersDiv.appendChild(btn);
+  });
+  
+  // Crea pulsanti tags
+  tags.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = tag;
+    btn.onclick = () => toggleTagFilter(tag, btn);
+    tagFiltersDiv.appendChild(btn);
+  });
+}
+
+function toggleCategoryFilter(category, btn) {
+  const idx = activeFilters.categories.indexOf(category);
+  if (idx > -1) {
+    activeFilters.categories.splice(idx, 1);
+    btn.classList.remove('active');
+  } else {
+    activeFilters.categories.push(category);
+    btn.classList.add('active');
+  }
+  updateFilters();
+}
+
+function toggleTagFilter(tag, btn) {
+  const idx = activeFilters.tags.indexOf(tag);
+  if (idx > -1) {
+    activeFilters.tags.splice(idx, 1);
+    btn.classList.remove('active');
+  } else {
+    activeFilters.tags.push(tag);
+    btn.classList.add('active');
+  }
+  updateFilters();
+}
+
+function updateFilters() {
+  const hasFilters = activeFilters.categories.length > 0 || activeFilters.tags.length > 0;
+  clearFiltersBtn.style.display = hasFilters ? 'inline-block' : 'none';
+  renderGames();
+}
+
+clearFiltersBtn.onclick = () => {
+  activeFilters.categories = [];
+  activeFilters.tags = [];
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  clearFiltersBtn.style.display = 'none';
+  renderGames();
+};
+
+// --- 7️⃣ RENDERING GIOCHI ---
+function renderGames() {
+  grid.innerHTML = '';
+  
+  // Filtra giochi
+  let filteredGames = games;
+  
+  if (activeFilters.categories.length > 0) {
+    filteredGames = filteredGames.filter(g => 
+      activeFilters.categories.includes(g.macroCategory)
+    );
+  }
+  
+  if (activeFilters.tags.length > 0) {
+    filteredGames = filteredGames.filter(g => 
+      activeFilters.tags.some(tag => g.tags.includes(tag))
+    );
+  }
+  
+  // Raggruppa per macroCategory
+  let currentCategory = null;
+  
+  filteredGames.forEach(game => {
+    // Aggiungi header categoria se cambia
+    if (game.macroCategory !== currentCategory) {
+      currentCategory = game.macroCategory;
+      const header = document.createElement('div');
+      header.className = 'category-header';
+      header.textContent = currentCategory;
+      grid.appendChild(header);
+    }
+    
+    renderGame(game);
   });
 }
 
 function renderGame(game) {
   const div = document.createElement('div');
   div.className = 'card';
+  
+  // Aggiungi classe selected se già selezionato
+  if (selected.includes(game.id)) {
+    div.classList.add('selected');
+  }
+  
   div.innerHTML = `
     <img src="${game.image}" alt="${game.name}">
+    <div class="game-icons">
+      <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
+      <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
+    </div>
     <div class="info-icon">ℹ️</div>
     <div class="game-info">
       <div class="game-name">${game.name}</div>
@@ -277,25 +424,25 @@ function renderGame(game) {
 
   div.querySelector('.info-icon').onclick = (e) => {
     e.stopPropagation();
-    showPopup(game.description);
+    showPopup(game);
   };
 
   grid.appendChild(div);
 }
 
-// --- 6️⃣ Mostra sezione nome ---
+// --- 8️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
 
-// --- 7️⃣ Chiudi sezione nome ---
+// --- 9️⃣ Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
 };
 
-// --- 8️⃣ Invia dati a Supabase ---
+// --- 🔟 Invia dati a Supabase ---
 sendBtn.onclick = async () => {
   const name = nameInput.value.trim() || null;
 
@@ -333,7 +480,7 @@ sendBtn.onclick = async () => {
   document.body.style.overflow = 'auto';
 };
 
-// --- 9️⃣ ADMIN PANEL ---
+// --- 1️⃣1️⃣ ADMIN PANEL ---
 adminBtn.onclick = () => {
   adminPanel.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -360,7 +507,7 @@ adminLoginBtn.onclick = () => {
   }
 };
 
-// --- 🔟 Carica dati admin ---
+// --- 1️⃣2️⃣ Carica dati admin ---
 async function loadAdminData() {
   const { data: participants } = await supabaseClient
     .from('participants')
@@ -380,7 +527,7 @@ async function loadAdminData() {
   displayChart(selections);
 }
 
-// --- 1️⃣1️⃣ Tabella voti ---
+// --- 1️⃣3️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
   const tableDiv = document.getElementById('votesTable');
   let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
@@ -404,7 +551,7 @@ function displayVotesTable(participants, selections) {
   tableDiv.innerHTML = html;
 }
 
-// --- 1️⃣2️⃣ Grafico ---
+// --- 1️⃣4️⃣ Grafico ---
 function displayChart(selections) {
   const voteCounts = {};
   selections.forEach(s => {
@@ -452,7 +599,7 @@ function displayChart(selections) {
   });
 }
 
-// --- 1️⃣3️⃣ Reset dati ---
+// --- 1️⃣5️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
   if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
 
