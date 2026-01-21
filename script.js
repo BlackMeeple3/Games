@@ -287,7 +287,6 @@ function loadGames() {
       .filter(Boolean)
       .slice(0, 50);
 
-    // Ordina per macroCategory prima, poi alfabeticamente
     games.sort((a, b) => {
       if (a.macroCategory !== b.macroCategory) {
         return a.macroCategory.localeCompare(b.macroCategory, 'it');
@@ -298,14 +297,22 @@ function loadGames() {
     createFilters();
     renderGames();
     
-    // Dopo 3 secondi nascondi loading e mostra contenuto
-    setTimeout(() => {
+    // Ascolta la fine del video
+    const introVideo = document.getElementById('introVideo');
+    introVideo.onended = () => {
       loadingScreen.classList.add('fade-out');
       document.body.classList.add('loaded');
-    }, 3000);
+    };
+    
+    // Fallback se il video non parte (dopo 5 secondi)
+    setTimeout(() => {
+      if (!loadingScreen.classList.contains('fade-out')) {
+        loadingScreen.classList.add('fade-out');
+        document.body.classList.add('loaded');
+      }
+    }, 5000);
   });
 }
-
 // --- 7️⃣ CREAZIONE FILTRI ---
 function createFilters() {
   // Estrai tutte le macrocategorie uniche
