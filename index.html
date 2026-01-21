@@ -11,18 +11,31 @@
   <button id="adminBtn" class="admin-icon" title="Admin">⚙️</button>
   
   <!-- Titolo -->
-  <h1 style="text-align:center; padding:16px;">Seleziona a cosa giocare</h1>
+  <h1>Seleziona a cosa giocare</h1>
+  
+  <!-- Sezione Filtri -->
+  <div id="filterSection">
+    <div class="filter-group">
+      <h3>Categoria</h3>
+      <div id="categoryFilters" class="filter-buttons"></div>
+    </div>
+    <div class="filter-group">
+      <h3>Tags</h3>
+      <div id="tagFilters" class="filter-buttons"></div>
+    </div>
+    <button id="clearFilters" class="clear-filters" style="display:none;">Rimuovi tutti i filtri</button>
+  </div>
   
   <!-- Griglia giochi -->
   <div id="grid"></div>
   
   <!-- Pulsante invia selezione -->
-  <button id="submitBtn" style="display:none;">Invia selezione</button>
+  <button id="submitBtn">Invia selezione</button>
   
   <!-- Sezione nome partecipante -->
   <div id="nameSection" class="hidden">
     <div class="modal-box">
-      <button id="closeNameSection" style="float:right; background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
+      <button id="closeNameSection">✖</button>
       <h2>Nome del partecipante</h2>
       <input id="nameInput" placeholder="Anonimo se vuoto" />
       <button id="send">Invia</button>
@@ -32,7 +45,7 @@
   <!-- ADMIN PANEL -->
   <div id="adminPanel" class="hidden">
     <div class="admin-modal">
-      <button id="closeAdminBtn" style="float:right; background:none; border:none; font-size:24px; cursor:pointer; color:#666;">✖</button>
+      <button id="closeAdminBtn">✖</button>
       
       <!-- Sezione password -->
       <div id="adminPasswordSection">
@@ -41,17 +54,17 @@
         <button id="adminLoginBtn" class="admin-btn">Accedi</button>
       </div>
       
-      <!-- Contenuto admin (nascosto fino al login) -->
+      <!-- Contenuto admin -->
       <div id="adminContent" class="hidden">
         <h2>Pannello Admin</h2>
         
         <!-- Grafico -->
-        <div id="chartContainer" style="margin:20px 0;">
+        <div id="chartContainer">
           <canvas id="voteChart" height="300"></canvas>
         </div>
         
         <!-- Tabella voti -->
-        <div id="votesTable" style="margin:20px 0;"></div>
+        <div id="votesTable"></div>
         
         <!-- Pulsante reset -->
         <button id="resetDataBtn" class="reset-btn">🗑️ Cancella Tutti i Dati</button>
@@ -59,7 +72,7 @@
     </div>
   </div>
   
-  <!-- POPUP CENTRATO PER DESCRIZIONI (fuori da adminPanel) -->
+  <!-- POPUP -->
   <div id="popupOverlay" class="popup-overlay">
     <div class="popup-content">
       <div id="popupClose" class="popup-close">×</div>
