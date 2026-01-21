@@ -211,8 +211,7 @@ let selected = [];
 let isAdmin = false;
 let activeFilters = {
   categories: [],
-  players: [],
-  durations: []
+  tags: []
 };
 
 // --- 4️⃣ Popup ---
@@ -290,11 +289,10 @@ function createFilters() {
   // Estrai tutte le macrocategorie uniche
   const categories = [...new Set(games.map(g => g.macroCategory))].sort();
   
-  // Estrai numero massimo di giocatori unici
-  const maxPlayers = [...new Set(games.map(g => g.players.max))].sort((a, b) => a - b);
-  
-  // Estrai durate massime uniche
-  const durations = [...new Set(games.map(g => g.time.max))].sort((a, b) => a - b);
+  // Estrai tutti i tags unici
+  const allTags = new Set();
+  games.forEach(g => g.tags.forEach(t => allTags.add(t)));
+  const tags = [...allTags].sort();
   
   // Crea pulsanti categoria
   categories.forEach(cat => {
@@ -305,21 +303,12 @@ function createFilters() {
     categoryFiltersDiv.appendChild(btn);
   });
   
-  // Crea pulsanti numero giocatori
-  maxPlayers.forEach(num => {
+  // Crea pulsanti tags
+  tags.forEach(tag => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
-    btn.textContent = `Max ${num} giocatori`;
-    btn.onclick = () => togglePlayerFilter(num, btn);
-    tagFiltersDiv.appendChild(btn);
-  });
-  
-  // Crea pulsanti durata
-  durations.forEach(dur => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.textContent = `≤ ${dur} min`;
-    btn.onclick = () => toggleDurationFilter(dur, btn);
+    btn.textContent = tag;
+    btn.onclick = () => toggleTagFilter(tag, btn);
     tagFiltersDiv.appendChild(btn);
   });
 }
@@ -336,40 +325,27 @@ function toggleCategoryFilter(category, btn) {
   updateFilters();
 }
 
-function togglePlayerFilter(num, btn) {
-  const idx = activeFilters.players.indexOf(num);
+function toggleTagFilter(tag, btn) {
+  const idx = activeFilters.tags.indexOf(tag);
   if (idx > -1) {
-    activeFilters.players.splice(idx, 1);
+    activeFilters.tags.splice(idx, 1);
     btn.classList.remove('active');
   } else {
-    activeFilters.players.push(num);
-    btn.classList.add('active');
-  }
-  updateFilters();
-}
-
-function toggleDurationFilter(dur, btn) {
-  const idx = activeFilters.durations.indexOf(dur);
-  if (idx > -1) {
-    activeFilters.durations.splice(idx, 1);
-    btn.classList.remove('active');
-  } else {
-    activeFilters.durations.push(dur);
+    activeFilters.tags.push(tag);
     btn.classList.add('active');
   }
   updateFilters();
 }
 
 function updateFilters() {
-  const hasFilters = activeFilters.categories.length > 0 || activeFilters.players.length > 0 || activeFilters.durations.length > 0;
+  const hasFilters = activeFilters.categories.length > 0 || activeFilters.tags.length > 0;
   clearFiltersBtn.style.display = hasFilters ? 'inline-block' : 'none';
   renderGames();
 }
 
 clearFiltersBtn.onclick = () => {
   activeFilters.categories = [];
-  activeFilters.players = [];
-  activeFilters.durations = [];
+  activeFilters.tags = [];
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
   clearFiltersBtn.style.display = 'none';
   renderGames();
@@ -388,15 +364,9 @@ function renderGames() {
     );
   }
   
-  if (activeFilters.players.length > 0) {
+  if (activeFilters.tags.length > 0) {
     filteredGames = filteredGames.filter(g => 
-      activeFilters.players.some(num => g.players.max >= num)
-    );
-  }
-  
-  if (activeFilters.durations.length > 0) {
-    filteredGames = filteredGames.filter(g => 
-      activeFilters.durations.some(dur => g.time.max <= dur)
+      activeFilters.tags.some(tag => g.tags.includes(tag))
     );
   }
   
