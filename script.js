@@ -206,6 +206,14 @@ const chartCanvas = document.getElementById('voteChart');
 const categoryFiltersDiv = document.getElementById('categoryFilters');
 const tagFiltersDiv = document.getElementById('tagFilters');
 const clearFiltersBtn = document.getElementById('clearFilters');
+const filterHeader = document.getElementById('filterHeader');
+const filterContent = document.getElementById('filterContent');
+const filterToggle = document.querySelector('.filter-toggle');
+const loadingScreen = document.getElementById('loadingScreen');
+const dateFrom = document.getElementById('dateFrom');
+const dateTo = document.getElementById('dateTo');
+const applyDateFilter = document.getElementById('applyDateFilter');
+const resetDateFilter = document.getElementById('resetDateFilter');
 
 let selected = [];
 let isAdmin = false;
@@ -214,8 +222,15 @@ let activeFilters = {
   maxPlayers: null,
   maxTime: null
 };
+let dateFilterRange = { from: null, to: null };
 
-// --- 4️⃣ Popup ---
+// --- 4️⃣ Toggle filtri ---
+filterHeader.onclick = () => {
+  filterContent.classList.toggle('collapsed');
+  filterToggle.classList.toggle('collapsed');
+};
+
+// --- 5️⃣ Popup ---
 const popupOverlay = document.getElementById('popupOverlay');
 const popupText = document.getElementById('popupText');
 const popupClose = document.getElementById('popupClose');
@@ -256,7 +271,7 @@ popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
 
-// --- 5️⃣ CARICAMENTO GIOCHI ---
+// --- 6️⃣ CARICAMENTO GIOCHI ---
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -282,10 +297,16 @@ function loadGames() {
 
     createFilters();
     renderGames();
+    
+    // Dopo 3 secondi nascondi loading e mostra contenuto
+    setTimeout(() => {
+      loadingScreen.classList.add('fade-out');
+      document.body.classList.add('loaded');
+    }, 3000);
   });
 }
 
-// --- 6️⃣ CREAZIONE FILTRI ---
+// --- 7️⃣ CREAZIONE FILTRI ---
 function createFilters() {
   // Estrai tutte le macrocategorie uniche
   const categories = [...new Set(games.map(g => g.macroCategory))].sort();
@@ -354,7 +375,6 @@ function togglePlayersFilter(num, btn) {
     activeFilters.maxPlayers = null;
     btn.classList.remove('active');
   } else {
-    // Rimuovi active da tutti i bottoni giocatori
     btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     activeFilters.maxPlayers = num;
     btn.classList.add('active');
@@ -367,7 +387,6 @@ function toggleTimeFilter(time, btn) {
     activeFilters.maxTime = null;
     btn.classList.remove('active');
   } else {
-    // Rimuovi active da tutti i bottoni durata
     btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     activeFilters.maxTime = time;
     btn.classList.add('active');
@@ -392,11 +411,10 @@ clearFiltersBtn.onclick = () => {
   renderGames();
 };
 
-// --- 7️⃣ RENDERING GIOCHI ---
+// --- 8️⃣ RENDERING GIOCHI ---
 function renderGames() {
   grid.innerHTML = '';
   
-  // Filtra giochi
   let filteredGames = games;
   
   if (activeFilters.categories.length > 0) {
@@ -417,11 +435,9 @@ function renderGames() {
     );
   }
   
-  // Raggruppa per macroCategory
   let currentCategory = null;
   
   filteredGames.forEach(game => {
-    // Aggiungi header categoria se cambia
     if (game.macroCategory !== currentCategory) {
       currentCategory = game.macroCategory;
       const header = document.createElement('div');
@@ -438,16 +454,18 @@ function renderGame(game) {
   const div = document.createElement('div');
   div.className = 'card';
   
-  // Aggiungi classe selected se già selezionato
   if (selected.includes(game.id)) {
     div.classList.add('selected');
   }
+  
+  const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
   
   div.innerHTML = `
     <img src="${game.image}" alt="${game.name}">
     <div class="game-icons">
       <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
       <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
+      <div class="difficulty-icon ${difficultyClass}">⚖️ ${game.difficulty}/5</div>
     </div>
     <div class="info-icon">ℹ️</div>
     <div class="game-info">
@@ -477,19 +495,19 @@ function renderGame(game) {
   grid.appendChild(div);
 }
 
-// --- 8️⃣ Mostra sezione nome ---
+// --- 9️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
 
-// --- 9️⃣ Chiudi sezione nome ---
+// --- 🔟 Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
 };
 
-// --- 🔟 Invia dati a Supabase ---
+// --- 1️⃣1️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
   const name = nameInput.value.trim() || null;
 
@@ -527,7 +545,7 @@ sendBtn.onclick = async () => {
   document.body.style.overflow = 'auto';
 };
 
-// --- 1️⃣1️⃣ ADMIN PANEL ---
+// --- 1️⃣2️⃣ ADMIN PANEL ---
 adminBtn.onclick = () => {
   adminPanel.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -554,27 +572,63 @@ adminLoginBtn.onclick = () => {
   }
 };
 
-// --- 1️⃣2️⃣ Carica dati admin ---
+// --- 1️⃣3️⃣ Filtro date admin ---
+applyDateFilter.onclick = () => {
+  dateFilterRange.from = dateFrom.value || null;
+  dateFilterRange.to = dateTo.value || null;
+  loadAdminData();
+};
+
+resetDateFilter.onclick = () => {
+  dateFilterRange.from = null;
+  dateFilterRange.to = null;
+  dateFrom.value = '';
+  dateTo.value = '';
+  loadAdminData();
+};
+
+// --- 1️⃣4️⃣ Carica dati admin ---
 async function loadAdminData() {
-  const { data: participants } = await supabaseClient
+  let participantsQuery = supabaseClient
     .from('participants')
     .select('*')
     .order('created_at', { ascending: false });
 
-  const { data: selections } = await supabaseClient
-    .from('selections')
-    .select('*');
+  if (dateFilterRange.from) {
+    participantsQuery = participantsQuery.gte('created_at', dateFilterRange.from);
+  }
+  if (dateFilterRange.to) {
+    const toDate = new Date(dateFilterRange.to);
+    toDate.setDate(toDate.getDate() + 1);
+    participantsQuery = participantsQuery.lt('created_at', toDate.toISOString().split('T')[0]);
+  }
 
-  if (!participants || !selections) {
+  const { data: participants } = await participantsQuery;
+
+  if (!participants) {
     alert('Errore nel caricamento dei dati');
     return;
   }
 
-  displayVotesTable(participants, selections);
-  displayChart(selections);
+  const participantIds = participants.map(p => p.id);
+  
+  let selectionsQuery = supabaseClient
+    .from('selections')
+    .select('*');
+
+  if (participantIds.length > 0) {
+    selectionsQuery = selectionsQuery.in('participant_id', participantIds);
+  } else {
+    selectionsQuery = selectionsQuery.eq('participant_id', -1);
+  }
+
+  const { data: selections } = await selectionsQuery;
+
+  displayVotesTable(participants, selections || []);
+  displayChart(selections || []);
 }
 
-// --- 1️⃣3️⃣ Tabella voti ---
+// --- 1️⃣5️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
   const tableDiv = document.getElementById('votesTable');
   let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
@@ -598,7 +652,7 @@ function displayVotesTable(participants, selections) {
   tableDiv.innerHTML = html;
 }
 
-// --- 1️⃣4️⃣ Grafico ---
+// --- 1️⃣6️⃣ Grafico ---
 function displayChart(selections) {
   const voteCounts = {};
   selections.forEach(s => {
@@ -646,7 +700,7 @@ function displayChart(selections) {
   });
 }
 
-// --- 1️⃣5️⃣ Reset dati ---
+// --- 1️⃣7️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
   if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
 
@@ -667,8 +721,3 @@ resetDataBtn.onclick = async () => {
 
 // --- 🚀 AVVIO ---
 loadGames();
-
-window.addEventListener('load', () => {
-  document.body.classList.add('start-animation');
-});
-
