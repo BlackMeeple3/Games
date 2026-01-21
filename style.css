@@ -31,16 +31,11 @@
   25% { transform: rotate(-15deg); }
   75% { transform: rotate(15deg); }
 }
-
 /* Corpo pagina */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  background-image: url('games/sfondo.PNG');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: #f5f5f5; /* Sostituisci con il colore che preferisci */
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
   position: relative;
