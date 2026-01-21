@@ -1,13 +1,15 @@
 /* LOADING SCREEN */
+/* LOADING SCREEN */
 #loadingScreen {
   position: fixed;
   inset: 0;
-  background: white;
+  background: black;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
   transition: opacity 0.8s ease, visibility 0.8s ease;
+  overflow: hidden;
 }
 
 #loadingScreen.fade-out {
@@ -15,22 +17,17 @@
   visibility: hidden;
 }
 
-.meeple-container {
-  width: 150px;
-  height: 150px;
-}
-
-.meeple {
+#introVideo {
   width: 100%;
   height: 100%;
-  animation: wave 1.5s ease-in-out infinite;
+  object-fit: cover;
 }
 
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-15deg); }
-  75% { transform: rotate(15deg); }
-}
+
+
+
+
+
 /* Corpo pagina */
 body {
   margin: 0;
