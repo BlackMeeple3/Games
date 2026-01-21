@@ -1,19 +1,57 @@
+/* LOADING SCREEN */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#loadingScreen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.meeple-container {
+  width: 150px;
+  height: 150px;
+}
+
+.meeple {
+  width: 100%;
+  height: 100%;
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
+
 /* Corpo pagina */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-
-  /* 🔥 SFONDO */
-   background-image: url('games/sfondo.PNG');
+  background-image: url('games/sfondo.PNG');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
   position: relative;
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
+
+body.loaded {
+  opacity: 1;
+}
+
 body::before {
   content: '';
   position: fixed;
@@ -21,7 +59,6 @@ body::before {
   background: rgba(0, 0, 0, 0.35);
   z-index: -1;
 }
-
 
 /* Titolo */
 h1 {
@@ -39,6 +76,40 @@ h1 {
   margin: 0 12px 12px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px 0;
+}
+
+.filter-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.filter-toggle {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.filter-toggle.collapsed {
+  transform: rotate(-90deg);
+}
+
+.filter-content {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.filter-content.collapsed {
+  max-height: 0;
 }
 
 .filter-group {
@@ -145,7 +216,7 @@ h1 {
   display: block;
 }
 
-/* Icone info gioco (giocatori e tempo) */
+/* Icone info gioco (giocatori, tempo e difficoltà) */
 .game-icons {
   position: absolute;
   top: 8px;
@@ -153,6 +224,7 @@ h1 {
   display: flex;
   gap: 6px;
   z-index: 10;
+  flex-wrap: wrap;
 }
 
 .game-icon {
@@ -166,6 +238,26 @@ h1 {
   align-items: center;
   gap: 3px;
   backdrop-filter: blur(4px);
+}
+
+.difficulty-icon {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  backdrop-filter: blur(4px);
+}
+
+.difficulty-icon.easy {
+  color: #4caf50;
+}
+
+.difficulty-icon.hard {
+  color: #f44336;
 }
 
 /* Info icon (ℹ️) */
@@ -440,6 +532,55 @@ h1 {
   background: #333;
 }
 
+.date-filter {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.date-filter h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.date-inputs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.date-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.date-inputs input[type="date"] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.date-inputs button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.date-inputs button:hover {
+  background: #333;
+}
+
 .reset-btn {
   width: 100%;
   padding: 14px;
@@ -577,26 +718,3 @@ h1 {
     background-attachment: scroll;
   }
 }
-body.start-animation {
-  animation: smoothEntrance 1.2s ease-out;
-}
-
-@keyframes smoothEntrance {
-  0% {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(40px);
-  }
-  60% {
-    opacity: 1;
-    filter: blur(3px);
-    transform: translateY(-6px);
-  }
-  100% {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-
