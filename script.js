@@ -4,108 +4,189 @@ const supabaseClient = window.supabase.createClient(
   'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
 );
 
-// --- 2️⃣ Lista giochi con nomi e descrizioni ---
+// --- 2️⃣ Lista giochi completa con macrocategorie e difficoltà ---
 const gamesRaw = [
   {
     id: 'game-1',
     name: 'Cascadia',
     description: `Cascadia è un gioco da tavolo per 1-4 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono ecosistemi combinando tessere habitat e gettoni fauna per ottenere punti vittoria, bilanciando strategia e semplicità.`,
-    image: 'games/game-1.jpg'
+    image: 'games/game-1.jpg',
+    players: { min: 1, max: 4 },
+    time: { min: 30, max: 45 },
+    tags: ['strategico', 'familiare', 'piazzamento tessere', 'medio', 'solitario'],
+    macroCategory: 'German',
+    difficulty: 2
   },
   {
     id: 'game-2',
     name: 'Blood Rage',
     description: `Blood Rage è un gioco da tavolo per 2-4 giocatori della durata di circa 60-90 minuti, in cui i partecipanti guidano clan vichinghi in battaglie epiche, saccheggiando terre, guadagnando gloria e avanzando sul Ragnarök, combinando strategia di combattimento, gestione carte e controllo del territorio.`,
-    image: 'games/game-2.jpg'
+    image: 'games/game-2.jpg',
+    players: { min: 2, max: 4 },
+    time: { min: 60, max: 90 },
+    tags: ['strategico', 'controllo territorio', 'competitivo', 'pesante'],
+    macroCategory: 'American',
+    difficulty: 4
   },
   {
     id: 'game-3',
     name: 'Forest Shuffle',
     description: `Forest Shuffle è un gioco di carte strategico per 2-5 giocatori della durata di circa 40-60 minuti, in cui i partecipanti competono per raccogliere gli alberi più preziosi e attirare specie diverse per creare un habitat forestale equilibrato e ottenere il maggior numero di punti vittoria.`,
-    image: 'games/game-3.jpg'
+    image: 'games/game-3.jpg',
+    players: { min: 2, max: 5 },
+    time: { min: 40, max: 60 },
+    tags: ['carte', 'strategico', 'medio', 'competitivo'],
+    macroCategory: 'German',
+    difficulty: 2
   },
   {
     id: 'game-4',
     name: 'Carcassonne',
     description: `Carcassonne è un gioco da tavolo per 2-5 giocatori della durata di circa 30-45 minuti, in cui i partecipanti piazzano tessere per costruire città, strade e campi, collocando i propri meeple strategicamente per guadagnare punti vittoria e dominare il paesaggio medievale.`,
-    image: 'games/game-4.jpg'
+    image: 'games/game-4.jpg',
+    players: { min: 2, max: 5 },
+    time: { min: 30, max: 45 },
+    tags: ['familiare', 'piazzamento tessere', 'leggero', 'competitivo'],
+    macroCategory: 'German',
+    difficulty: 1
   },
   {
     id: 'game-5',
     name: 'Puerto Rico',
     description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull’isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`,
-    image: 'games/game-5.jpg'
+    image: 'games/game-5.jpg',
+    players: { min: 2, max: 5 },
+    time: { min: 90, max: 150 },
+    tags: ['strategico', 'gestionale', 'pesante', 'competitivo'],
+    macroCategory: 'German',
+    difficulty: 5
   },
   {
     id: 'game-6',
     name: 'The Castles of Burgundy',
     description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`,
-    image: 'games/game-6.jpg'
+    image: 'games/game-6.jpg',
+    players: { min: 2, max: 4 },
+    time: { min: 30, max: 90 },
+    tags: ['strategico', 'gestionale', 'medio', 'competitivo'],
+    macroCategory: 'German',
+    difficulty: 3
   },
   {
     id: 'game-7',
     name: 'HEAT',
     description: `HEAT è un gioco da tavolo di corse automobilistiche per 1-6 giocatori della durata di circa 30-60 minuti, in cui i partecipanti gestiscono velocità, curve e stress del motore per tagliare il traguardo per primi, combinando gestione della mano e tattica.`,
-    image: 'games/heat_.jpg'
+    image: 'games/heat_.jpg',
+    players: { min: 1, max: 6 },
+    time: { min: 30, max: 60 },
+    tags: ['corse', 'familiare', 'competitivo', 'medio', 'solitario'],
+    macroCategory: 'Weuro',
+    difficulty: 2
   },
   {
     id: 'game-8',
     name: '7 Wonders',
     description: `7 Wonders è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l’economia, la scienza e l’esercito per ottenere il maggior numero di punti vittoria.`,
-    image: 'games/7 wonders_.jpg'
+    image: 'games/7 wonders_.jpg',
+    players: { min: 3, max: 7 },
+    time: { min: 30, max: 30 },
+    tags: ['carte', 'strategico', 'gruppi numerosi', 'medio'],
+    macroCategory: 'German',
+    difficulty: 2
   },
   {
     id: 'game-9',
     name: 'Ticket to Ride',
     description: `Ticket to Ride è un gioco da tavolo per 2-5 giocatori della durata di circa 30-60 minuti, in cui i partecipanti costruiscono linee ferroviarie collegando città su una mappa, completando obiettivi segreti e ottimizzando percorsi per fare punti.`,
-    image: 'games/ticket_.jpg'
+    image: 'games/ticket_.jpg',
+    players: { min: 2, max: 5 },
+    time: { min: 30, max: 60 },
+    tags: ['familiare', 'strategico', 'medio', 'competitivo'],
+    macroCategory: 'German',
+    difficulty: 1
   },
   {
     id: 'game-10',
     name: 'Wingspan',
     description: `Wingspan è un gioco da tavolo strategico per 1-5 giocatori della durata di circa 40-70 minuti, in cui i partecipanti attirano uccelli nei propri habitat, creando sinergie tra carte per ottenere risorse, uova e punti vittoria.`,
-    image: 'games/wingspan_.jpg'
+    image: 'games/wingspan_.jpg',
+    players: { min: 1, max: 5 },
+    time: { min: 40, max: 70 },
+    tags: ['strategico', 'gestionale', 'medio', 'solitario'],
+    macroCategory: 'German',
+    difficulty: 3
   },
   {
     id: 'game-11',
     name: 'Skull King',
     description: `Skull King è un gioco di carte di prese per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
-    image: 'games/skull.jpg'
+    image: 'games/skull.jpg',
+    players: { min: 2, max: 8 },
+    time: { min: 30, max: 45 },
+    tags: ['party', 'carte', 'bluff', 'gruppi numerosi', 'leggero'],
+    macroCategory: 'party game',
+    difficulty: 0
   },
   {
     id: 'game-12',
     name: 'Samurai Sword',
     description: `Samurai Sword è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, ambientato nel Giappone feudale, in cui i partecipanti assumono ruoli segreti e si sfidano usando carte azione per eliminare gli avversari e raggiungere i propri obiettivi.`,
-    image: 'games/samurai_.jpg'
+    image: 'games/samurai_.jpg',
+    players: { min: 3, max: 7 },
+    time: { min: 30, max: 30 },
+    tags: ['party', 'ruoli segreti', 'carte', 'leggero'],
+    macroCategory: 'party game',
+    difficulty: 1
   },
   {
     id: 'game-13',
     name: 'Lost Ruins of Arnak',
     description: `Lost Ruins of Arnak è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un’isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
-    image: 'games/arnak.jpg'
+    image: 'games/arnak.jpg',
+    players: { min: 1, max: 4 },
+    time: { min: 60, max: 120 },
+    tags: ['strategico', 'deck-building', 'piazzamento lavoratori', 'pesante', 'solitario'],
+    macroCategory: 'ibrido',
+    difficulty: 4
   },
   {
     id: 'game-14',
     name: 'Dorfromantik: The Board Game',
     description: `Dorfromantik: The Board Game è un gioco cooperativo per 1-6 giocatori della durata di circa 30-60 minuti, in cui i partecipanti costruiscono un paesaggio armonioso piazzando tessere per completare obiettivi e sbloccare nuovi contenuti.`,
-    image: 'games/dorf_.jpg'
+    image: 'games/dorf_.jpg',
+    players: { min: 1, max: 6 },
+    time: { min: 30, max: 60 },
+    tags: ['cooperativo', 'familiare', 'piazzamento tessere', 'rilassante'],
+    macroCategory: 'German',
+    difficulty: 1
   },
   {
     id: 'game-15',
     name: 'Monsters of Loch Lomond',
     description: `Monsters of Loch Lomond è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
-    image: 'games/monster_.jpg'
+    image: 'games/monster_.jpg',
+    players: { min: 2, max: 6 },
+    time: { min: 20, max: 30 },
+    tags: ['carte', 'leggero', 'familiare', 'competitivo'],
+    macroCategory: 'filler',
+    difficulty: 0
   },
   {
     id: 'game-16',
     name: 'Scotland Yard',
     description: `Scotland Yard è un gioco da tavolo di deduzione per 3-6 giocatori della durata di circa 45-60 minuti, in cui un giocatore interpreta Mister X mentre gli altri sono detective che collaborano per rintracciarlo muovendosi su una mappa di Londra usando indizi e logica.`,
-    image: 'games/scotland_.jpg'
+    image: 'games/scotland_.jpg',
+    players: { min: 3, max: 6 },
+    time: { min: 45, max: 60 },
+    tags: ['deduzione', 'movimento nascosto', 'gruppo', 'medio'],
+    macroCategory: 'ibrido',
+    difficulty: 2
   }
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
 let games = [];
+
 
 
 
