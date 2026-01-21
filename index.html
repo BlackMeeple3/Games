@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen">
+    <div class="meeple-container">
+      <svg class="meeple" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 10 C45 10 40 15 40 20 C40 25 42 28 45 30 L42 50 L35 85 L40 90 L50 70 L60 90 L65 85 L58 50 L55 30 C58 28 60 25 60 20 C60 15 55 10 50 10 Z" 
+              fill="white" 
+              stroke="black" 
+              stroke-width="2"/>
+        <circle cx="50" cy="20" r="8" fill="white" stroke="black" stroke-width="2"/>
+      </svg>
+    </div>
+  </div>
+
   <!-- Pulsante Admin -->
   <button id="adminBtn" class="admin-icon" title="Admin">⚙️</button>
   
@@ -15,15 +28,21 @@
   
   <!-- Sezione Filtri -->
   <div id="filterSection">
-    <div class="filter-group">
-      <h3>Categoria</h3>
-      <div id="categoryFilters" class="filter-buttons"></div>
+    <div class="filter-header" id="filterHeader">
+      <h2>Filtri</h2>
+      <span class="filter-toggle collapsed">▼</span>
     </div>
-    <div class="filter-group">
-      <h3>Filtri Partita</h3>
-      <div id="tagFilters" class="filter-buttons"></div>
+    <div class="filter-content collapsed" id="filterContent">
+      <div class="filter-group">
+        <h3>Categoria</h3>
+        <div id="categoryFilters" class="filter-buttons"></div>
+      </div>
+      <div class="filter-group">
+        <h3>Filtri Partita</h3>
+        <div id="tagFilters" class="filter-buttons"></div>
+      </div>
+      <button id="clearFilters" class="clear-filters" style="display:none;">Rimuovi tutti i filtri</button>
     </div>
-    <button id="clearFilters" class="clear-filters" style="display:none;">Rimuovi tutti i filtri</button>
   </div>
   
   <!-- Griglia giochi -->
@@ -57,6 +76,23 @@
       <!-- Contenuto admin -->
       <div id="adminContent" class="hidden">
         <h2>Pannello Admin</h2>
+        
+        <!-- Filtro Date -->
+        <div class="date-filter">
+          <h3>Filtra per Data</h3>
+          <div class="date-inputs">
+            <label>
+              Da:
+              <input type="date" id="dateFrom">
+            </label>
+            <label>
+              A:
+              <input type="date" id="dateTo">
+            </label>
+            <button id="applyDateFilter">Applica</button>
+            <button id="resetDateFilter" style="background:#dc3545;">Reset</button>
+          </div>
+        </div>
         
         <!-- Grafico -->
         <div id="chartContainer">
