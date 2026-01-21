@@ -667,3 +667,8 @@ resetDataBtn.onclick = async () => {
 
 // --- 🚀 AVVIO ---
 loadGames();
+
+window.addEventListener('load', () => {
+  document.body.classList.add('start-animation');
+});
+
