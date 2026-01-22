@@ -342,11 +342,11 @@ function hideLoadingScreen() {
   
   setTimeout(() => {
     animateTitle();
-  }, 400);
+  }, 500);
 }
 
 function animateTitle() {
-  const text = 'Seleziona a cosa  giocare';
+  const text = 'A cosa giochiamo?';
   const letters = text.split('');
   
   letters.forEach((letter, index) => {
