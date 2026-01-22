@@ -306,6 +306,7 @@ function loadGames() {
 // --- 7️⃣ ANIMAZIONE TITOLO ---
 function hideLoadingScreen() {
   loadingScreen.classList.add('fade-out');
+  document.body.classList.add('loaded');
   
   setTimeout(() => {
     animateTitle();
