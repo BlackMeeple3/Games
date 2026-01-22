@@ -337,8 +337,9 @@ h1 {
 }
 
 .card {
-  padding-bottom: 15px; /* spazio per le icone che sporgono */
+  margin-bottom: 28px; /* spazio reale tra le righe della grid */
 }
+
 
 /* Pulsante invio */
 #submitBtn {
