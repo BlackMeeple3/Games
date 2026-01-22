@@ -12,10 +12,12 @@ const gamesRaw = [
     description: `Cascadia è un gioco da tavolo per 1-4 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono ecosistemi combinando tessere habitat e gettoni fauna per ottenere punti vittoria, bilanciando strategia e semplicità.`,
     image: 'games/game-1.jpg',
     players: { min: 1, max: 4 },
-    time: { min: 30, max: 45 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['strategico', 'familiare', 'piazzamento tessere', 'medio', 'solitario'],
-    macroCategory: 'German',
-    difficulty: 2
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 1.85
   },
   {
     id: 'game-2',
@@ -23,10 +25,12 @@ const gamesRaw = [
     description: `Blood Rage è un gioco da tavolo per 2-4 giocatori della durata di circa 60-90 minuti, in cui i partecipanti guidano clan vichinghi in battaglie epiche, saccheggiando terre, guadagnando gloria e avanzando sul Ragnarök, combinando strategia di combattimento, gestione carte e controllo del territorio.`,
     image: 'games/game-2.jpg',
     players: { min: 2, max: 4 },
-    time: { min: 60, max: 90 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
     tags: ['strategico', 'controllo territorio', 'competitivo', 'pesante'],
-    macroCategory: 'American',
-    difficulty: 4
+    macroCategory: 'strategici',
+    difficulty: 4,
+    weightBGG: 2.88
   },
   {
     id: 'game-3',
@@ -34,10 +38,12 @@ const gamesRaw = [
     description: `Forest Shuffle è un gioco di carte strategico per 2-5 giocatori della durata di circa 40-60 minuti, in cui i partecipanti competono per raccogliere gli alberi più preziosi e attirare specie diverse per creare un habitat forestale equilibrato e ottenere il maggior numero di punti vittoria.`,
     image: 'games/game-3.jpg',
     players: { min: 2, max: 5 },
-    time: { min: 40, max: 60 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['carte', 'strategico', 'medio', 'competitivo'],
-    macroCategory: 'German',
-    difficulty: 2
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: '2 (non da BGG)'
   },
   {
     id: 'game-4',
@@ -45,10 +51,12 @@ const gamesRaw = [
     description: `Carcassonne è un gioco da tavolo per 2-5 giocatori della durata di circa 30-45 minuti, in cui i partecipanti piazzano tessere per costruire città, strade e campi, collocando i propri meeple strategicamente per guadagnare punti vittoria e dominare il paesaggio medievale.`,
     image: 'games/game-4.jpg',
     players: { min: 2, max: 5 },
-    time: { min: 30, max: 45 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['familiare', 'piazzamento tessere', 'leggero', 'competitivo'],
-    macroCategory: 'German',
-    difficulty: 1
+    macroCategory: 'strategici',
+    difficulty: 1,
+    weightBGG: 1.91
   },
   {
     id: 'game-5',
@@ -56,10 +64,12 @@ const gamesRaw = [
     description: `Puerto Rico è un gioco da tavolo per 2-5 giocatori della durata di circa 90-150 minuti, in cui i partecipanti gestiscono piantagioni, edifici e coloni sull'isola di Puerto Rico, ottimizzando produzione e spedizioni per guadagnare punti vittoria e diventare il governatore più potente.`,
     image: 'games/game-5.jpg',
     players: { min: 2, max: 5 },
-    time: { min: 90, max: 150 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
     tags: ['strategico', 'gestionale', 'pesante', 'competitivo'],
-    macroCategory: 'German',
-    difficulty: 5
+    macroCategory: 'strategici',
+    difficulty: 5,
+    weightBGG: 3.27
   },
   {
     id: 'game-6',
@@ -67,10 +77,12 @@ const gamesRaw = [
     description: `The Castles of Burgundy è un gioco da tavolo per 2-4 giocatori della durata di circa 30-90 minuti, in cui i partecipanti sviluppano la propria regione nel Ducato di Borgogna piazzando tessere, commerciando e sfruttando abilità speciali per guadagnare punti vittoria strategicamente.`,
     image: 'games/game-6.jpg',
     players: { min: 2, max: 4 },
-    time: { min: 30, max: 90 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
     tags: ['strategico', 'gestionale', 'medio', 'competitivo'],
-    macroCategory: 'German',
-    difficulty: 3
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: 2.99
   },
   {
     id: 'game-7',
@@ -79,9 +91,11 @@ const gamesRaw = [
     image: 'games/heat_.jpg',
     players: { min: 1, max: 6 },
     time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['corse', 'familiare', 'competitivo', 'medio', 'solitario'],
-    macroCategory: 'Weuro',
-    difficulty: 2
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 2.4
   },
   {
     id: 'game-8',
@@ -89,10 +103,12 @@ const gamesRaw = [
     description: `7 Wonders è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l'economia, la scienza e l'esercito per ottenere il maggior numero di punti vittoria.`,
     image: 'games/7 wonders_.jpg',
     players: { min: 3, max: 7 },
-    time: { min: 30, max: 30 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['carte', 'strategico', 'gruppi numerosi', 'medio'],
-    macroCategory: 'German',
-    difficulty: 2
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 2.32
   },
   {
     id: 'game-9',
@@ -101,9 +117,11 @@ const gamesRaw = [
     image: 'games/ticket_.jpg',
     players: { min: 2, max: 5 },
     time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['familiare', 'strategico', 'medio', 'competitivo'],
-    macroCategory: 'German',
-    difficulty: 1
+    macroCategory: 'strategici',
+    difficulty: 1,
+    weightBGG: 1.88
   },
   {
     id: 'game-10',
@@ -111,10 +129,12 @@ const gamesRaw = [
     description: `Wingspan è un gioco da tavolo strategico per 1-5 giocatori della durata di circa 40-70 minuti, in cui i partecipanti attirano uccelli nei propri habitat, creando sinergie tra carte per ottenere risorse, uova e punti vittoria.`,
     image: 'games/wingspan_.jpg',
     players: { min: 1, max: 5 },
-    time: { min: 40, max: 70 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['strategico', 'gestionale', 'medio', 'solitario'],
-    macroCategory: 'German',
-    difficulty: 3
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: 2.46
   },
   {
     id: 'game-11',
@@ -122,10 +142,12 @@ const gamesRaw = [
     description: `Skull King è un gioco di carte di prese per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
     image: 'games/skull.jpg',
     players: { min: 2, max: 8 },
-    time: { min: 30, max: 45 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['party', 'carte', 'bluff', 'gruppi numerosi', 'leggero'],
     macroCategory: 'party game',
-    difficulty: 0
+    difficulty: 0,
+    weightBGG: '0 (non da BGG)'
   },
   {
     id: 'game-12',
@@ -133,10 +155,12 @@ const gamesRaw = [
     description: `Samurai Sword è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, ambientato nel Giappone feudale, in cui i partecipanti assumono ruoli segreti e si sfidano usando carte azione per eliminare gli avversari e raggiungere i propri obiettivi.`,
     image: 'games/samurai_.jpg',
     players: { min: 3, max: 7 },
-    time: { min: 30, max: 30 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['party', 'ruoli segreti', 'carte', 'leggero'],
     macroCategory: 'party game',
-    difficulty: 1
+    difficulty: 1,
+    weightBGG: '1 (non da BGG)'
   },
   {
     id: 'game-13',
@@ -145,9 +169,11 @@ const gamesRaw = [
     image: 'games/arnak.jpg',
     players: { min: 1, max: 4 },
     time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
     tags: ['strategico', 'deck-building', 'piazzamento lavoratori', 'pesante', 'solitario'],
-    macroCategory: 'ibrido',
-    difficulty: 4
+    macroCategory: 'strategici',
+    difficulty: 4,
+    weightBGG: 2.9
   },
   {
     id: 'game-14',
@@ -156,9 +182,11 @@ const gamesRaw = [
     image: 'games/dorf_.jpg',
     players: { min: 1, max: 6 },
     time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['cooperativo', 'familiare', 'piazzamento tessere', 'rilassante'],
-    macroCategory: 'German',
-    difficulty: 1
+    macroCategory: 'strategici',
+    difficulty: 1,
+    weightBGG: 1.75
   },
   {
     id: 'game-15',
@@ -166,10 +194,12 @@ const gamesRaw = [
     description: `Monsters of Loch Lomond è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
     image: 'games/monster_.jpg',
     players: { min: 2, max: 6 },
-    time: { min: 20, max: 30 },
+    time: { min: 10, max: 30 },
+    playtimeCategory: '< 30 min',
     tags: ['carte', 'leggero', 'familiare', 'competitivo'],
-    macroCategory: 'filler',
-    difficulty: 0
+    macroCategory: 'party game',
+    difficulty: 0,
+    weightBGG: '0 (non da BGG)'
   },
   {
     id: 'game-16',
@@ -177,10 +207,12 @@ const gamesRaw = [
     description: `Scotland Yard è un gioco da tavolo di deduzione per 3-6 giocatori della durata di circa 45-60 minuti, in cui un giocatore interpreta Mister X mentre gli altri sono detective che collaborano per rintracciarlo muovendosi su una mappa di Londra usando indizi e logica.`,
     image: 'games/scotland_.jpg',
     players: { min: 3, max: 6 },
-    time: { min: 45, max: 60 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
     tags: ['deduzione', 'movimento nascosto', 'gruppo', 'medio'],
-    macroCategory: 'ibrido',
-    difficulty: 2
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 2.08
   }
 ];
 
