@@ -210,6 +210,7 @@ const filterHeader = document.getElementById('filterHeader');
 const filterContent = document.getElementById('filterContent');
 const filterToggle = document.querySelector('.filter-toggle');
 const loadingScreen = document.getElementById('loadingScreen');
+const mainTitle = document.getElementById('mainTitle');
 const dateFrom = document.getElementById('dateFrom');
 const dateTo = document.getElementById('dateTo');
 const applyDateFilter = document.getElementById('applyDateFilter');
@@ -272,8 +273,6 @@ popupOverlay.onclick = (e) => {
 };
 
 // --- 6️⃣ CARICAMENTO GIOCHI ---
-let gamesLoaded = false;
-
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -299,55 +298,31 @@ function loadGames() {
     createFilters();
     renderGames();
     
-    gamesLoaded = true;
-    
-    // Se il video è già finito, nascondi subito
-    if (videoEnded) {
-      hideLoadingScreen();
-    }
+    // Nascondi loading e mostra titolo animato
+    hideLoadingScreen();
   });
 }
 
-// --- 7️⃣ GESTIONE VIDEO INTRO ---
-const introVideo = document.getElementById('introVideo');
-let videoEnded = false;
-
-// Prova a riprodurre il video appena possibile
-introVideo.onloadeddata = () => {
-  const playPromise = introVideo.play();
-  
-  if (playPromise !== undefined) {
-    playPromise.catch(error => {
-      console.log('Autoplay bloccato, serve interazione utente');
-      // Fallback: se l'autoplay è bloccato, salta direttamente
-      videoEnded = true;
-      if (gamesLoaded) {
-        hideLoadingScreen();
-      }
-    });
-  }
-};
-
-introVideo.onended = () => {
-  videoEnded = true;
-  if (gamesLoaded) {
-    hideLoadingScreen();
-  }
-};
-
-// Forza il caricamento del video
-introVideo.load();
-
-// Fallback di sicurezza (10 secondi max)
-setTimeout(() => {
-  if (!loadingScreen.classList.contains('fade-out')) {
-    hideLoadingScreen();
-  }
-}, 10000);
-
+// --- 7️⃣ ANIMAZIONE TITOLO ---
 function hideLoadingScreen() {
   loadingScreen.classList.add('fade-out');
-  document.body.classList.add('loaded');
+  
+  setTimeout(() => {
+    animateTitle();
+  }, 500);
+}
+
+function animateTitle() {
+  const text = 'Seleziona a cosa giocare';
+  const letters = text.split('');
+  
+  letters.forEach((letter, index) => {
+    const span = document.createElement('span');
+    span.textContent = letter === ' ' ? '\u00A0' : letter;
+    span.className = 'letter';
+    span.style.animationDelay = `${index * 0.05}s`;
+    mainTitle.appendChild(span);
+  });
 }
 
 // --- 8️⃣ CREAZIONE FILTRI ---
@@ -671,7 +646,6 @@ async function loadAdminData() {
   displayVotesTable(participants, selections || []);
   displayChart(selections || []);
 }
-
 
 // --- 1️⃣6️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
