@@ -29,7 +29,7 @@ const gamesRaw = [
     playtimeCategory: '> 60 min',
     tags: ['strategico', 'controllo territorio', 'competitivo', 'pesante'],
     macroCategory: 'strategici',
-    difficulty: 4,
+    difficulty: 3,
     weightBGG: 2.88
   },
   {
@@ -68,7 +68,7 @@ const gamesRaw = [
     playtimeCategory: '> 60 min',
     tags: ['strategico', 'gestionale', 'pesante', 'competitivo'],
     macroCategory: 'strategici',
-    difficulty: 5,
+    difficulty: 3,
     weightBGG: 3.27
   },
   {
@@ -100,9 +100,9 @@ const gamesRaw = [
   {
     id: 'game-8',
     name: '7 Wonders',
-    description: `7 Wonders è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l'economia, la scienza e l'esercito per ottenere il maggior numero di punti vittoria.`,
+    description: `7 Wonders è un gioco di carte per 2-7 giocatori della durata di circa 30 minuti, in cui i partecipanti sviluppano una civiltà attraverso tre ere costruendo edifici, potenziando l'economia, la scienza e l'esercito per ottenere il maggior numero di punti vittoria.`,
     image: 'games/7 wonders_.jpg',
-    players: { min: 3, max: 7 },
+    players: { min: 2, max: 7 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['carte', 'strategico', 'gruppi numerosi', 'medio'],
@@ -120,7 +120,7 @@ const gamesRaw = [
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['familiare', 'strategico', 'medio', 'competitivo'],
     macroCategory: 'strategici',
-    difficulty: 1,
+    difficulty: 2,
     weightBGG: 1.88
   },
   {
@@ -139,9 +139,9 @@ const gamesRaw = [
   {
     id: 'game-11',
     name: 'Skull King',
-    description: `Skull King è un gioco di carte di prese per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
+    description: `Skull King è un gioco di carte di prese per 2-6 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
     image: 'games/skull.jpg',
-    players: { min: 2, max: 8 },
+    players: { min: 2, max: 6 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['party', 'carte', 'bluff', 'gruppi numerosi', 'leggero'],
@@ -159,20 +159,20 @@ const gamesRaw = [
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['party', 'ruoli segreti', 'carte', 'leggero'],
     macroCategory: 'party game',
-    difficulty: 1,
-    weightBGG: '1 (non da BGG)'
+    difficulty: 2,
+    weightBGG: '1.76'
   },
   {
     id: 'game-13',
-    name: 'Lost Ruins of Arnak',
-    description: `Lost Ruins of Arnak è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un'isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
+    name: 'Le rovine di Arnak',
+    description: `Le rovine di Arnak è un gioco da tavolo per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti esplorano un'isola misteriosa combinando deck-building e piazzamento lavoratori per scoprire rovine, combattere guardiani e ottenere punti.`,
     image: 'games/arnak.jpg',
     players: { min: 1, max: 4 },
     time: { min: 60, max: 120 },
     playtimeCategory: '> 60 min',
     tags: ['strategico', 'deck-building', 'piazzamento lavoratori', 'pesante', 'solitario'],
     macroCategory: 'strategici',
-    difficulty: 4,
+    difficulty: 3,
     weightBGG: 2.9
   },
   {
@@ -185,7 +185,7 @@ const gamesRaw = [
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['cooperativo', 'familiare', 'piazzamento tessere', 'rilassante'],
     macroCategory: 'strategici',
-    difficulty: 1,
+    difficulty: 2,
     weightBGG: 1.75
   },
   {
@@ -198,8 +198,8 @@ const gamesRaw = [
     playtimeCategory: '< 30 min',
     tags: ['carte', 'leggero', 'familiare', 'competitivo'],
     macroCategory: 'party game',
-    difficulty: 0,
-    weightBGG: '0 (non da BGG)'
+    difficulty: 2,
+    weightBGG: '1.8'
   },
   {
     id: 'game-16',
@@ -213,7 +213,177 @@ const gamesRaw = [
     macroCategory: 'strategici',
     difficulty: 2,
     weightBGG: 2.08
-  }
+  },
+  {
+  id: 'game-17',
+  name: 'Exploding Kittens',
+  description: `Exploding Kittens è un gioco di carte per 2-5 giocatori della durata di circa 15-20 minuti, in cui i partecipanti pescano carte evitando di esplodere, usando azioni folli, bluff e colpi bassi per rimanere gli ultimi in gioco.`,
+  image: 'games/exploding kittens.jpg',
+  players: { min: 2, max: 5 },
+  time: { min: 10, max: 30 },
+  playtimeCategory: '< 30 min',
+  tags: ['party', 'carte', 'bluff', 'leggero', 'familiare'],
+  macroCategory: 'party game',
+  difficulty: 0,
+  weightBGG: 1.07
+},
+{
+  id: 'game-18',
+  name: 'Saboteur',
+  description: `Saboteur è un gioco di carte per 3-10 giocatori della durata di circa 30 minuti, in cui i partecipanti interpretano nani minatori con ruoli segreti, cercando di costruire o sabotare tunnel per raggiungere l’oro.`,
+  image: 'games/saboteur.jpg',
+  players: { min: 3, max: 10 },
+  time: { min: 20, max: 40 },
+  playtimeCategory: 'Tra 30 e 60 min',
+  tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppi numerosi'],
+  macroCategory: 'party game',
+  difficulty: 1,
+  weightBGG: 1.38
+},
+{
+  id: 'game-19',
+  name: 'Bang! La Pallottola',
+  description: `Bang! La Pallottola è un gioco di carte per 4-7 giocatori della durata di circa 30-40 minuti, ambientato nel Far West, in cui i partecipanti assumono ruoli segreti e si eliminano a colpi di carte tra bluff, deduzione e alleanze.`,
+  image: 'games/bang.jpg',
+  players: { min: 4, max: 7 },
+  time: { min: 30, max: 60 },
+  playtimeCategory: 'Tra 30 e 60 min',
+  tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppo'],
+  macroCategory: 'party game',
+  difficulty: 2,
+  weightBGG: 1.65
+},
+{
+  id: 'game-20',
+  name: 'Monopoly',
+  description: `Monopoly è un gioco da tavolo per 2-6 giocatori della durata di circa 60-180 minuti, in cui i partecipanti comprano, scambiano e sviluppano proprietà immobiliari cercando di mandare in bancarotta gli avversari.`,
+  image: 'games/monopoly.jpg',
+  players: { min: 2, max: 6 },
+  time: { min: 60, max: 180 },
+  playtimeCategory: '> 60 min',
+  tags: ['familiare', 'economico', 'competitivo', 'classico'],
+  macroCategory: 'strategici',
+  difficulty: 1,
+  weightBGG: 1.19
+},
+{
+  id: 'game-21',
+  name: 'Labirinto',
+  description: `Labirinto è un gioco da tavolo per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti modificano un labirinto scorrevole per raggiungere tesori nascosti prima degli avversari.`,
+  image: 'games/labirinto.jpg',
+  players: { min: 2, max: 4 },
+  time: { min: 20, max: 30 },
+  playtimeCategory: '< 30 min',
+  tags: ['familiare', 'movimento', 'leggero', 'competitivo'],
+  macroCategory: 'strategici',
+  difficulty: 1,
+  weightBGG: 1.35
+},
+{
+  id: 'game-22',
+  name: 'Hive',
+  description: `Hive è un gioco scacchistico per 2 giocatori della durata di circa 20-30 minuti, in cui i partecipanti muovono insetti con abilità uniche cercando di circondare l’ape regina avversaria.`,
+  image: 'games/hive.jpg',
+  players: { min: 2, max: 2 },
+  time: { min: 20, max: 30 },
+  playtimeCategory: '< 30 min',
+  tags: ['astratto', 'strategico', 'duello', 'competitivo'],
+  macroCategory: 'strategici',
+  difficulty: 2,
+  weightBGG: 2.32
+},
+{
+  id: 'game-23',
+  name: 'Slapzi',
+  description: `Slapzi è un gioco di carte rapido per 2-8 giocatori della durata di circa 10-15 minuti, in cui i partecipanti associano velocemente carte immagine e carte parola per essere i primi a liberarsi della mano.`,
+  image: 'games/slapzi.jpg',
+  players: { min: 2, max: 8 },
+  time: { min: 10, max: 20 },
+  playtimeCategory: '< 30 min',
+  tags: ['party', 'velocità', 'familiare', 'leggero'],
+  macroCategory: 'party game',
+  difficulty: 0,
+  weightBGG: '0 (non da BGG)'
+},
+{
+  id: 'game-24',
+  name: 'Unstable Unicorns',
+  description: `Unstable Unicorns è un gioco di carte per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono eserciti di unicorni sabotando gli avversari con carte azione e colpi di scena.`,
+  image: 'games/unstable unicorns.jpg',
+  players: { min: 2, max: 8 },
+  time: { min: 30, max: 60 },
+  playtimeCategory: 'Tra 30 e 60 min',
+  tags: ['party', 'carte', 'caotico', 'competitivo'],
+  macroCategory: 'party game',
+  difficulty: 1,
+  weightBGG: 1.49
+},
+{
+  id: 'game-25',
+  name: 'Munchkin',
+  description: `Munchkin è un gioco di carte per 3-6 giocatori della durata di circa 60-90 minuti, in cui i partecipanti esplorano dungeon, combattono mostri e tradiscono gli alleati per raggiungere per primi il livello 10.`,
+  image: 'games/munchkin.jpg',
+  players: { min: 3, max: 6 },
+  time: { min: 60, max: 120 },
+  playtimeCategory: '> 60 min',
+  tags: ['party', 'carte', 'umoristico', 'competitivo'],
+  macroCategory: 'party game',
+  difficulty: 2,
+  weightBGG: 1.61
+},
+{
+  id: 'game-26',
+  name: 'Santorini',
+  description: `Santorini è un gioco astratto per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti costruiscono edifici e muovono i propri personaggi usando poteri divini per ottenere vantaggi strategici.`,
+  image: 'games/santorini.jpg',
+  players: { min: 2, max: 4 },
+  time: { min: 20, max: 30 },
+  playtimeCategory: '< 30 min',
+  tags: ['astratto', 'strategico', 'competitivo'],
+  macroCategory: 'strategici',
+  difficulty: 2,
+  weightBGG: 2.35
+},
+{
+  id: 'game-27',
+  name: 'Pandemic Legacy Season 1',
+  description: `Pandemic Legacy Season 1 è un gioco cooperativo per 2-4 giocatori della durata di circa 60 minuti a partita, in cui i partecipanti affrontano una campagna narrativa evolutiva cercando di salvare l’umanità in un mondo post-apocalittico.`,
+  image: 'games/pandemic legacy season 1.jpg',
+  players: { min: 2, max: 4 },
+  time: { min: 60, max: 120 },
+  playtimeCategory: '> 60 min',
+  tags: ['cooperativo', 'campagna', 'narrativo', 'pesante'],
+  macroCategory: 'strategici',
+  difficulty: 3,
+  weightBGG: 3.26
+},
+{
+  id: 'game-28',
+  name: 'Paladin',
+  description: `Paladin è un gioco da tavolo strategico per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti gestiscono risorse, lavoratori e azioni per sviluppare il proprio regno medievale.`,
+  image: 'games/paladin.jpg',
+  players: { min: 1, max: 4 },
+  time: { min: 60, max: 120 },
+  playtimeCategory: '> 60 min',
+  tags: ['strategico', 'gestionale', 'pesante', 'solitario'],
+  macroCategory: 'strategici',
+  difficulty: 3,
+  weightBGG: 3.01
+},
+{
+  id: 'game-29',
+  name: 'Taboo',
+  description: `Taboo è un party game per 4-8 giocatori della durata di circa 20-30 minuti, in cui i partecipanti devono far indovinare parole evitando termini proibiti, creando situazioni caotiche e divertenti.`,
+  image: 'games/taboo.jpg',
+  players: { min: 4, max: 8 },
+  time: { min: 20, max: 30 },
+  playtimeCategory: '< 30 min',
+  tags: ['party', 'parole', 'gruppi numerosi', 'familiare'],
+  macroCategory: 'party game',
+  difficulty: 0,
+  weightBGG: 1.1
+}
+
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
