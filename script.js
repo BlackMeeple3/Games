@@ -140,7 +140,7 @@ const gamesRaw = [
     id: 'game-11',
     name: 'Skull King',
     description: `Skull King è un gioco di carte di prese per 2-6 giocatori della durata di circa 30-45 minuti, in cui i partecipanti fanno previsioni sul numero di prese che riusciranno a vincere, utilizzando carte speciali e bluff per ottenere punti.`,
-    image: 'games/skull.jpg',
+    image: 'games/skull king old.jpg',
     players: { min: 2, max: 6 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
