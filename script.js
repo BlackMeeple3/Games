@@ -55,7 +55,7 @@ const gamesRaw = [
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['familiare', 'piazzamento tessere', 'leggero', 'competitivo'],
     macroCategory: 'strategici',
-    difficulty: 1,
+    difficulty: 2,
     weightBGG: 1.91
   },
   {
