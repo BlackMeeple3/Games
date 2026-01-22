@@ -229,35 +229,38 @@ h1 {
 /* Icone info gioco (giocatori, tempo e difficoltà) */
 .game-icons {
   position: absolute;
-  bottom: -20px;                 /* ⬅️ metà fuori */
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   display: flex;
-  gap: 8px;
+  justify-content: space-around;
+  align-items: center;
 
-  background: rgba(0,0,0,0.8);
-  padding: 6px 10px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.4),
+    transparent
+  );
 
+  padding: 10px 6px;
   z-index: 10;
 }
+
 
 
 .game-icon,
 .difficulty-icon {
   color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: transparent; /* ⬅️ importante */
-  white-space: nowrap;   /* ⬅️ BLOCCA IL TESTO SU UNA RIGA */
+  gap: 6px;
+  white-space: nowrap;
 }
+
 
 
 .difficulty-icon.easy {
@@ -292,30 +295,7 @@ h1 {
   background: rgba(0, 0, 0, 0.9);
 }
 
-/* Info gioco (nome) */
-.game-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  color: white;
-  padding: 12px 8px 8px 8px;
-  transform: translateY(100%);
-  transition: transform 0.3s;
-  pointer-events: none;
-}
 
-.card:hover .game-info,
-.card:active .game-info,
-.card.selected .game-info {
-  transform: translateY(0);
-}
-
-.game-name {
-  font-weight: bold;
-  font-size: 14px;
-}
 
 /* Selezione gioco */
 .card.selected {
@@ -338,6 +318,7 @@ h1 {
 
 .card {
   margin-bottom: 28px; /* spazio reale tra le righe della grid */
+  overflow: hidden;
 }
 
 
