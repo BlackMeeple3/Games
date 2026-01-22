@@ -342,11 +342,11 @@ function hideLoadingScreen() {
   
   setTimeout(() => {
     animateTitle();
-  }, 500);
+  }, 400);
 }
 
 function animateTitle() {
-  const text = 'Seleziona a cosa giocare';
+  const text = 'Seleziona a cosa  giocare';
   const letters = text.split('');
   
   letters.forEach((letter, index) => {
@@ -373,7 +373,7 @@ function createFilters() {
   });
   
   // Filtri numero giocatori
-  tagFiltersDiv.innerHTML = '<div style="margin-bottom: 10px;"><strong>Max Giocatori:</strong></div>';
+  tagFiltersDiv.innerHTML = '<div style="margin-bottom: 10px;"><strong>Giocatori:</strong></div>';
   const playersDiv = document.createElement('div');
   playersDiv.style.display = 'flex';
   playersDiv.style.gap = '8px';
@@ -391,7 +391,7 @@ function createFilters() {
   
   // Filtri durata
   const durationLabel = document.createElement('div');
-  durationLabel.innerHTML = '<strong>Max Durata (min):</strong>';
+  durationLabel.innerHTML = '<strong>Giochi che durano meno di (min):</strong>';
   durationLabel.style.marginBottom = '10px';
   tagFiltersDiv.appendChild(durationLabel);
   
@@ -403,7 +403,7 @@ function createFilters() {
   [30, 45, 60, 90, 120, 150].forEach(time => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
-    btn.textContent = `≤${time}'`;
+    btn.textContent = `meno di ${time}'`;
     btn.onclick = () => toggleTimeFilter(time, btn);
     durationDiv.appendChild(btn);
   });
