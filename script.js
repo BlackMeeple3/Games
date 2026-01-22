@@ -553,7 +553,7 @@ function createFilters() {
   [2, 3, 4, 5, 6, 7, 8].forEach(num => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
-    btn.textContent = `${num}+`;
+    btn.textContent = `${num}`;
     btn.onclick = () => togglePlayersFilter(num, btn);
     playersDiv.appendChild(btn);
   });
@@ -561,7 +561,7 @@ function createFilters() {
   
   // Filtri durata
   const durationLabel = document.createElement('div');
-  durationLabel.innerHTML = '<strong>Giochi che durano meno di (min):</strong>';
+  durationLabel.innerHTML = '<strong>Giochi che durano meno di:</strong>';
   durationLabel.style.marginBottom = '10px';
   tagFiltersDiv.appendChild(durationLabel);
   
@@ -573,7 +573,7 @@ function createFilters() {
   [30, 45, 60, 90, 120, 150].forEach(time => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
-    btn.textContent = `meno di ${time}'`;
+    btn.textContent = `${time} minuti`;
     btn.onclick = () => toggleTimeFilter(time, btn);
     durationDiv.appendChild(btn);
   });
