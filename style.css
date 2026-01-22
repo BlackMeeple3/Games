@@ -1,5 +1,5 @@
 /* LOADING SCREEN */
-/* Loading Screen */
+
 #loadingScreen {
   position: fixed;
   top: 0;
@@ -256,6 +256,7 @@ h1 {
   align-items: center;
   gap: 4px;
   background: transparent; /* ⬅️ importante */
+  white-space: nowrap;   /* ⬅️ BLOCCA IL TESTO SU UNA RIGA */
 }
 
 
