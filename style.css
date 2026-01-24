@@ -20,20 +20,25 @@
 
 
 
-/* Corpo pagina */
 body {
+  margin: 0;
+  font-family: sans-serif;
+
+  /* Sfondo Carcassonne online */
   background-image: url("https://png.pngtree.com/thumb_back/fw800/background/20221127/pngtree-carcassonne-board-game-concept-red-meeple-photo-image_34815808.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size: cover;          /* riempie tutto lo schermo */
+  background-position: center;     /* centra l'immagine */
+  background-repeat: no-repeat;    /* non ripete l'immagine */
+
+  /* Overlay semitrasparente per rendere leggibili le card */
+  position: relative;
 }
 
-/* Overlay chiaro semitrasparente per rendere leggibili le card */
 body::before {
-  content:'';
+  content: '';
   position: fixed;
   inset: 0;
-  background: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.55); /* overlay chiaro, sfoca leggermente senza appesantire */
   z-index: -1;
 }
 
