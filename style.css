@@ -22,23 +22,19 @@
 
 /* Corpo pagina */
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #f5f5f5; /* Sostituisci con il colore che preferisci */
-  -webkit-tap-highlight-color: transparent;
-  overflow-x: hidden;
-  position: relative;
-  opacity: 0;
-  transition: opacity 0.8s ease;
+  background-image: url("https://png.pngtree.com/thumb_back/fw800/background/20221127/pngtree-carcassonne-board-game-concept-red-meeple-photo-image_34815808.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-body.loaded {
-  opacity: 1;
-}
-body {
-  background-image: url('images/carcassonne-tiles-pattern.png');
-  background-repeat: repeat;
-  background-size: 100px 100px;
+/* Overlay chiaro semitrasparente per rendere leggibili le card */
+body::before {
+  content:'';
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  z-index: -1;
 }
 
 /* Animazione Titolo */
