@@ -683,17 +683,14 @@ function renderGame(game) {
   const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
   
   div.innerHTML = `
-    <img src="${game.image}" alt="${game.name}">
-    <div class="game-icons">
-      <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
-      <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
-      <div class="difficulty-icon ${difficultyClass}">⚖️ ${game.difficulty}/5</div>
-    </div>
-    <div class="info-icon">ℹ️</div>
-    <div class="game-info">
-      <div class="game-name">${game.name}</div>
-    </div>
-  `;
+  <img src="${game.image}" alt="${game.name}">
+  <div class="game-icons">
+    <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
+    <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
+    <div class="difficulty-icon ${difficultyClass}">⚖️ ${game.difficulty}/5</div>
+  </div>
+  <div class="info-icon">ℹ️</div>
+`;
 
   div.onclick = (e) => {
     if (e.target.classList.contains('info-icon')) return;
