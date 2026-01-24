@@ -226,6 +226,7 @@ h1 {
 }
 
 
+/* Icone info gioco (giocatori, tempo e 
 /* Icone info gioco (giocatori, tempo e difficoltà) */
 .game-icons {
   position: absolute;
@@ -237,18 +238,13 @@ h1 {
   justify-content: space-around;
   align-items: center;
 
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.85),
-    rgba(0,0,0,0.4),
-    transparent
-  );
+  /* Sfondo nero semitrasparente continuo */
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
 
   padding: 10px 6px;
   z-index: 10;
 }
-
-
 
 .game-icon,
 .difficulty-icon {
@@ -260,8 +256,6 @@ h1 {
   gap: 6px;
   white-space: nowrap;
 }
-
-
 
 .difficulty-icon.easy {
   color: #4caf50;
@@ -712,11 +706,5 @@ h1 {
     background-attachment: scroll;
   }
 }
-.game-icon,
-.difficulty-icon {
-  background: rgba(0, 0, 0, 0.65);
-  padding: 4px 8px;
-  border-radius: 12px;
-  backdrop-filter: blur(4px);
-}
+
 
