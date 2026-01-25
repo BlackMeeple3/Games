@@ -516,15 +516,24 @@ function hideLoadingScreen() {
 }
 
 function animateTitle() {
-  const text = 'A cosa giochiamo?';
-  const letters = text.split('');
-  
-  letters.forEach((letter, index) => {
-    const span = document.createElement('span');
-    span.textContent = letter === ' ' ? '\u00A0' : letter;
-    span.className = 'letter';
-    span.style.animationDelay = `${index * 0.05}s`;
-    mainTitle.appendChild(span);
+  const text = 'A cosa\ngiochiamo?';
+  const lines = text.split('\n');
+
+  lines.forEach((line, lineIndex) => {
+    const letters = line.split('');
+
+    letters.forEach((letter, index) => {
+      const span = document.createElement('span');
+      span.textContent = letter === ' ' ? '\u00A0' : letter;
+      span.className = 'letter';
+      span.style.animationDelay = `${(index + lineIndex * 10) * 0.05}s`;
+      mainTitle.appendChild(span);
+    });
+
+    // A capo tra le righe
+    if (lineIndex < lines.length - 1) {
+      mainTitle.appendChild(document.createElement('br'));
+    }
   });
 }
 
