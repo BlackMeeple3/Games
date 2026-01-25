@@ -1071,45 +1071,57 @@ function createDiceLauncher() {
   
   overlay.appendChild(diceContainer);
   
+  // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
+    if (launcher.classList.contains('rolling')) return;
+    launcher.classList.add('rolling');
+
     const randomNumber = Math.floor(Math.random() * 6) + 1;
 
-    // Rotazioni per mostrare il numero corretto
-    const rotations = {
-      1: { x: 0, y: 0 },
-      2: { x: 0, y: 180 },
-      3: { x: 0, y: 90 },
-      4: { x: 0, y: -90 },
-      5: { x: -90, y: 0 },
-      6: { x: 90, y: 0 }
+    // Rotazioni finali per ciascuna faccia
+    const faceRotations = {
+      1: { x: 0,   y: 0   },
+      2: { x: 0,   y: 180 },
+      3: { x: 0,   y: -90 },
+      4: { x: 0,   y: 90  },
+      5: { x: -90, y: 0   },
+      6: { x: 90,  y: 0   }
     };
 
-    const rotation = rotations[randomNumber];
+    // 🎢 FASE 1 — lancio caotico
+    diceContainer.style.transition = 'none';
+    const chaosX = Math.random() * 720 + 360;
+    const chaosY = Math.random() * 720 + 360;
+    const chaosZ = Math.random() * 720 + 360;
+    diceContainer.style.transform =
+      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg)`;
 
-    // Aggiungi rotazione extra casuale per effetto "lancio"
-    const extraX = Math.floor(Math.random() * 720 + 360); // 360-1080 gradi
-    const extraY = Math.floor(Math.random() * 720 + 360);
-
-    // Applica la transizione CSS
-    diceContainer.style.transition = 'transform 1s ease-out';
-    diceContainer.style.transform = `rotateX(${rotation.x + extraX}deg) rotateY(${rotation.y + extraY}deg)`;
-
-    // Mostra overlay
     overlay.classList.add('show');
 
-    // Nascondi overlay dopo 2.5 secondi
-    setTimeout(() => overlay.classList.remove('show'), 2500);
+    // 🎯 FASE 2 — assestamento finale
+    requestAnimationFrame(() => {
+      const target = faceRotations[randomNumber];
+      diceContainer.style.transition =
+        'transform 0.6s cubic-bezier(.2,.8,.2,1)';
+      diceContainer.style.transform =
+        `rotateX(${target.x}deg) rotateY(${target.y}deg) rotateZ(0deg)`;
+    });
+
+    // Chiudi overlay dopo 2.5s
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      launcher.classList.remove('rolling');
+    }, 2500);
   };
 
-  // Click sull'overlay per chiudere
+  // Click sull'overlay per chiuderlo manualmente
   overlay.onclick = (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove('show');
-    }
+    if (e.target === overlay) overlay.classList.remove('show');
   };
   
   document.body.appendChild(launcher);
   document.body.appendChild(overlay);
 }
 
+// Avvia il launcher
 createDiceLauncher();
