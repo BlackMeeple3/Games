@@ -977,33 +977,71 @@ function createDiceLauncher() {
   launcher.innerHTML = '🎲';
   launcher.title = 'Lancia il dado!';
   
-  const result = document.createElement('div');
-  result.className = 'dice-result';
+  const overlay = document.createElement('div');
+  overlay.className = 'dice-result-overlay';
+  
+  const diceContainer = document.createElement('div');
+  diceContainer.className = 'dice-3d';
+  
+  // Crea le 6 facce del dado
+  const faces = [1, 2, 3, 4, 5, 6];
+  faces.forEach(num => {
+    const face = document.createElement('div');
+    face.className = 'dice-face';
+    
+    // Aggiungi i puntini per ogni faccia
+    for (let i = 0; i < num; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dice-dot';
+      face.appendChild(dot);
+    }
+    
+    diceContainer.appendChild(face);
+  });
+  
+  overlay.appendChild(diceContainer);
   
   launcher.onclick = () => {
-    launcher.classList.add('rolling');
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
     
+    // Calcola rotazioni per mostrare la faccia corretta
+    const rotations = {
+      1: { x: 0, y: 0 },
+      2: { x: 0, y: 180 },
+      3: { x: 0, y: 90 },
+      4: { x: 0, y: -90 },
+      5: { x: -90, y: 0 },
+      6: { x: 90, y: 0 }
+    };
+    
+    const rotation = rotations[randomNumber];
+    diceContainer.style.setProperty('--rotate-x', `${rotation.x}deg`);
+    diceContainer.style.setProperty('--rotate-y', `${rotation.y}deg`);
+    
+    // Mostra overlay
+    overlay.classList.add('show');
+    
+    // Riavvia animazione
+    diceContainer.style.animation = 'none';
     setTimeout(() => {
-      launcher.classList.remove('rolling');
-      const randomNumber = Math.floor(Math.random() * 6) + 1;
-      
-      result.textContent = randomNumber;
-      result.classList.remove('hide');
-      result.classList.add('show');
-      
-      setTimeout(() => {
-        result.classList.remove('show');
-        result.classList.add('hide');
-        
-        setTimeout(() => {
-          result.classList.remove('hide');
-        }, 300);
-      }, 2000);
-    }, 500);
+      diceContainer.style.animation = 'rollDice 1s ease-out';
+    }, 10);
+    
+    // Nascondi dopo 2.5 secondi
+    setTimeout(() => {
+      overlay.classList.remove('show');
+    }, 2500);
+  };
+  
+  // Click sull'overlay per chiudere
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+    }
   };
   
   document.body.appendChild(launcher);
-  document.body.appendChild(result);
+  document.body.appendChild(overlay);
 }
 
 createDiceLauncher();
