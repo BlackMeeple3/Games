@@ -144,11 +144,12 @@ h1 {
 }
 
 .filter-group h3 {
-  margin: 0 0 8px 0;
-  font-size: 14px;
-  color: #666;
+  font-family: 'MedievalSharp', serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+
+  color: #8b7a3e;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .filter-buttons {
@@ -158,24 +159,39 @@ h1 {
 }
 
 .filter-btn {
-  padding: 6px 12px;
-  border: 2px solid #ddd;
-  border-radius: 20px;
-  background: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  font-family: 'MedievalSharp', serif;
   font-size: 13px;
+  letter-spacing: 0.5px;
+
+  background: #f5e6a8;
+  border: 2px solid #c9b46c;
+  color: #4a3f1f;
+
   cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  transition: all 0.2s ease;
+
+  box-shadow: 1px 1px 0 #8b7a3e;
 }
 
 .filter-btn:hover {
-  border-color: #999;
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 #8b7a3e;
 }
 
 .filter-btn.active {
-  background: black;
-  color: white;
-  border-color: black;
+  background: #3b5ba7;
+  color: #fff;
+  border-color: #2c4585;
+
+  box-shadow:
+    inset 0 0 0 2px #f5e6a8,
+    2px 2px 0 #1f2f5e;
+}
+.filter-btn.active {
+  transform: translateY(1px);
 }
 
 .clear-filters {
