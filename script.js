@@ -957,11 +957,12 @@ function createFloatingObjects() {
   
   const objects = ['🎲', '🃏', '♟️', '🎯', '🏆', '⚔️'];
   
-  objects.forEach(obj => {
+  objects.forEach((obj, index) => {
     const elem = document.createElement('div');
     elem.className = 'floating-object';
     elem.textContent = obj;
-    elem.style.top = `${Math.random() * 100}vh`;
+    // Rimuovi questa riga che causava il problema
+    // elem.style.top = `${Math.random() * 100}vh`;
     container.appendChild(elem);
   });
   
