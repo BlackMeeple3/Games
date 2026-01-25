@@ -55,19 +55,19 @@ h1 {
     3px 3px 0 #8b7a3e;   /* profondità */
 }
 
-.letter:nth-child(odd) {
-  filter: hue-rotate(-4deg);
-}
-.letter:nth-child(even) {
-  filter: hue-rotate(4deg);
-}
+
 .letter {
   display: inline-block;
   opacity: 0;
   animation: letterDrop 0.6s ease-out forwards;
   transform-origin: center bottom;
 }
-
+.letter:nth-child(odd) {
+  filter: hue-rotate(-4deg);
+}
+.letter:nth-child(even) {
+  filter: hue-rotate(4deg);
+}
 @keyframes letterDrop {
   0% {
     opacity: 0;
