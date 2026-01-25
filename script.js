@@ -949,3 +949,61 @@ resetDataBtn.onclick = async () => {
 
 // --- 🚀 AVVIO ---
 loadGames();
+
+// --- ✨ OGGETTI FLUTTUANTI ---
+function createFloatingObjects() {
+  const container = document.createElement('div');
+  container.className = 'floating-objects';
+  
+  const objects = ['🎲', '🃏', '♟️', '🎯', '🏆', '⚔️'];
+  
+  objects.forEach(obj => {
+    const elem = document.createElement('div');
+    elem.className = 'floating-object';
+    elem.textContent = obj;
+    elem.style.top = `${Math.random() * 100}vh`;
+    container.appendChild(elem);
+  });
+  
+  document.body.appendChild(container);
+}
+
+createFloatingObjects();
+
+// --- 🎲 DADO LAUNCHER ---
+function createDiceLauncher() {
+  const launcher = document.createElement('div');
+  launcher.className = 'dice-launcher';
+  launcher.innerHTML = '🎲';
+  launcher.title = 'Lancia il dado!';
+  
+  const result = document.createElement('div');
+  result.className = 'dice-result';
+  
+  launcher.onclick = () => {
+    launcher.classList.add('rolling');
+    
+    setTimeout(() => {
+      launcher.classList.remove('rolling');
+      const randomNumber = Math.floor(Math.random() * 6) + 1;
+      
+      result.textContent = randomNumber;
+      result.classList.remove('hide');
+      result.classList.add('show');
+      
+      setTimeout(() => {
+        result.classList.remove('show');
+        result.classList.add('hide');
+        
+        setTimeout(() => {
+          result.classList.remove('hide');
+        }, 300);
+      }, 2000);
+    }, 500);
+  };
+  
+  document.body.appendChild(launcher);
+  document.body.appendChild(result);
+}
+
+createDiceLauncher();
