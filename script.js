@@ -984,7 +984,7 @@ function createDiceLauncher() {
   const diceContainer = document.createElement('div');
   diceContainer.className = 'dice-3d';
   
-  // Crea le 6 facce del dado
+  // --- Crea le 6 facce del dado ---
   const faces = [1, 2, 3, 4, 5, 6];
   faces.forEach(num => {
     const face = document.createElement('div');
@@ -1000,12 +1000,26 @@ function createDiceLauncher() {
     diceContainer.appendChild(face);
   });
   
+  // --- Posiziona le facce nello spazio 3D ---
+  const faceTransforms = [
+    'rotateY(0deg) translateZ(50px)',    // 1
+    'rotateY(180deg) translateZ(50px)',  // 2
+    'rotateY(90deg) translateZ(50px)',   // 3
+    'rotateY(-90deg) translateZ(50px)',  // 4
+    'rotateX(90deg) translateZ(50px)',   // 5
+    'rotateX(-90deg) translateZ(50px)'   // 6
+  ];
+  
+  diceContainer.querySelectorAll('.dice-face').forEach((face, i) => {
+    face.style.transform = faceTransforms[i];
+  });
+  
   overlay.appendChild(diceContainer);
   
   launcher.onclick = () => {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
     
-    // Calcola rotazioni per mostrare la faccia corretta
+    // Rotazioni per mostrare il numero corretto
     const rotations = {
       1: { x: 0, y: 0 },
       2: { x: 0, y: 180 },
@@ -1036,9 +1050,7 @@ function createDiceLauncher() {
   
   // Click sull'overlay per chiudere
   overlay.onclick = (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove('show');
-    }
+    if (e.target === overlay) overlay.classList.remove('show');
   };
   
   document.body.appendChild(launcher);
