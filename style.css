@@ -48,6 +48,11 @@ h1 {
   font-family: 'MedievalSharp', serif;
   letter-spacing: 2px;
 }
+h1 {
+  text-shadow:
+    1px 1px 0 #e0d8b0,
+    2px 2px 0 #b9ae7c;
+}
 .letter {
   display: inline-block;
   opacity: 0;
