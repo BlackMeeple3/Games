@@ -950,25 +950,94 @@ resetDataBtn.onclick = async () => {
 // --- 🚀 AVVIO ---
 loadGames();
 
+const MEEPLES = [
+  `
+  <svg viewBox="0 0 100 100" class="meeple">
+    <path d="
+      M50 5
+      C42 5 38 12 38 18
+      C38 24 42 28 42 28
+      L30 40
+      C20 50 20 65 30 75
+      L40 85
+      L40 95
+      L60 95
+      L60 85
+      L70 75
+      C80 65 80 50 70 40
+      L58 28
+      C58 28 62 24 62 18
+      C62 12 58 5 50 5
+      Z"/>
+  </svg>
+  `,
+  `
+  <svg viewBox="0 0 100 100" class="meeple">
+    <path d="
+      M50 6
+      C40 6 36 14 36 20
+      C36 26 40 30 40 30
+      L25 45
+      C15 55 18 72 30 80
+      L42 88
+      L42 95
+      L58 95
+      L58 88
+      L70 80
+      C82 72 85 55 75 45
+      L60 30
+      C60 30 64 26 64 20
+      C64 14 60 6 50 6
+      Z"/>
+  </svg>
+  `,
+  `
+  <svg viewBox="0 0 64 64" class="meeple">
+    <path d="
+      M32 4
+      C26 4 24 10 24 14
+      C24 18 26 20 26 20
+      L18 28
+      C10 36 12 48 20 52
+      L26 56
+      L26 62
+      L38 62
+      L38 56
+      L44 52
+      C52 48 54 36 46 28
+      L38 20
+      C38 20 40 18 40 14
+      C40 10 38 4 32 4
+      Z"/>
+  </svg>
+  `
+];
+
 // --- ✨ OGGETTI FLUTTUANTI ---
 function createFloatingObjects() {
   const container = document.createElement('div');
   container.className = 'floating-objects';
-  
-  const objects = ['🎲', '🃏', '♟️', '🎯', '🏆', '⚔️'];
-  
-  objects.forEach((obj, index) => {
-    const elem = document.createElement('div');
-    elem.className = 'floating-object';
-    elem.textContent = obj;
-    // Rimuovi questa riga che causava il problema
-    // elem.style.top = `${Math.random() * 100}vh`;
-    container.appendChild(elem);
-  });
-  
+
+  for (let i = 0; i < 6; i++) {
+    const el = document.createElement('div');
+    el.className = 'floating-object';
+
+    // Meeple casuale
+    const randomMeeple = MEEPLES[Math.floor(Math.random() * MEEPLES.length)];
+    el.innerHTML = randomMeeple;
+
+    // Posizione e animazione random
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (18 + Math.random() * 12) + 's';
+    el.style.animationDelay = Math.random() * 10 + 's';
+
+    container.appendChild(el);
+  }
+
   document.body.appendChild(container);
 }
 
+// 🚀 avvio
 createFloatingObjects();
 
 // --- 🎲 DADO LAUNCHER ---
