@@ -972,6 +972,7 @@ function createFloatingObjects() {
 createFloatingObjects();
 
 // --- 🎲 DADO LAUNCHER ---
+
 function createDiceLauncher() {
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
@@ -984,13 +985,12 @@ function createDiceLauncher() {
   const diceContainer = document.createElement('div');
   diceContainer.className = 'dice-3d';
   
-  // --- Crea le 6 facce del dado ---
+  // Crea le 6 facce del dado
   const faces = [1, 2, 3, 4, 5, 6];
   faces.forEach(num => {
     const face = document.createElement('div');
     face.className = 'dice-face';
     
-    // Aggiungi i puntini per ogni faccia
     for (let i = 0; i < num; i++) {
       const dot = document.createElement('div');
       dot.className = 'dice-dot';
@@ -1000,25 +1000,11 @@ function createDiceLauncher() {
     diceContainer.appendChild(face);
   });
   
-  // --- Posiziona le facce nello spazio 3D ---
-  const faceTransforms = [
-    'rotateY(0deg) translateZ(50px)',    // 1
-    'rotateY(180deg) translateZ(50px)',  // 2
-    'rotateY(90deg) translateZ(50px)',   // 3
-    'rotateY(-90deg) translateZ(50px)',  // 4
-    'rotateX(90deg) translateZ(50px)',   // 5
-    'rotateX(-90deg) translateZ(50px)'   // 6
-  ];
-  
-  diceContainer.querySelectorAll('.dice-face').forEach((face, i) => {
-    face.style.transform = faceTransforms[i];
-  });
-  
   overlay.appendChild(diceContainer);
   
   launcher.onclick = () => {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
-    
+
     // Rotazioni per mostrare il numero corretto
     const rotations = {
       1: { x: 0, y: 0 },
@@ -1028,29 +1014,29 @@ function createDiceLauncher() {
       5: { x: -90, y: 0 },
       6: { x: 90, y: 0 }
     };
-    
+
     const rotation = rotations[randomNumber];
-    diceContainer.style.setProperty('--rotate-x', `${rotation.x}deg`);
-    diceContainer.style.setProperty('--rotate-y', `${rotation.y}deg`);
-    
+
+    // Aggiungi rotazione extra casuale per effetto "lancio"
+    const extraX = Math.floor(Math.random() * 720 + 360); // 360-1080 gradi
+    const extraY = Math.floor(Math.random() * 720 + 360);
+
+    // Applica la transizione CSS
+    diceContainer.style.transition = 'transform 1s ease-out';
+    diceContainer.style.transform = `rotateX(${rotation.x + extraX}deg) rotateY(${rotation.y + extraY}deg)`;
+
     // Mostra overlay
     overlay.classList.add('show');
-    
-    // Riavvia animazione
-    diceContainer.style.animation = 'none';
-    setTimeout(() => {
-      diceContainer.style.animation = 'rollDice 1s ease-out';
-    }, 10);
-    
-    // Nascondi dopo 2.5 secondi
-    setTimeout(() => {
-      overlay.classList.remove('show');
-    }, 2500);
+
+    // Nascondi overlay dopo 2.5 secondi
+    setTimeout(() => overlay.classList.remove('show'), 2500);
   };
-  
+
   // Click sull'overlay per chiudere
   overlay.onclick = (e) => {
-    if (e.target === overlay) overlay.classList.remove('show');
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+    }
   };
   
   document.body.appendChild(launcher);
