@@ -35,42 +35,27 @@ body {
 body.loaded {
   opacity: 1;
 }
-
-
-/* Animazione Titolo */
+/* Animazione Titolo – stile boardgame / Carcassonne */
 h1 {
   text-align: center;
   margin: 40px 0;
-  font-size: 2.5rem;
-  color: #2c3e50;
   min-height: 60px;
 
-  font-family: 'MedievalSharp', serif;
-  letter-spacing: 2px;
-}
-h1 {
-  text-shadow:
-    1px 1px 0 #e0d8b0,
-    2px 2px 0 #b9ae7c;
-}
-h1 {
-  text-align: center;
-  margin: 40px 0;
   font-size: 2.7rem;
-  min-height: 60px;
-
   font-family: 'MedievalSharp', serif;
   letter-spacing: 2px;
 
-  /* Colore principale */
-  color: #3b5ba7; /* blu Carcassonne */
+  /* Colore stile Carcassonne */
+  color: #3b5ba7;
 
-  /* Effetto pittura / cartone */
+  /* Effetto cartone dipinto / profondità */
   text-shadow:
-    1px 1px 0 #f5e6a8,   /* giallo pergamena */
+    1px 1px 0 #f5e6a8,   /* pergamena chiara */
     2px 2px 0 #c9b46c,   /* ombra calda */
     3px 3px 0 #8b7a3e;   /* profondità */
 }
+
+
 .letter {
   display: inline-block;
   opacity: 0;
