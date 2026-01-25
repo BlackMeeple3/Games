@@ -1,4 +1,6 @@
-/* LOADING SCREEN */
+/* ============================================
+   LOADING SCREEN
+   ============================================ */
 
 #loadingScreen {
   position: fixed;
@@ -16,15 +18,14 @@
   pointer-events: none;
 }
 
+/* ============================================
+   CORPO PAGINA
+   ============================================ */
 
-
-
-
-/* Corpo pagina */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  background: #f5f5f5; /* Sostituisci con il colore che preferisci */
+  background: #f5f5f5;
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
   position: relative;
@@ -35,26 +36,24 @@ body {
 body.loaded {
   opacity: 1;
 }
-/* Animazione Titolo – stile boardgame / Carcassonne */
+
+/* ============================================
+   TITOLO - STILE BOARDGAME / CARCASSONNE
+   ============================================ */
+
 h1 {
   text-align: center;
   margin: 40px 0;
   min-height: 60px;
-
   font-size: 2.7rem;
   font-family: 'MedievalSharp', serif;
   letter-spacing: 2px;
-
-  /* Colore stile Carcassonne */
   color: #3b5ba7;
-
-  /* Effetto cartone dipinto / profondità */
   text-shadow:
-    1px 1px 0 #f5e6a8,   /* pergamena chiara */
-    2px 2px 0 #c9b46c,   /* ombra calda */
-    3px 3px 0 #8b7a3e;   /* profondità */
+    1px 1px 0 #f5e6a8,
+    2px 2px 0 #c9b46c,
+    3px 3px 0 #8b7a3e;
 }
-
 
 .letter {
   display: inline-block;
@@ -62,12 +61,15 @@ h1 {
   animation: letterDrop 0.6s ease-out forwards;
   transform-origin: center bottom;
 }
+
 .letter:nth-child(odd) {
   filter: hue-rotate(-4deg);
 }
+
 .letter:nth-child(even) {
   filter: hue-rotate(4deg);
 }
+
 @keyframes letterDrop {
   0% {
     opacity: 0;
@@ -89,16 +91,16 @@ h1 {
   }
 }
 
+/* ============================================
+   SEZIONE FILTRI
+   ============================================ */
 
-
-
-/* Sezione filtri */
 #filterSection {
-  background: white;
-  padding: 16px;
+  background: linear-gradient(135deg, #3b5ba7 0%, #2c4585 100%);
+  padding: 20px;
   margin: 0 12px 12px 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .filter-header {
@@ -112,12 +114,15 @@ h1 {
 
 .filter-header h2 {
   margin: 0;
-  font-size: 1.2rem;
-  color: #333;
+  font-size: 1.3rem;
+  color: #f5e6a8;
+  font-family: 'MedievalSharp', serif;
+  letter-spacing: 1px;
 }
 
 .filter-toggle {
   font-size: 1.5rem;
+  color: #f5e6a8;
   transition: transform 0.3s;
 }
 
@@ -126,7 +131,7 @@ h1 {
 }
 
 .filter-content {
-  max-height: 1000px;
+  max-height: 2000px;
   overflow: hidden;
   transition: max-height 0.3s ease;
 }
@@ -136,7 +141,7 @@ h1 {
 }
 
 .filter-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .filter-group:last-child {
@@ -144,12 +149,13 @@ h1 {
 }
 
 .filter-group h3 {
-  font-family: 'MedievalSharp', serif;
-  font-size: 12px;
-  letter-spacing: 1px;
-
-  color: #8b7a3e;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #f5e6a8;
   text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 .filter-buttons {
@@ -159,74 +165,59 @@ h1 {
 }
 
 .filter-btn {
-  padding: 6px 14px;
-  border-radius: 999px;
-
-  font-family: 'MedievalSharp', serif;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-
-  background: #f5e6a8;
-  border: 2px solid #c9b46c;
-  color: #4a3f1f;
-
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #f5e6a8;
+  color: #2c4585;
   cursor: pointer;
   transition: all 0.2s ease;
-
-  box-shadow: 1px 1px 0 #8b7a3e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filter-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 #8b7a3e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: white;
 }
 
 .filter-btn.active {
-  background: #3b5ba7;
-  color: #fff;
-  border-color: #2c4585;
-
-  box-shadow:
-    inset 0 0 0 2px #f5e6a8,
-    2px 2px 0 #1f2f5e;
-}
-.filter-btn.active {
-  transform: translateY(1px);
-}
-.filter-btn {
-  background: #3b5ba7;  /* ora blu */
-  border: 2px solid #2c4585;
-  color: #fff;
-}
-
-.filter-btn.active {
-  background: #f5e6a8;  /* ora beige */
-  color: #4a3f1f;
+  background: #f5e6a8;
+  color: #2c4585;
   border-color: #c9b46c;
-
-  box-shadow: inset 0 0 0 2px #3b5ba7,
-              2px 2px 0 #1f2f5e;
-  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  font-weight: 600;
 }
 
 .clear-filters {
   display: inline-block;
-  margin-top: 8px;
-  padding: 6px 16px;
+  margin-top: 12px;
+  padding: 8px 20px;
   background: #dc3545;
   color: white;
   border: none;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .clear-filters:hover {
   background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
-/* Griglia giochi */
+/* ============================================
+   GRIGLIA GIOCHI
+   ============================================ */
+
 #grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -235,41 +226,44 @@ h1 {
   padding-bottom: 80px;
 }
 
-/* Separatore categoria – stile tessera */
+/* ============================================
+   SEPARATORE CATEGORIA
+   ============================================ */
+
 .category-header {
   grid-column: 1 / -1;
   margin: 24px 8px 12px;
-  padding: 10px 16px;
-
-  font-family: 'MedievalSharp', serif;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
-
+  padding: 12px 20px;
+  font-family: system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: #3b5ba7;
   background: linear-gradient(135deg, #f5e6a8, #e6d28a);
-  border-radius: 14px;
-
-  box-shadow:
-    inset 0 0 0 2px #c9b46c,
-    2px 2px 0 #8b7a3e;
-
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   text-align: center;
 }
-/* Card singolo gioco */
+
+/* ============================================
+   CARD SINGOLO GIOCO
+   ============================================ */
+
 .card {
   position: relative;
   border-radius: 16px;
   overflow: visible;
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   touch-action: manipulation;
+  margin-bottom: 28px;
 }
 
 .card:hover,
 .card:active {
   transform: scale(1.03);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
@@ -277,26 +271,23 @@ h1 {
   height: 180px;
   object-fit: cover;
   display: block;
-  border-radius: 16px; /* ⬅️ AGGIUNTO */
+  border-radius: 16px;
 }
 
+/* ============================================
+   ICONE INFO GIOCO
+   ============================================ */
 
-/* Icone info gioco (giocatori, tempo e 
-/* Icone info gioco (giocatori, tempo e difficoltà) */
 .game-icons {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
-
-  /* Sfondo nero semitrasparente continuo */
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
-
   padding: 10px 6px;
   z-index: 10;
 }
@@ -320,7 +311,6 @@ h1 {
   color: #f44336;
 }
 
-/* Info icon (ℹ️) */
 .info-icon {
   position: absolute;
   top: 8px;
@@ -344,9 +334,10 @@ h1 {
   background: rgba(0, 0, 0, 0.9);
 }
 
+/* ============================================
+   SELEZIONE GIOCO
+   ============================================ */
 
-
-/* Selezione gioco */
 .card.selected {
   transform: scale(0.96);
 }
@@ -355,7 +346,7 @@ h1 {
   content: "✓";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   color: white;
   font-size: 32px;
   display: flex;
@@ -365,13 +356,10 @@ h1 {
   z-index: 5;
 }
 
-.card {
-  margin-bottom: 28px; /* spazio reale tra le righe della grid */
-  overflow: hidden;
-}
+/* ============================================
+   PULSANTE INVIO
+   ============================================ */
 
-
-/* Pulsante invio */
 #submitBtn {
   position: fixed;
   bottom: 12px;
@@ -389,7 +377,7 @@ h1 {
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
   z-index: 100;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
 }
 
 #submitBtn:hover,
@@ -398,7 +386,10 @@ h1 {
   transform: scale(1.02);
 }
 
-/* Sezione nome partecipante */
+/* ============================================
+   SEZIONE NOME PARTECIPANTE
+   ============================================ */
+
 #nameSection {
   position: fixed;
   top: 0;
@@ -421,7 +412,7 @@ h1 {
   padding: 24px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hidden {
@@ -478,7 +469,10 @@ h1 {
   transform: scale(1.02);
 }
 
-/* Admin styles */
+/* ============================================
+   ADMIN PANEL
+   ============================================ */
+
 .admin-icon {
   position: fixed;
   top: 16px;
@@ -492,7 +486,7 @@ h1 {
   cursor: pointer;
   z-index: 500;
   transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .admin-icon:hover {
@@ -523,7 +517,7 @@ h1 {
   width: 100%;
   max-width: 900px;
   margin-top: 20px;
-  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 #closeAdminBtn {
@@ -658,14 +652,17 @@ h1 {
   padding: 12px;
 }
 
-/* Popup */
+/* ============================================
+   POPUP
+   ============================================ */
+
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -688,7 +685,7 @@ h1 {
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
   opacity: 0;
   position: relative;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .popup-overlay.active {
@@ -738,11 +735,14 @@ h1 {
   margin-right: 6px;
 }
 
-/* Mobile-friendly */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
 @media (hover: none) and (pointer: coarse) {
   .card:hover {
     transform: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
   #submitBtn:hover,
   #nameSection button#send:hover {
@@ -761,4 +761,3 @@ h1 {
     background-attachment: scroll;
   }
 }
-
