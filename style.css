@@ -1053,7 +1053,9 @@ h1 {
   right: 25px;
 }
 
-
+.meeple {
+  fill: #f5e6a8; /* stesso oro del tuo tema */
+}
 
 /* ============================================
    RESPONSIVE
