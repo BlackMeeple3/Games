@@ -885,17 +885,9 @@ h1 {
   height: 120px;
   position: relative;
   transform-style: preserve-3d;
-  animation: rollDice 1s ease-out;
+  transition: transform 1s ease-out;
 }
 
-@keyframes rollDice {
-  0% {
-    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(720deg);
-  }
-}
 
 .dice-face {
   position: absolute;
