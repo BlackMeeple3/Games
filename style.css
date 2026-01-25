@@ -55,7 +55,12 @@ h1 {
     3px 3px 0 #8b7a3e;   /* profondità */
 }
 
-
+.letter:nth-child(odd) {
+  filter: hue-rotate(-4deg);
+}
+.letter:nth-child(even) {
+  filter: hue-rotate(4deg);
+}
 .letter {
   display: inline-block;
   opacity: 0;
