@@ -61,18 +61,17 @@ body > * {
   z-index: 10;
 }
 
-/* Eccezioni che devono stare dietro o in posizioni speciali */
 body > .floating-objects,
 body > #loadingScreen,
 body::before {
   z-index: auto;
 }
 
-/* Elementi fissi in alto */
 .admin-icon,
 .dice-launcher {
   z-index: 500;
 }
+
 /* ============================================
    OGGETTI ANIMATI FLUTTUANTI
    ============================================ */
@@ -168,15 +167,6 @@ body::before {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-/* ============================================
-   CONTENUTO PRINCIPALE
-   ============================================ */
-
-body > *:not(.floating-objects):not(#loadingScreen):not(.admin-icon):not(.dice-launcher):not(body::before) {
-  position: relative;
-  z-index: 10;
 }
 
 /* ============================================
@@ -657,7 +647,7 @@ h1 {
 }
 
 /* ============================================
-   DADO 3D
+   DADO 3D CON NUMERI
    ============================================ */
 
 .dice-result-overlay {
@@ -666,183 +656,87 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 5000;
   display: none;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .dice-result-overlay.show {
   display: flex;
+  opacity: 1;
 }
 
 .dice-3d {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 1s ease-out;
   perspective: 1000px;
 }
 
-.dice-face {
+.dice-face-single {
   position: absolute;
-  width: 120px;
-  height: 120px;
-  background: white;
-  border: 3px solid #2c4585;
-  border-radius: 15px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  padding: 15px;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  border: 5px solid #2c4585;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 90px;
+  font-weight: bold;
+  color: #2c4585;
   box-sizing: border-box;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  backface-visibility: hidden;
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.6),
+    inset 0 -5px 10px rgba(0, 0, 0, 0.1),
+    inset 0 5px 10px rgba(255, 255, 255, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  backface-visibility: visible;
 }
 
-.dice-dot {
-  width: 18px;
-  height: 18px;
-  background: #2c4585;
-  border-radius: 50%;
-  margin: auto;
+.dice-face-single:nth-child(1) {
+  transform: translateZ(75px);
 }
 
-/* Face 1 - Center dot */
-.dice-face:nth-child(1) {
-  transform: translateZ(60px);
+.dice-face-single:nth-child(2) {
+  transform: rotateY(180deg) translateZ(75px);
 }
 
-.dice-face:nth-child(1) .dice-dot {
-  grid-column: 2;
-  grid-row: 2;
+.dice-face-single:nth-child(3) {
+  transform: rotateY(90deg) translateZ(75px);
 }
 
-/* Face 2 - Two diagonal dots */
-.dice-face:nth-child(2) {
-  transform: rotateY(180deg) translateZ(60px);
+.dice-face-single:nth-child(4) {
+  transform: rotateY(-90deg) translateZ(75px);
 }
 
-.dice-face:nth-child(2) .dice-dot:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1;
+.dice-face-single:nth-child(5) {
+  transform: rotateX(90deg) translateZ(75px);
 }
 
-.dice-face:nth-child(2) .dice-dot:nth-child(2) {
-  grid-column: 3;
-  grid-row: 3;
+.dice-face-single:nth-child(6) {
+  transform: rotateX(-90deg) translateZ(75px);
 }
 
-/* Face 3 - Three diagonal dots */
-.dice-face:nth-child(3) {
-  transform: rotateY(90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(2) {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(3) {
-  grid-column: 3;
-  grid-row: 3;
-}
-
-/* Face 4 - Four corner dots */
-.dice-face:nth-child(4) {
-  transform: rotateY(-90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(2) {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(3) {
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(4) {
-  grid-column: 3;
-  grid-row: 3;
-}
-
-/* Face 5 - Five dots (corners + center) */
-.dice-face:nth-child(5) {
-  transform: rotateX(90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(2) {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(3) {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(4) {
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(5) {
-  grid-column: 3;
-  grid-row: 3;
-}
-
-/* Face 6 - Six dots (two columns) */
-.dice-face:nth-child(6) {
-  transform: rotateX(-90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(2) {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(3) {
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(4) {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(5) {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(6) {
-  grid-column: 3;
-  grid-row: 3;
+.dice-face-single::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.6) 0%, 
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.05) 100%);
+  pointer-events: none;
 }
 
 /* ============================================
