@@ -516,7 +516,7 @@ function hideLoadingScreen() {
 }
 
 function animateTitle() {
-  const text = 'A cosa\ngiochiamo?';
+  const text = 'A cosa\nsi gioca?';
   const lines = text.split('\n');
 
   lines.forEach((line, lineIndex) => {
