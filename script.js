@@ -952,10 +952,26 @@ loadGames();
 
 const MEEPLES = [
   `
-  <svg width="500" height="500" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50,5 C42,5 38,12 38,20 C38,25 40,28 42,30 C30,32 15,35 10,45 C5,55 15,60 22,58 C22,65 20,85 18,92 C18,95 22,97 28,97 C35,97 42,90 50,75 C58,90 65,97 72,97 C78,97 82,95 82,92 C80,85 78,65 78,58 C85,60 95,55 90,45 C85,35 70,32 58,30 C60,28 62,25 62,20 C62,12 58,5 50,5 Z"
-          fill="none" stroke="black" stroke-width="3" stroke-linejoin="round"/>
-  </svg>
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M50,5
+          C60,5 65,15 65,25
+          C75,25 85,30 90,40
+          C95,50 85,55 75,55
+          L80,95
+          L60,95
+          L50,75
+          L40,95
+          L20,95
+          L25,55
+          C15,55 5,50 10,40
+          C15,30 25,25 35,25
+          C35,15 40,5 50,5
+          Z"
+       fill="none"
+       stroke="black"
+       stroke-width="3"
+       stroke-linejoin="round" />
+</svg>
   `
 ];
 
