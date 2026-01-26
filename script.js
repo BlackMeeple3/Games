@@ -968,7 +968,7 @@ function createFloatingObjects() {
     // Posizione e animazione random
     el.style.left = Math.random() * 100 + '%';
     el.style.animationDuration = (18 + Math.random() * 12) + 's';
-    el.style.animationDelay = Math.random() * 10 + 's';
+    // el.style.animationDelay = Math.random() * 10 + 's';
 
     container.appendChild(el);
   }
