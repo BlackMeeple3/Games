@@ -950,32 +950,8 @@ resetDataBtn.onclick = async () => {
 // --- 🚀 AVVIO ---
 loadGames();
 
-const MEEPLES = [
-  `
-  <svg viewBox="0 0 1000 1000" class="meeple">
-    <!-- Meeple 1 (in alto) -->
-    <path d="M 500 150 C 480 150 465 165 465 185 C 465 205 480 220 480 220 L 430 270 C 400 300 400 350 430 380 L 470 420 L 470 480 L 530 480 L 530 420 L 570 380 C 600 350 600 300 570 270 L 520 220 C 520 220 535 205 535 185 C 535 165 520 150 500 150 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 2 (sinistra in alto) -->
-    <path d="M 280 300 C 260 300 245 315 245 335 C 245 355 260 370 260 370 L 210 420 C 180 450 180 500 210 530 L 250 570 L 250 630 L 310 630 L 310 570 L 350 530 C 380 500 380 450 350 420 L 300 370 C 300 370 315 355 315 335 C 315 315 300 300 280 300 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 3 (destra in alto) -->
-    <path d="M 720 300 C 700 300 685 315 685 335 C 685 355 700 370 700 370 L 650 420 C 620 450 620 500 650 530 L 690 570 L 690 630 L 750 630 L 750 570 L 790 530 C 820 500 820 450 790 420 L 740 370 C 740 370 755 355 755 335 C 755 315 740 300 720 300 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 4 (centro) -->
-    <path d="M 500 450 C 480 450 465 465 465 485 C 465 505 480 520 480 520 L 430 570 C 400 600 400 650 430 680 L 470 720 L 470 780 L 530 780 L 530 720 L 570 680 C 600 650 600 600 570 570 L 520 520 C 520 520 535 505 535 485 C 535 465 520 450 500 450 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 5 (sinistra in basso) -->
-    <path d="M 280 600 C 260 600 245 615 245 635 C 245 655 260 670 260 670 L 210 720 C 180 750 180 800 210 830 L 250 870 L 250 930 L 310 930 L 310 870 L 350 830 C 380 800 380 750 350 720 L 300 670 C 300 670 315 655 315 635 C 315 615 300 600 280 600 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 6 (destra in basso) -->
-    <path d="M 720 600 C 700 600 685 615 685 635 C 685 655 700 670 700 670 L 650 720 C 620 750 620 800 650 830 L 690 870 L 690 930 L 750 930 L 750 870 L 790 830 C 820 800 820 750 790 720 L 740 670 C 740 670 755 655 755 635 C 755 615 740 600 720 600 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Meeple 7 (in basso) -->
-    <path d="M 500 750 C 480 750 465 765 465 785 C 465 805 480 820 480 820 L 430 870 C 400 900 400 950 430 980 L 530 980 L 570 980 C 600 950 600 900 570 870 L 520 820 C 520 820 535 805 535 785 C 535 765 520 750 500 750 Z" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  `
-];
+const MEEPLES = []; // array vuoto, lo riempiamo con il contenuto dell'SVG
+
 // --- ✨ OGGETTI FLUTTUANTI ---
 function createFloatingObjects() {
   const container = document.createElement('div');
@@ -1000,8 +976,14 @@ function createFloatingObjects() {
   document.body.appendChild(container);
 }
 
-// 🚀 avvio
-createFloatingObjects();
+// --- ✨ CARICA IL FILE SVG ESTERNO ---
+fetch('/games/meeple.svg')
+  .then(res => res.text())
+  .then(svg => {
+    MEEPLES.push(svg); // mettiamo l'SVG nell'array
+    createFloatingObjects(); // avviamo la creazione dopo il caricamento
+  });
+
 
 // --- 🎲 DADO LAUNCHER ---
 
