@@ -775,23 +775,26 @@ h1 {
   animation: float linear infinite;
   will-change: transform;
 }
+.floating-object {
+  position: absolute;
+  opacity: 0.2;
+  animation: float ease-in-out infinite;
+  will-change: transform;
+}
+
 
 @keyframes float {
   0% {
-    transform: translateY(100vh) translateX(0) rotate(0deg);
-    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
   }
-  10% {
-    opacity: 0.2;
-  }
-  90% {
-    opacity: 0.2;
+  50% {
+    transform: translateY(-40px) translateX(var(--drift)) rotate(180deg);
   }
   100% {
-    transform: translateY(-20vh) translateX(var(--drift)) rotate(360deg);
-    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(360deg);
   }
 }
+
 
 .floating-object:nth-child(1) {
   left: 15%;
