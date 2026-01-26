@@ -515,7 +515,12 @@ h1 {
   background: rgba(0, 0, 0, 0.9);
   transform: rotate(90deg);
 }
-
+.admin-icon {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 500;
+}
 #adminPanel {
   position: fixed;
   top: 0;
@@ -863,6 +868,14 @@ h1 {
   z-index: 500;
   transition: all 0.3s ease;
   border: 3px solid #8b7a3e;
+}
+.dice-launcher {
+  position: fixed;
+  top: 16px;
+  right: 76px; /* distanza = larghezza admin (44px) + gap */
+  left: auto;
+  bottom: auto;
+  z-index: 500;
 }
 
 .dice-launcher:hover {
