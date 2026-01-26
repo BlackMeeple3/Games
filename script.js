@@ -985,8 +985,7 @@ fetch('/games/meeple.svg')
   });
 
 
-// --- 🎲 DADO LAUNCHER ---
-
+// --- 🎲 DADO LAUNCHER (RISULTATO 2D) ---
 function createDiceLauncher() {
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
@@ -996,25 +995,17 @@ function createDiceLauncher() {
   const overlay = document.createElement('div');
   overlay.className = 'dice-result-overlay';
   
-  const diceContainer = document.createElement('div');
-  diceContainer.className = 'dice-3d';
+  const resultDisplay = document.createElement('div');
+  resultDisplay.className = 'dice-result-2d';
+  resultDisplay.style.cssText = `
+    font-size: 120px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 30px rgba(255,255,255,0.8);
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  `;
   
-  // Crea le 6 facce del dado
-  const faces = [1, 2, 3, 4, 5, 6];
-  faces.forEach(num => {
-    const face = document.createElement('div');
-    face.className = 'dice-face';
-    
-    for (let i = 0; i < num; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'dice-dot';
-      face.appendChild(dot);
-    }
-    
-    diceContainer.appendChild(face);
-  });
-  
-  overlay.appendChild(diceContainer);
+  overlay.appendChild(resultDisplay);
   
   // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
@@ -1022,46 +1013,36 @@ function createDiceLauncher() {
     launcher.classList.add('rolling');
 
     const randomNumber = Math.floor(Math.random() * 6) + 1;
-
-    // Rotazioni finali per ciascuna faccia
-    const faceRotations = {
-      1: { x: 0,   y: 0   },
-      2: { x: 0,   y: 180 },
-      3: { x: 0,   y: -90 },
-      4: { x: 0,   y: 90  },
-      5: { x: -90, y: 0   },
-      6: { x: 90,  y: 0   }
-    };
-
-    // 🎢 FASE 1 — lancio caotico
-    diceContainer.style.transition = 'none';
-    const chaosX = Math.random() * 720 + 360;
-    const chaosY = Math.random() * 720 + 360;
-    const chaosZ = Math.random() * 720 + 360;
-    diceContainer.style.transform =
-      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg)`;
-
+    
+    // Mostra overlay
     overlay.classList.add('show');
-
-    // 🎯 FASE 2 — assestamento finale
-    requestAnimationFrame(() => {
-      const target = faceRotations[randomNumber];
-      diceContainer.style.transition =
-        'transform 0.6s cubic-bezier(.2,.8,.2,1)';
-      diceContainer.style.transform =
-        `rotateX(${target.x}deg) rotateY(${target.y}deg) rotateZ(0deg)`;
-    });
-
-    // Chiudi overlay dopo 2.5s
+    
+    // Animazione conteggio veloce
+    let count = 0;
+    const interval = setInterval(() => {
+      count++;
+      resultDisplay.textContent = (count % 6) + 1;
+    }, 50);
+    
+    // Ferma sul numero finale dopo 1 secondo
     setTimeout(() => {
-      overlay.classList.remove('show');
-      launcher.classList.remove('rolling');
-    }, 2500);
+      clearInterval(interval);
+      resultDisplay.textContent = randomNumber;
+      
+      // Chiudi dopo 2 secondi
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        launcher.classList.remove('rolling');
+      }, 2000);
+    }, 1000);
   };
 
   // Click sull'overlay per chiuderlo manualmente
   overlay.onclick = (e) => {
-    if (e.target === overlay) overlay.classList.remove('show');
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+      launcher.classList.remove('rolling');
+    }
   };
   
   document.body.appendChild(launcher);
