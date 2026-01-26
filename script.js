@@ -983,8 +983,10 @@ fetch('/games/meeple.svg')
     MEEPLES.push(svg); // mettiamo l'SVG nell'array
     createFloatingObjects(); // avviamo la creazione dopo il caricamento
   });
-// --- 🎲 DADO LAUNCHER (MOSTRA SOLO FACCIA FRONTALE) ---
+// --- 🎲 DADO LAUNCHER - ROTAZIONE POI FACCIA FINALE ---
 function createDiceLauncher() {
+  console.log('🎲 Inizializzazione dado launcher...');
+  
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
   launcher.innerHTML = '🎲';
@@ -996,50 +998,78 @@ function createDiceLauncher() {
   const diceContainer = document.createElement('div');
   diceContainer.className = 'dice-3d';
   
-  // Crea UNA SOLA faccia frontale con il numero
+  // Crea UNA SOLA faccia che mostrerà il numero finale
   const face = document.createElement('div');
   face.className = 'dice-face-single';
-  face.textContent = '6'; // Numero iniziale
+  face.textContent = '?';
+  face.style.opacity = '0'; // Nascosta inizialmente
   
   diceContainer.appendChild(face);
   overlay.appendChild(diceContainer);
   
+  console.log('✅ Dado creato');
+  
   // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
-    if (launcher.classList.contains('rolling')) return;
+    console.log('🎲 LANCIO DEL DADO!');
+    
+    if (launcher.classList.contains('rolling')) {
+      console.log('⚠️ Dado già in movimento');
+      return;
+    }
+    
     launcher.classList.add('rolling');
-
     const randomNumber = Math.floor(Math.random() * 6) + 1;
+    console.log('🎲 Numero estratto:', randomNumber);
 
-    // 🎢 FASE 1 — lancio caotico
-    diceContainer.style.transition = 'none';
-    const chaosX = Math.random() * 1440 + 720;  // Più rotazioni
+    // Mostra overlay
+    overlay.classList.add('show');
+    console.log('✅ Overlay mostrato');
+
+    // Nascondi la faccia durante la rotazione
+    face.style.opacity = '0';
+    face.style.transform = 'scale(0.5)';
+
+    // 🎢 FASE 1 — Rotazione caotica del contenitore
+    diceContainer.style.transition = 'transform 1.2s cubic-bezier(.17,.67,.3,1.33)';
+    const chaosX = Math.random() * 1440 + 720;
     const chaosY = Math.random() * 1440 + 720;
     const chaosZ = Math.random() * 1440 + 720;
     diceContainer.style.transform =
-      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg) scale(0.5)`;
+      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg) scale(0.3)`;
+    console.log('🌀 Rotazione caotica iniziata');
 
-    overlay.classList.add('show');
-
-    // 🎯 FASE 2 — assestamento finale (torna frontale)
+    // 🎯 FASE 2 — Dopo la rotazione, mostra la faccia con il numero
     setTimeout(() => {
-      // Cambia il numero durante la rotazione
+      // Reset rotazione
+      diceContainer.style.transition = 'transform 0.5s ease-out';
+      diceContainer.style.transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
+      
+      // Imposta il numero estratto
       face.textContent = randomNumber;
       
-      diceContainer.style.transition = 'transform 0.8s cubic-bezier(.2,.8,.2,1)';
-      diceContainer.style.transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
-    }, 100);
+      // Mostra la faccia con animazione
+      setTimeout(() => {
+        face.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(.68,-.55,.27,1.55)';
+        face.style.opacity = '1';
+        face.style.transform = 'scale(1)';
+        console.log(`✨ Numero finale mostrato: ${randomNumber}`);
+      }, 300);
+      
+    }, 1200);
 
-    // Chiudi overlay dopo 2.5s
+    // Chiudi overlay dopo 3.5s
     setTimeout(() => {
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
-    }, 3000);
+      console.log('👋 Overlay chiuso');
+    }, 3500);
   };
 
   // Click sull'overlay per chiuderlo manualmente
   overlay.onclick = (e) => {
     if (e.target === overlay) {
+      console.log('🖱️ Click su overlay - chiusura manuale');
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
     }
@@ -1047,6 +1077,7 @@ function createDiceLauncher() {
   
   document.body.appendChild(launcher);
   document.body.appendChild(overlay);
+  console.log('✅ Dado launcher aggiunto al DOM');
 }
 
 // Avvia il launcher
