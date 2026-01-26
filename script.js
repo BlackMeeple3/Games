@@ -983,7 +983,7 @@ fetch('/games/meeple.svg')
     MEEPLES.push(svg); // mettiamo l'SVG nell'array
     createFloatingObjects(); // avviamo la creazione dopo il caricamento
   });
-// --- 🎲 DADO LAUNCHER - ROTAZIONE POI FACCIA FINALE ---
+// --- 🎲 DADO LAUNCHER - LANCIO REALISTICO ---
 function createDiceLauncher() {
   console.log('🎲 Inizializzazione dado launcher...');
   
@@ -998,78 +998,67 @@ function createDiceLauncher() {
   const diceContainer = document.createElement('div');
   diceContainer.className = 'dice-3d';
   
-  // Crea UNA SOLA faccia che mostrerà il numero finale
-  const face = document.createElement('div');
-  face.className = 'dice-face-single';
-  face.textContent = '?';
-  face.style.opacity = '0'; // Nascosta inizialmente
+  // Crea le 6 facce del cubo 3D
+  for (let i = 1; i <= 6; i++) {
+    const face = document.createElement('div');
+    face.className = 'dice-face-single';
+    face.textContent = i;
+    diceContainer.appendChild(face);
+  }
   
-  diceContainer.appendChild(face);
   overlay.appendChild(diceContainer);
   
-  console.log('✅ Dado creato');
+  console.log('✅ Dado 3D creato con 6 facce');
   
   // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
     console.log('🎲 LANCIO DEL DADO!');
     
-    if (launcher.classList.contains('rolling')) {
-      console.log('⚠️ Dado già in movimento');
-      return;
-    }
+    if (launcher.classList.contains('rolling')) return;
     
     launcher.classList.add('rolling');
     const randomNumber = Math.floor(Math.random() * 6) + 1;
     console.log('🎲 Numero estratto:', randomNumber);
 
+    // Rotazioni finali per ogni faccia
+    const faceRotations = {
+      1: { x: 0,   y: 0   },
+      2: { x: 0,   y: 180 },
+      3: { x: 0,   y: -90 },
+      4: { x: 0,   y: 90  },
+      5: { x: -90, y: 0   },
+      6: { x: 90,  y: 0   }
+    };
+
     // Mostra overlay
     overlay.classList.add('show');
-    console.log('✅ Overlay mostrato');
 
-    // Nascondi la faccia durante la rotazione
-    face.style.opacity = '0';
-    face.style.transform = 'scale(0.5)';
+    // 🎲 LANCIO - Rotazione caotica continua (il dado ROTOLA)
+    diceContainer.style.transition = 'transform 1.5s cubic-bezier(.17,.67,.83,.67)';
+    
+    // Tante rotazioni per simulare il rotolamento
+    const spins = 5 + Math.floor(Math.random() * 3); // 5-7 giri
+    const finalRotation = faceRotations[randomNumber];
+    
+    const totalX = (360 * spins) + finalRotation.x;
+    const totalY = (360 * spins) + finalRotation.y;
+    
+    diceContainer.style.transform = 
+      `rotateX(${totalX}deg) rotateY(${totalY}deg) rotateZ(${360 * spins}deg)`;
+    
+    console.log('🌀 Il dado sta rotolando...');
 
-    // 🎢 FASE 1 — Rotazione caotica del contenitore
-    diceContainer.style.transition = 'transform 1.2s cubic-bezier(.17,.67,.3,1.33)';
-    const chaosX = Math.random() * 1440 + 720;
-    const chaosY = Math.random() * 1440 + 720;
-    const chaosZ = Math.random() * 1440 + 720;
-    diceContainer.style.transform =
-      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg) scale(0.3)`;
-    console.log('🌀 Rotazione caotica iniziata');
-
-    // 🎯 FASE 2 — Dopo la rotazione, mostra la faccia con il numero
-    setTimeout(() => {
-      // Reset rotazione
-      diceContainer.style.transition = 'transform 0.5s ease-out';
-      diceContainer.style.transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
-      
-      // Imposta il numero estratto
-      face.textContent = randomNumber;
-      
-      // Mostra la faccia con animazione
-      setTimeout(() => {
-        face.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(.68,-.55,.27,1.55)';
-        face.style.opacity = '1';
-        face.style.transform = 'scale(1)';
-        console.log(`✨ Numero finale mostrato: ${randomNumber}`);
-      }, 300);
-      
-    }, 1200);
-
-    // Chiudi overlay dopo 3.5s
+    // Chiudi overlay dopo 3s
     setTimeout(() => {
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
-      console.log('👋 Overlay chiuso');
+      console.log(`👋 Risultato finale: ${randomNumber}`);
     }, 3500);
   };
 
   // Click sull'overlay per chiuderlo manualmente
   overlay.onclick = (e) => {
     if (e.target === overlay) {
-      console.log('🖱️ Click su overlay - chiusura manuale');
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
     }
