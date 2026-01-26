@@ -51,6 +51,10 @@ body::before {
 body.loaded {
   opacity: 1;
 }
+body > *:not(.floating-objects):not(#loadingScreen) {
+  position: relative;
+  z-index: 10;
+}
 
 /* ============================================
    TITOLO - STILE BOARDGAME / CARCASSONNE
