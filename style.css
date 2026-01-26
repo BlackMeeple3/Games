@@ -51,7 +51,10 @@ body::before {
 body.loaded {
   opacity: 1;
 }
-body > *:not(.floating-objects):not(#loadingScreen) {
+body > *:not(.floating-objects)
+        :not(#loadingScreen)
+        :not(.admin-icon)
+        :not(.dice-launcher) {
   position: relative;
   z-index: 10;
 }
