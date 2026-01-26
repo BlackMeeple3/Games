@@ -983,9 +983,7 @@ fetch('/games/meeple.svg')
     MEEPLES.push(svg); // mettiamo l'SVG nell'array
     createFloatingObjects(); // avviamo la creazione dopo il caricamento
   });
-
-
-// --- 🎲 DADO LAUNCHER (RISULTATO 2D) ---
+// --- 🎲 DADO LAUNCHER (MOSTRA SOLO FACCIA FRONTALE) ---
 function createDiceLauncher() {
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
@@ -995,17 +993,16 @@ function createDiceLauncher() {
   const overlay = document.createElement('div');
   overlay.className = 'dice-result-overlay';
   
-  const resultDisplay = document.createElement('div');
-  resultDisplay.className = 'dice-result-2d';
-  resultDisplay.style.cssText = `
-    font-size: 120px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 0 0 30px rgba(255,255,255,0.8);
-    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  `;
+  const diceContainer = document.createElement('div');
+  diceContainer.className = 'dice-3d';
   
-  overlay.appendChild(resultDisplay);
+  // Crea UNA SOLA faccia frontale con il numero
+  const face = document.createElement('div');
+  face.className = 'dice-face-single';
+  face.textContent = '6'; // Numero iniziale
+  
+  diceContainer.appendChild(face);
+  overlay.appendChild(diceContainer);
   
   // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
@@ -1013,28 +1010,31 @@ function createDiceLauncher() {
     launcher.classList.add('rolling');
 
     const randomNumber = Math.floor(Math.random() * 6) + 1;
-    
-    // Mostra overlay
+
+    // 🎢 FASE 1 — lancio caotico
+    diceContainer.style.transition = 'none';
+    const chaosX = Math.random() * 1440 + 720;  // Più rotazioni
+    const chaosY = Math.random() * 1440 + 720;
+    const chaosZ = Math.random() * 1440 + 720;
+    diceContainer.style.transform =
+      `rotateX(${chaosX}deg) rotateY(${chaosY}deg) rotateZ(${chaosZ}deg) scale(0.5)`;
+
     overlay.classList.add('show');
-    
-    // Animazione conteggio veloce
-    let count = 0;
-    const interval = setInterval(() => {
-      count++;
-      resultDisplay.textContent = (count % 6) + 1;
-    }, 50);
-    
-    // Ferma sul numero finale dopo 1 secondo
+
+    // 🎯 FASE 2 — assestamento finale (torna frontale)
     setTimeout(() => {
-      clearInterval(interval);
-      resultDisplay.textContent = randomNumber;
+      // Cambia il numero durante la rotazione
+      face.textContent = randomNumber;
       
-      // Chiudi dopo 2 secondi
-      setTimeout(() => {
-        overlay.classList.remove('show');
-        launcher.classList.remove('rolling');
-      }, 2000);
-    }, 1000);
+      diceContainer.style.transition = 'transform 0.8s cubic-bezier(.2,.8,.2,1)';
+      diceContainer.style.transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
+    }, 100);
+
+    // Chiudi overlay dopo 2.5s
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      launcher.classList.remove('rolling');
+    }, 3000);
   };
 
   // Click sull'overlay per chiuderlo manualmente
