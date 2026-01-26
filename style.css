@@ -335,7 +335,7 @@ h1 {
   right: 8px;
   cursor: pointer;
   font-size: 20px;
-  background: rgba(0, 0, 0, 0.75);
+  background: transparent;
   color: white;
   width: 28px;
   height: 28px;
