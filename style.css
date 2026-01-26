@@ -45,16 +45,115 @@ body::before {
     radial-gradient(circle at 20% 30%, rgba(59, 91, 167, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(245, 230, 168, 0.08) 0%, transparent 50%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 body.loaded {
   opacity: 1;
 }
-body > *:not(.floating-objects)
-        :not(#loadingScreen)
-        :not(.admin-icon)
-        :not(.dice-launcher) {
+
+/* ============================================
+   OGGETTI ANIMATI FLUTTUANTI
+   ============================================ */
+
+.floating-objects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.floating-object {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0;
+  transform: translateY(100vh);
+  animation: float linear infinite;
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+.floating-object svg {
+  width: 60px;
+  height: 60px;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(var(--drift)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.floating-object:nth-child(1) {
+  left: 15%;
+  --drift: 20px;
+  animation-duration: 20s;
+  animation-delay: 0s;
+}
+
+.floating-object:nth-child(2) {
+  left: 35%;
+  --drift: -30px;
+  animation-duration: 25s;
+  animation-delay: 3s;
+}
+
+.floating-object:nth-child(3) {
+  left: 55%;
+  --drift: 15px;
+  animation-duration: 18s;
+  animation-delay: 7s;
+}
+
+.floating-object:nth-child(4) {
+  left: 70%;
+  --drift: -25px;
+  animation-duration: 22s;
+  animation-delay: 2s;
+}
+
+.floating-object:nth-child(5) {
+  left: 85%;
+  --drift: 35px;
+  animation-duration: 28s;
+  animation-delay: 5s;
+}
+
+.floating-object:nth-child(6) {
+  left: 5%;
+  --drift: -20px;
+  animation-duration: 24s;
+  animation-delay: 9s;
+}
+
+.meeple {
+  fill: #f5e6a8;
+  stroke: #8b7a3e;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* ============================================
+   CONTENUTO PRINCIPALE
+   ============================================ */
+
+body > *:not(.floating-objects):not(#loadingScreen):not(.admin-icon):not(.dice-launcher):not(body::before) {
   position: relative;
   z-index: 10;
 }
@@ -495,35 +594,240 @@ h1 {
 }
 
 /* ============================================
-   ADMIN PANEL
+   DADO LAUNCHER E ADMIN ICON
    ============================================ */
 
+.dice-launcher,
 .admin-icon {
   position: fixed;
-  top: 16px;
   right: 16px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.7);
-  border: none;
-  font-size: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #f5e6a8, #c9b46c);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 500;
-  transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 3px solid #8b7a3e;
+}
+
+.dice-launcher {
+  top: 16px;
+}
+
+.admin-icon {
+  top: 92px; /* 16px (top del dado) + 60px (altezza dado) + 16px (gap) */
+  font-size: 26px;
+}
+
+.dice-launcher:hover,
+.admin-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .admin-icon:hover {
-  background: rgba(0, 0, 0, 0.9);
-  transform: rotate(90deg);
+  transform: scale(1.1) rotate(90deg);
 }
-.admin-icon {
+
+/* ============================================
+   DADO 3D
+   ============================================ */
+
+.dice-result-overlay {
   position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 500;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 5000;
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
+
+.dice-result-overlay.show {
+  display: flex;
+}
+
+.dice-3d {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-out;
+  perspective: 1000px;
+}
+
+.dice-face {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: white;
+  border: 3px solid #2c4585;
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  backface-visibility: hidden;
+}
+
+.dice-dot {
+  width: 18px;
+  height: 18px;
+  background: #2c4585;
+  border-radius: 50%;
+  margin: auto;
+}
+
+/* Face 1 - Center dot */
+.dice-face:nth-child(1) {
+  transform: translateZ(60px);
+}
+
+.dice-face:nth-child(1) .dice-dot {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Face 2 - Two diagonal dots */
+.dice-face:nth-child(2) {
+  transform: rotateY(180deg) translateZ(60px);
+}
+
+.dice-face:nth-child(2) .dice-dot:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(2) .dice-dot:nth-child(2) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Face 3 - Three diagonal dots */
+.dice-face:nth-child(3) {
+  transform: rotateY(90deg) translateZ(60px);
+}
+
+.dice-face:nth-child(3) .dice-dot:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(3) .dice-dot:nth-child(2) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dice-face:nth-child(3) .dice-dot:nth-child(3) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Face 4 - Four corner dots */
+.dice-face:nth-child(4) {
+  transform: rotateY(-90deg) translateZ(60px);
+}
+
+.dice-face:nth-child(4) .dice-dot:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(4) .dice-dot:nth-child(2) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(4) .dice-dot:nth-child(3) {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.dice-face:nth-child(4) .dice-dot:nth-child(4) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Face 5 - Five dots (corners + center) */
+.dice-face:nth-child(5) {
+  transform: rotateX(90deg) translateZ(60px);
+}
+
+.dice-face:nth-child(5) .dice-dot:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(5) .dice-dot:nth-child(2) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(5) .dice-dot:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dice-face:nth-child(5) .dice-dot:nth-child(4) {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.dice-face:nth-child(5) .dice-dot:nth-child(5) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* Face 6 - Six dots (two columns) */
+.dice-face:nth-child(6) {
+  transform: rotateX(-90deg) translateZ(60px);
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(3) {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(4) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.dice-face:nth-child(6) .dice-dot:nth-child(6) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+/* ============================================
+   ADMIN PANEL
+   ============================================ */
+
 #adminPanel {
   position: fixed;
   top: 0;
@@ -763,325 +1067,7 @@ h1 {
   font-weight: bold;
   color: #ffdd57;
   margin-right: 6px;
-}
-
-/* ============================================
-   OGGETTI ANIMATI FLUTTUANTI
-   ============================================ */
-
-.floating-objects {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.floating-object {
-  position: absolute;
-  font-size: 2.5rem;
-  opacity: 0;
-  transform: translateY(100vh);
-  animation: float linear infinite;
-  animation-fill-mode: both;
-  will-change: transform;
-}
-
-
-@keyframes float {
-  0% {
-    transform: translateY(100vh) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.2;
-  }
-  90% {
-    opacity: 0.2;
-  }
-  100% {
-    transform: translateY(-20vh) translateX(var(--drift)) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-.floating-object:nth-child(1) {
-  left: 15%;
-  --drift: 20px;
-  animation-duration: 20s;
-  animation-delay: 0s;
-}
-
-.floating-object:nth-child(2) {
-  left: 35%;
-  --drift: -30px;
-  animation-duration: 25s;
-  animation-delay: 3s;
-}
-
-.floating-object:nth-child(3) {
-  left: 55%;
-  --drift: 15px;
-  animation-duration: 18s;
-  animation-delay: 7s;
-}
-
-.floating-object:nth-child(4) {
-  left: 70%;
-  --drift: -25px;
-  animation-duration: 22s;
-  animation-delay: 2s;
-}
-
-.floating-object:nth-child(5) {
-  left: 85%;
-  --drift: 35px;
-  animation-duration: 28s;
-  animation-delay: 5s;
-}
-
-.floating-object:nth-child(6) {
-  left: 5%;
-  --drift: -20px;
-  animation-duration: 24s;
-  animation-delay: 9s;
-}
-
-/* ============================================
-   DADO LAUNCHER
-   ============================================ */
-
-.dice-launcher {
-  position: fixed;
-  bottom: 80px;
-  right: 16px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #f5e6a8, #c9b46c);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 500;
-  transition: all 0.3s ease;
-  border: 3px solid #8b7a3e;
-}
-.dice-launcher {
-  position: fixed;
-  top: 16px;
-  right: 76px; /* distanza = larghezza admin (44px) + gap */
-  left: auto;
-  bottom: auto;
-  z-index: 500;
-}
-
-.dice-launcher:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-.dice-result-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 5000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.dice-result-overlay.show {
-  display: flex;
-}
-
-.dice-3d {
-  width: 120px;
-  height: 120px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s ease-out;
-}
-
-
-.dice-face {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  background: white;
-  border: 3px solid #2c4585;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-.dice-dot {
-  width: 20px;
-  height: 20px;
-  background: #2c4585;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.dice-face:nth-child(1) {
-  transform: translateZ(60px);
-}
-
-.dice-face:nth-child(1) .dice-dot {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.dice-face:nth-child(2) {
-  transform: rotateY(180deg) translateZ(60px);
-}
-
-.dice-face:nth-child(2) .dice-dot:nth-child(1) {
-  top: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(2) .dice-dot:nth-child(2) {
-  bottom: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(3) {
-  transform: rotateY(90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(1) {
-  top: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(2) {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.dice-face:nth-child(3) .dice-dot:nth-child(3) {
-  bottom: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(4) {
-  transform: rotateY(-90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(1) {
-  top: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(2) {
-  top: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(3) {
-  bottom: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(4) .dice-dot:nth-child(4) {
-  bottom: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(5) {
-  transform: rotateX(90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(1) {
-  top: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(2) {
-  top: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(3) {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(4) {
-  bottom: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(5) .dice-dot:nth-child(5) {
-  bottom: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(6) {
-  transform: rotateX(-90deg) translateZ(60px);
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(1) {
-  top: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(2) {
-  top: 50%;
-  left: 25px;
-  transform: translateY(-50%);
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(3) {
-  bottom: 25px;
-  left: 25px;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(4) {
-  top: 25px;
-  right: 25px;
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(5) {
-  top: 50%;
-  right: 25px;
-  transform: translateY(-50%);
-}
-
-.dice-face:nth-child(6) .dice-dot:nth-child(6) {
-  bottom: 25px;
-  right: 25px;
-}
-
-.meeple {
-  fill: #f5e6a8; /* colore del meeple */
-  stroke: #8b7a3e; /* contorno */
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-
-
-.floating-object svg {
-  width: 60px;
-  height: 60px;
-}
+   {
 /* ============================================
    RESPONSIVE
    ============================================ */
