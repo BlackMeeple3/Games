@@ -771,10 +771,13 @@ h1 {
 .floating-object {
   position: absolute;
   font-size: 2.5rem;
-  opacity: 0.2;
+  opacity: 0;
+  transform: translateY(100vh);
   animation: float linear infinite;
+  animation-fill-mode: both;
   will-change: transform;
 }
+
 
 @keyframes float {
   0% {
