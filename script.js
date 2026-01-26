@@ -950,15 +950,14 @@ resetDataBtn.onclick = async () => {
 // --- 🚀 AVVIO ---
 loadGames();
 
-let MEEPLE_SVG = '';
-
-// carica il file SVG esterno
-fetch('/games/meeple.svg')
-  .then(res => res.text())
-  .then(svg => {
-    MEEPLE_SVG = svg;
-    createFloatingObjects();
-  });
+const MEEPLES = [
+  `
+  <svg width="500" height="500" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50,5 C42,5 38,12 38,20 C38,25 40,28 42,30 C30,32 15,35 10,45 C5,55 15,60 22,58 C22,65 20,85 18,92 C18,95 22,97 28,97 C35,97 42,90 50,75 C58,90 65,97 72,97 C78,97 82,95 82,92 C80,85 78,65 78,58 C85,60 95,55 90,45 C85,35 70,32 58,30 C60,28 62,25 62,20 C62,12 58,5 50,5 Z"
+          fill="none" stroke="black" stroke-width="3" stroke-linejoin="round"/>
+  </svg>
+  `
+];
 
 // --- ✨ OGGETTI FLUTTUANTI ---
 function createFloatingObjects() {
@@ -969,18 +968,24 @@ function createFloatingObjects() {
     const el = document.createElement('div');
     el.className = 'floating-object';
 
-    // 👇 SVG inline (sostituisce MEEPLES[])
-    el.innerHTML = MEEPLE_SVG;
+    // Meeple casuale
+    const randomMeeple = MEEPLES[Math.floor(Math.random() * MEEPLES.length)];
+    el.innerHTML = randomMeeple;
 
-    // (opzionale) colore, usa currentColor
-    el.style.color = '#f5e6a8';
+    // Posizione e animazione random
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (18 + Math.random() * 12) + 's';
+    el.style.animationDelay = Math.random() * 10 + 's';
 
-    // le tue animazioni CSS restano valide
     container.appendChild(el);
   }
 
   document.body.appendChild(container);
 }
+
+// 🚀 avvio
+createFloatingObjects();
+
 
 // --- 🎲 DADO LAUNCHER ---
 
