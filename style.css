@@ -621,7 +621,7 @@ h1 {
 }
 
 .admin-icon {
-  top: 92px; /* 16px (top del dado) + 60px (altezza dado) + 16px (gap) */
+  top: 92px;
   font-size: 26px;
 }
 
@@ -1067,7 +1067,7 @@ h1 {
   font-weight: bold;
   color: #ffdd57;
   margin-right: 6px;
-   {
+}
 /* ============================================
    RESPONSIVE
    ============================================ */
