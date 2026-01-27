@@ -153,7 +153,7 @@ const gamesRaw = [
     id: 'game-12',
     name: 'Samurai Sword',
     description: `Samurai Sword è un gioco di carte per 3-7 giocatori della durata di circa 30 minuti, ambientato nel Giappone feudale, in cui i partecipanti assumono ruoli segreti e si sfidano usando carte azione per eliminare gli avversari e raggiungere i propri obiettivi.`,
-    image: 'games/samurai.jpg',
+    image: 'games/samurai1.jpg',
     players: { min: 3, max: 7 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
