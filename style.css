@@ -408,6 +408,53 @@ h1 {
   display: block;
   border-radius: 16px;
 }
+/* =========================
+   VARIANTI IMMAGINI CARD
+   ========================= */
+
+/* DEFAULT: già gestito da .card img */
+
+/* Box molto orizzontale / logo-style */
+.card img.img-contain {
+  object-fit: contain;
+  background: #111;
+  padding: 6px;
+}
+
+/* Copertine verticali (scatole alte) */
+.card img.img-vertical {
+  height: 220px;
+}
+
+/* Box molto bassi / larghi */
+.card img.img-horizontal {
+  height: 140px;
+}
+
+/* Box quasi quadrati */
+.card img.img-square {
+  height: 180px;
+  object-fit: contain;
+  background: #111;
+}
+
+/* Immagini che devono zoomare meno */
+.card img.img-soft-cover {
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Immagini con soggetto centrale basso */
+.card img.img-focus-bottom {
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+/* Immagini con soggetto centrale alto */
+.card img.img-focus-top {
+  object-fit: cover;
+  object-position: center top;
+}
 
 /* ============================================
    ICONE INFO GIOCO
