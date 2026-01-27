@@ -393,7 +393,188 @@ const gamesRaw = [
   macroCategory: 'party game',
   difficulty: 0,
   weightBGG: 1.1
-}
+},
+  {
+    id: 'game-30',
+    name: 'Sky Team',
+    description: `Sky Team è un gioco cooperativo per 2 giocatori in cui i partecipanti collaborano per far atterrare un aereo in sicurezza gestendo velocità, asse centrale e comunicazione.`,
+    image: 'games/Sky Team.jpg',
+    players: { min: 2, max: 2 },
+    time: { min: 15, max: 30 },
+    playtimeCategory: 'Meno di 30 min',
+    tags: ['cooperativo', 'strategico', 'a due', 'tattico'],
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: '2.4 (non da BGG)'
+  },
+
+{
+    id: 'game-31',
+    name: 'Citadels',
+    description: `Citadels è un gioco di carte e ruoli in cui i giocatori costruiscono città e utilizzano abilità speciali dei personaggi per accumulare punti vittoria.`,
+    image: 'games/Citadels.jpg',
+    players: { min: 2, max: 7 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['carte', 'strategico', 'ruoli', 'competitivo'],
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: '2.1 (non da BGG)'
+  },
+
+{
+    id: 'game-32',
+    name: 'Patchwork',
+    description: `Patchwork è un gioco strategico per 2 giocatori in cui si costruisce una coperta patchwork ottimizzando risorse, tempo e posizionamento delle tessere.`,
+    image: 'games/Patchwork.jpg',
+    players: { min: 2, max: 2 },
+    time: { min: 15, max: 30 },
+    playtimeCategory: 'Meno di 30 min',
+    tags: ['astratto', 'strategico', 'tattico', 'a due'],
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: '1.8 (non da BGG)'
+  },
+
+{
+    id: 'game-33',
+    name: 'Piccioni Esplosivi',
+    description: `Piccioni Esplosivi è un party game veloce e caotico in cui i giocatori si lanciano carte e sabotaggi per eliminarsi a vicenda.`,
+    image: 'games/Piccioni Esplosivi.jpg',
+    players: { min: 2, max: 6 },
+    time: { min: 10, max: 20 },
+    playtimeCategory: 'Meno di 30 min',
+    tags: ['party', 'veloce', 'divertente', 'carte'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1 (non da BGG)'
+  },
+
+{
+    id: 'game-34',
+    name: 'The Crew: Missioni nello Spazio',
+    description: `The Crew è un gioco cooperativo di prese ambientato nello spazio, in cui i giocatori devono completare missioni comunicando in modo limitato.`,
+    image: 'games/The Crew Spazio.jpg',
+    players: { min: 2, max: 5 },
+    time: { min: 20, max: 40 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['cooperativo', 'carte', 'strategico', 'missioni'],
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: '2.2 (non da BGG)'
+  },
+
+{
+    id: 'game-35',
+    name: 'Dixit',
+    description: `Dixit è un party game creativo basato su immagini e narrazione, in cui i giocatori devono indovinare le carte tramite indizi astratti.`,
+    image: 'games/Dixit.jpg',
+    players: { min: 3, max: 8 },
+    time: { min: 20, max: 40 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['creativo', 'party', 'narrazione', 'immaginazione'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1.3 (non da BGG)'
+  },
+
+{
+    id: 'game-36',
+    name: 'Catan per 2 giocatori - gioco di carte',
+    description: `Versione a due giocatori di Catan, dove i partecipanti competono per raccogliere risorse e costruire strade e insediamenti in un formato rapido e strategico.`,
+    image: 'games/Catan 2 giocatori.jpg',
+    players: { min: 2, max: 2 },
+    time: { min: 20, max: 40 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['carte', 'strategico', 'a due', 'risorse'],
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: '2 (non da BGG)'
+  },
+
+{
+    id: 'game-37',
+    name: 'Scacchi',
+    description: `Scacchi è il classico gioco da tavolo strategico per due giocatori, basato su mosse tattiche e pianificazione a lungo termine.`,
+    image: 'games/Scacchi.jpg',
+    players: { min: 2, max: 2 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['astratto', 'strategico', 'tattico', 'a due'],
+    macroCategory: 'strategici',
+    difficulty: 4,
+    weightBGG: '3.5 (non da BGG)'
+  },
+
+{
+    id: 'game-38',
+    name: 'Gioco di dadi di Jack Sparrow',
+    description: `Gioco di dadi ispirato a Pirati dei Caraibi, in cui i giocatori lanciano dadi per ottenere tesori e completare missioni in un party game veloce e divertente.`,
+    image: 'games/Dadi Jack Sparrow.jpg',
+    players: { min: 2, max: 6 },
+    time: { min: 15, max: 30 },
+    playtimeCategory: 'Meno di 30 min',
+    tags: ['party', 'dadi', 'veloce', 'divertente'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1 (non da BGG)'
+  },
+
+{
+    id: 'game-39',
+    name: 'Gioco dell’Impostore (gioco di parole)',
+    description: `Gioco di parole e deduzione sociale in cui i giocatori devono scoprire l’impostore tra loro, divertente e adatto a gruppi grandi.`,
+    image: 'games/Gioco dell’Impostore.jpg',
+    players: { min: 4, max: 10 },
+    time: { min: 20, max: 40 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'parole', 'sociale', 'divertente'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1.2 (non da BGG)'
+  },
+
+{
+    id: 'game-40',
+    name: 'Lupus in Tabula',
+    description: `Lupus in Tabula è un gioco di deduzione sociale e bluff in cui i giocatori devono scoprire chi sono i lupi mannari nascosti tra di loro.`,
+    image: 'games/Lupus in Tabula.jpg',
+    players: { min: 6, max: 18 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'bluff', 'sociale', 'deduzione'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1.5 (non da BGG)'
+  },
+
+{
+    id: 'game-41',
+    name: 'Avalon',
+    description: `Avalon è un gioco di deduzione sociale ambientato nel ciclo arturiano, in cui i giocatori assumono ruoli segreti e cercano di completare missioni o sabotarle.`,
+    image: 'games/Avalon.jpg',
+    players: { min: 5, max: 10 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'bluff', 'sociale', 'deduzione'],
+    macroCategory: 'party game',
+    difficulty: 2,
+    weightBGG: '2 (non da BGG)'
+  },
+
+{
+    id: 'game-42',
+    name: 'When I Dream',
+    description: `When I Dream è un party game creativo in cui un giocatore deve indovinare parole mentre gli altri lo aiutano o lo confondono attraverso indizi, bluff e immaginazione.`,
+    image: 'games/When I Dream.jpg',
+    players: { min: 4, max: 10 },
+    time: { min: 30, max: 45 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'creativo', 'immaginazione', 'deduzione'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: '1.7 (non da BGG)'
+  }
 
 ];
 
