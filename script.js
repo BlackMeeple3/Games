@@ -460,7 +460,7 @@ const gamesRaw = [
     playtimeCategory: 'Tra 30 e 60 min',
     tags: ['cooperativo', 'carte', 'strategico', 'missioni'],
     macroCategory: 'party game',
-    difficulty: 3,
+    difficulty: 1,
     weightBGG: '2.2 (non da BGG)'
   },
 
