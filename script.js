@@ -128,6 +128,7 @@ const gamesRaw = [
     name: 'Wingspan',
     description: `Wingspan è un gioco da tavolo strategico per 1-5 giocatori della durata di circa 40-70 minuti, in cui i partecipanti attirano uccelli nei propri habitat, creando sinergie tra carte per ottenere risorse, uova e punti vittoria.`,
     image: 'games/Wingspan.jpg',
+    imageClass: 'img-soft-cover',
     players: { min: 1, max: 5 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
@@ -193,6 +194,7 @@ const gamesRaw = [
     name: 'Monsters of Loch Lomond',
     description: `Monsters of Loch Lomond è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
     image: 'games/monster_.jpg',
+    imageClass: 'img-soft-cover',
     players: { min: 2, max: 6 },
     time: { min: 10, max: 30 },
     playtimeCategory: '< 30 min',
@@ -206,6 +208,7 @@ const gamesRaw = [
     name: 'Scotland Yard',
     description: `Scotland Yard è un gioco da tavolo di deduzione per 3-6 giocatori della durata di circa 45-60 minuti, in cui un giocatore interpreta Mister X mentre gli altri sono detective che collaborano per rintracciarlo muovendosi su una mappa di Londra usando indizi e logica.`,
     image: 'games/scotland yard.jpg',
+    imageClass: 'img-soft-cover',
     players: { min: 3, max: 6 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
@@ -219,6 +222,7 @@ const gamesRaw = [
   name: 'Exploding Kittens',
   description: `Exploding Kittens è un gioco di carte per 2-5 giocatori della durata di circa 15-20 minuti, in cui i partecipanti pescano carte evitando di esplodere, usando azioni folli, bluff e colpi bassi per rimanere gli ultimi in gioco.`,
   image: 'games/exploding kittens.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 2, max: 5 },
   time: { min: 10, max: 30 },
   playtimeCategory: '< 30 min',
@@ -232,6 +236,7 @@ const gamesRaw = [
   name: 'Saboteur',
   description: `Saboteur è un gioco di carte per 3-10 giocatori della durata di circa 30 minuti, in cui i partecipanti interpretano nani minatori con ruoli segreti, cercando di costruire o sabotare tunnel per raggiungere l’oro.`,
   image: 'games/saboteur.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 3, max: 10 },
   time: { min: 20, max: 40 },
   playtimeCategory: 'Tra 30 e 60 min',
@@ -245,6 +250,7 @@ const gamesRaw = [
   name: 'Bang! La Pallottola',
   description: `Bang! La Pallottola è un gioco di carte per 4-7 giocatori della durata di circa 30-40 minuti, ambientato nel Far West, in cui i partecipanti assumono ruoli segreti e si eliminano a colpi di carte tra bluff, deduzione e alleanze.`,
   image: 'games/bang.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 4, max: 7 },
   time: { min: 30, max: 60 },
   playtimeCategory: 'Tra 30 e 60 min',
@@ -271,6 +277,7 @@ const gamesRaw = [
   name: 'Labirinto',
   description: `Labirinto è un gioco da tavolo per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti modificano un labirinto scorrevole per raggiungere tesori nascosti prima degli avversari.`,
   image: 'games/labirinto.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 2, max: 4 },
   time: { min: 20, max: 30 },
   playtimeCategory: '< 30 min',
@@ -297,6 +304,7 @@ const gamesRaw = [
   name: 'Slapzi',
   description: `Slapzi è un gioco di carte rapido per 2-8 giocatori della durata di circa 10-15 minuti, in cui i partecipanti associano velocemente carte immagine e carte parola per essere i primi a liberarsi della mano.`,
   image: 'games/slapzi.png',
+  imageClass: 'img-soft-cover',
   players: { min: 2, max: 8 },
   time: { min: 10, max: 20 },
   playtimeCategory: '< 30 min',
@@ -310,6 +318,7 @@ const gamesRaw = [
   name: 'Unstable Unicorns',
   description: `Unstable Unicorns è un gioco di carte per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono eserciti di unicorni sabotando gli avversari con carte azione e colpi di scena.`,
   image: 'games/unstable unicorns.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 2, max: 8 },
   time: { min: 30, max: 60 },
   playtimeCategory: 'Tra 30 e 60 min',
@@ -323,6 +332,7 @@ const gamesRaw = [
   name: 'Munchkin',
   description: `Munchkin è un gioco di carte per 3-6 giocatori della durata di circa 60-90 minuti, in cui i partecipanti esplorano dungeon, combattono mostri e tradiscono gli alleati per raggiungere per primi il livello 10.`,
   image: 'games/munchkin.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 3, max: 6 },
   time: { min: 60, max: 120 },
   playtimeCategory: '> 60 min',
@@ -349,6 +359,7 @@ const gamesRaw = [
   name: 'Pandemic Legacy Season 1',
   description: `Pandemic Legacy Season 1 è un gioco cooperativo per 2-4 giocatori della durata di circa 60 minuti a partita, in cui i partecipanti affrontano una campagna narrativa evolutiva cercando di salvare l’umanità in un mondo post-apocalittico.`,
   image: 'games/pandemic legacy season 1.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 2, max: 4 },
   time: { min: 60, max: 120 },
   playtimeCategory: '> 60 min',
@@ -362,6 +373,7 @@ const gamesRaw = [
   name: 'Paladin',
   description: `Paladin è un gioco da tavolo strategico per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti gestiscono risorse, lavoratori e azioni per sviluppare il proprio regno medievale.`,
   image: 'games/paladin.jpg',
+  imageClass: 'img-soft-cover',
   players: { min: 1, max: 4 },
   time: { min: 60, max: 120 },
   playtimeCategory: '> 60 min',
@@ -693,7 +705,12 @@ function renderGame(game) {
   const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
   
   div.innerHTML = `
-  <img src="${game.image}" alt="${game.name}">
+  <img 
+  src="${game.image}" 
+  alt="${game.name}" 
+  class="${game.imageClass || ''}"
+>
+
   <div class="game-icons">
     <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
     <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
