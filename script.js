@@ -387,7 +387,8 @@ const gamesRaw = [
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
-let games = [];
+let games = [];// --- 1️⃣ Supabase client ---
+
 
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
@@ -950,7 +951,7 @@ resetDataBtn.onclick = async () => {
 // --- 🚀 AVVIO ---
 loadGames();
 
-const MEEPLES = []; // array vuoto, lo riempiamo con il contenuto dell'SVG
+const MEEPLES = [];
 
 // --- ✨ OGGETTI FLUTTUANTI ---
 function createFloatingObjects() {
@@ -961,14 +962,11 @@ function createFloatingObjects() {
     const el = document.createElement('div');
     el.className = 'floating-object';
 
-    // Meeple casuale
     const randomMeeple = MEEPLES[Math.floor(Math.random() * MEEPLES.length)];
     el.innerHTML = randomMeeple;
 
-    // Posizione e animazione random
     el.style.left = Math.random() * 100 + '%';
     el.style.animationDuration = (18 + Math.random() * 12) + 's';
-    // el.style.animationDelay = Math.random() * 10 + 's';
 
     container.appendChild(el);
   }
@@ -980,35 +978,97 @@ function createFloatingObjects() {
 fetch('/games/meeple.svg')
   .then(res => res.text())
   .then(svg => {
-    MEEPLES.push(svg); // mettiamo l'SVG nell'array
-    createFloatingObjects(); // avviamo la creazione dopo il caricamento
+    MEEPLES.push(svg);
+    createFloatingObjects();
   });
-// --- 🎲 DADO LAUNCHER - LANCIO REALISTICO ---
+
+// --- 🎲 DADO 3D REALISTICO - LANCIO CON PUNTINI ---
 function createDiceLauncher() {
   console.log('🎲 Inizializzazione dado launcher...');
   
+  // Icona launcher
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
   launcher.innerHTML = '🎲';
   launcher.title = 'Lancia il dado!';
   
+  // Overlay per il dado
   const overlay = document.createElement('div');
   overlay.className = 'dice-result-overlay';
   
-  const diceContainer = document.createElement('div');
-  diceContainer.className = 'dice-3d';
+  // Scena 3D
+  const scene = document.createElement('div');
+  scene.className = 'dice-scene';
   
-  // Crea le 6 facce del cubo 3D
-  for (let i = 1; i <= 6; i++) {
-    const face = document.createElement('div');
-    face.className = 'dice-face-single';
-    face.textContent = i;
-    diceContainer.appendChild(face);
+  // Dado 3D
+  const dice = document.createElement('div');
+  dice.className = 'dice-3d';
+  
+  // Crea le 6 facce del dado con i puntini
+  function createDots(num) {
+    const dots = [];
+    for (let i = 0; i < num; i++) {
+      dots.push('<div class="dice-dot"></div>');
+    }
+    return dots.join('');
   }
   
-  overlay.appendChild(diceContainer);
+  // Faccia 1
+  const face1 = document.createElement('div');
+  face1.className = 'dice-face';
+  face1.setAttribute('data-face', '1');
+  face1.innerHTML = createDots(1);
+  dice.appendChild(face1);
   
-  console.log('✅ Dado 3D creato con 6 facce');
+  // Faccia 2
+  const face2 = document.createElement('div');
+  face2.className = 'dice-face';
+  face2.setAttribute('data-face', '2');
+  face2.innerHTML = createDots(2);
+  dice.appendChild(face2);
+  
+  // Faccia 3
+  const face3 = document.createElement('div');
+  face3.className = 'dice-face';
+  face3.setAttribute('data-face', '3');
+  face3.innerHTML = createDots(3);
+  dice.appendChild(face3);
+  
+  // Faccia 4
+  const face4 = document.createElement('div');
+  face4.className = 'dice-face';
+  face4.setAttribute('data-face', '4');
+  face4.innerHTML = createDots(4);
+  dice.appendChild(face4);
+  
+  // Faccia 5
+  const face5 = document.createElement('div');
+  face5.className = 'dice-face';
+  face5.setAttribute('data-face', '5');
+  face5.innerHTML = createDots(5);
+  dice.appendChild(face5);
+  
+  // Faccia 6
+  const face6 = document.createElement('div');
+  face6.className = 'dice-face';
+  face6.setAttribute('data-face', '6');
+  face6.innerHTML = createDots(6);
+  dice.appendChild(face6);
+  
+  scene.appendChild(dice);
+  overlay.appendChild(scene);
+  
+  console.log('✅ Dado 3D creato con 6 facce e puntini');
+  
+  // Rotazioni per mostrare ogni faccia
+  const faceRotations = [
+    { x: 0, y: 0 },      // Faccia 1
+    { x: 0, y: 180 },    // Faccia 2
+    { x: 0, y: -90 },    // Faccia 3
+    { x: 0, y: 90 },     // Faccia 4
+    { x: -90, y: 0 },    // Faccia 5
+    { x: 90, y: 0 }      // Faccia 6
+  ];
   
   // Click sul launcher per lanciare il dado
   launcher.onclick = () => {
@@ -1020,35 +1080,39 @@ function createDiceLauncher() {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
     console.log('🎲 Numero estratto:', randomNumber);
 
-    // Rotazioni finali per ogni faccia
-    const faceRotations = {
-      1: { x: 0,   y: 0   },
-      2: { x: 0,   y: 180 },
-      3: { x: 0,   y: -90 },
-      4: { x: 0,   y: 90  },
-      5: { x: -90, y: 0   },
-      6: { x: 90,  y: 0   }
-    };
-
     // Mostra overlay
     overlay.classList.add('show');
 
-    // 🎲 LANCIO - Rotazione caotica continua (il dado ROTOLA)
-    diceContainer.style.transition = 'transform 1.5s cubic-bezier(.17,.67,.83,.67)';
+    // Reset iniziale
+    dice.style.transition = 'none';
+    dice.style.transform = 'rotateX(0deg) rotateY(0deg)';
     
-    // Tante rotazioni per simulare il rotolamento
-    const spins = 5 + Math.floor(Math.random() * 3); // 5-7 giri
-    const finalRotation = faceRotations[randomNumber];
-    
-    const totalX = (360 * spins) + finalRotation.x;
-    const totalY = (360 * spins) + finalRotation.y;
-    
-    diceContainer.style.transform = 
-      `rotateX(${totalX}deg) rotateY(${totalY}deg) rotateZ(${360 * spins}deg)`;
-    
-    console.log('🌀 Il dado sta rotolando...');
+    // Forza il reflow
+    void dice.offsetWidth;
 
-    // Chiudi overlay dopo 3s
+    // 🎲 LANCIO REALISTICO - Rotazione caotica
+    setTimeout(() => {
+      dice.style.transition = 'transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      
+      // Tante rotazioni caotiche + rotazione finale
+      const spins = 4 + Math.floor(Math.random() * 2); // 4-5 giri
+      const finalRotation = faceRotations[randomNumber - 1];
+      
+      const randomX = Math.random() * 360;
+      const randomY = Math.random() * 360;
+      const randomZ = Math.random() * 360;
+      
+      const totalX = (360 * spins) + randomX + finalRotation.x;
+      const totalY = (360 * spins) + randomY + finalRotation.y;
+      const totalZ = (360 * spins) + randomZ;
+      
+      dice.style.transform = 
+        `rotateX(${totalX}deg) rotateY(${totalY}deg) rotateZ(${totalZ}deg)`;
+      
+      console.log('🌀 Il dado sta rotolando...');
+    }, 50);
+
+    // Chiudi overlay dopo 3.5s
     setTimeout(() => {
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
