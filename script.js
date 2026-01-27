@@ -697,27 +697,26 @@ function renderGames() {
 function renderGame(game) {
   const div = document.createElement('div');
   div.className = 'card';
-  
+
   if (selected.includes(game.id)) {
     div.classList.add('selected');
   }
-  
-  const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
-  
-  div.innerHTML = `
-  <img 
-  src="${game.image}" 
-  alt="${game.name}" 
-  class="${game.imageClass || ''}"
->
 
-  <div class="game-icons">
-    <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
-    <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
-    <div class="difficulty-icon ${difficultyClass}">⚖️ ${game.difficulty}/5</div>
-  </div>
-  <div class="info-icon">ℹ️</div>
-`;
+  const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
+
+  div.innerHTML = `
+    <img 
+      src="${game.image}" 
+      alt="${game.name}" 
+      class="${game.imageClass || ''}"
+    >
+    <div class="game-icons">
+      <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
+      <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
+      <div class="difficulty-icon ${difficultyClass}">⚖️ ${game.difficulty}/5</div>
+    </div>
+    <div class="info-icon">ℹ️</div>
+  `;
 
   div.onclick = (e) => {
     if (e.target.classList.contains('info-icon')) return;
@@ -740,6 +739,7 @@ function renderGame(game) {
 
   grid.appendChild(div);
 }
+
 
 // --- 🔟 Mostra sezione nome ---
 submitBtn.onclick = () => {
