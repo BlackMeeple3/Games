@@ -127,7 +127,7 @@ const gamesRaw = [
     id: 'game-10',
     name: 'Wingspan',
     description: `Wingspan è un gioco da tavolo strategico per 1-5 giocatori della durata di circa 40-70 minuti, in cui i partecipanti attirano uccelli nei propri habitat, creando sinergie tra carte per ottenere risorse, uova e punti vittoria.`,
-    image: 'games/wingspan.jpg',
+    image: 'games/wingspan.png',
     players: { min: 1, max: 5 },
     time: { min: 30, max: 60 },
     playtimeCategory: 'Tra 30 e 60 min',
