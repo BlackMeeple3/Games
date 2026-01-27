@@ -192,7 +192,7 @@ const gamesRaw = [
     id: 'game-15',
     name: 'Monsters of Loch Lomond',
     description: `Monsters of Loch Lomond è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
-    image: 'games/monster.jpg',
+    image: 'games/monster_.jpg',
     players: { min: 2, max: 6 },
     time: { min: 10, max: 30 },
     playtimeCategory: '< 30 min',
@@ -262,7 +262,7 @@ const gamesRaw = [
   time: { min: 60, max: 180 },
   playtimeCategory: '> 60 min',
   tags: ['familiare', 'economico', 'competitivo', 'classico'],
-  macroCategory: 'strategici',
+  macroCategory: 'party game',
   difficulty: 1,
   weightBGG: 1.19
 },
@@ -275,7 +275,7 @@ const gamesRaw = [
   time: { min: 20, max: 30 },
   playtimeCategory: '< 30 min',
   tags: ['familiare', 'movimento', 'leggero', 'competitivo'],
-  macroCategory: 'strategici',
+  macroCategory: 'party game',
   difficulty: 1,
   weightBGG: 1.35
 },
