@@ -7,8 +7,7 @@
   
   <!-- FONT stile Carcassonne -->
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,7 +16,8 @@
   <div id="loadingScreen"></div>
   
   <!-- Pulsante Admin -->
-<button id="adminBtn" class="admin-icon" title="Admin">⚙️</button>
+  <button id="adminBtn" class="admin-icon" title="Admin">⚙️</button>
+
   <!-- Titolo -->
   <h1 id="mainTitle"></h1>
   
@@ -29,11 +29,9 @@
     </div>
     <div class="filter-content collapsed" id="filterContent">
       <div class="filter-group">
-        
         <div id="categoryFilters" class="filter-buttons"></div>
       </div>
       <div class="filter-group">
-        
         <div id="tagFilters" class="filter-buttons"></div>
       </div>
       <button id="clearFilters" class="clear-filters" style="display:none;">Rimuovi tutti i filtri</button>
@@ -46,12 +44,32 @@
   <!-- Pulsante invia selezione -->
   <button id="submitBtn">Invia selezione</button>
   
-  <!-- Sezione nome partecipante -->
+  <!-- Sezione nome partecipante - PULSANTI COLORATI -->
   <div id="nameSection" class="hidden">
     <div class="modal-box">
       <button id="closeNameSection">✖</button>
-      <h2>Nome del partecipante</h2>
-      <input id="nameInput" placeholder="Anonimo se vuoto" />
+      <h2>Chi sei?</h2>
+
+      <!-- Griglia nomi preimpostati -->
+      <div class="name-buttons-grid" id="nameButtonsGrid">
+        <button class="name-preset-btn name-btn-0"  data-name="Fradisab">Fradisab</button>
+        <button class="name-preset-btn name-btn-1"  data-name="FraBotta">FraBotta</button>
+        <button class="name-preset-btn name-btn-2"  data-name="Diego">Diego</button>
+        <button class="name-preset-btn name-btn-3"  data-name="Claudio">Claudio</button>
+        <button class="name-preset-btn name-btn-4"  data-name="Jacopo">Jacopo</button>
+        <button class="name-preset-btn name-btn-5"  data-name="Valentina">Valentina</button>
+        <button class="name-preset-btn name-btn-6"  data-name="Dafne">Dafne</button>
+        <button class="name-preset-btn name-btn-7"  data-name="Edoardo">Edoardo</button>
+        <button class="name-preset-btn name-btn-8"  data-name="Emanuele">Emanuele</button>
+        <button class="name-preset-btn name-btn-9"  data-name="Soheil">Soheil</button>
+        <button class="name-preset-btn name-btn-10" data-name="Eleonora">Eleonora</button>
+        <button class="name-preset-btn name-btn-11" data-name="Natalie">Natalie</button>
+        <button class="name-preset-btn name-btn-altro" data-name="__altro__" style="grid-column: 1 / -1;">✏️ Altro...</button>
+      </div>
+
+      <!-- Input visibile solo se si clicca "Altro" -->
+      <input id="altroInput" placeholder="Scrivi il tuo nome..." />
+
       <button id="send">Invia</button>
     </div>
   </div>
@@ -72,17 +90,25 @@
       <div id="adminContent" class="hidden">
         <h2>Pannello Admin</h2>
         
-        <!-- Filtro Date -->
+        <!-- Filtro Date + Orario -->
         <div class="date-filter">
-          <h3>Filtra per Data</h3>
+          <h3>Filtra per Data e Orario</h3>
           <div class="date-inputs">
             <label>
-              Da:
+              Da (data):
               <input type="date" id="dateFrom">
             </label>
             <label>
-              A:
+              Orario da:
+              <input type="time" id="timeFrom">
+            </label>
+            <label>
+              A (data):
               <input type="date" id="dateTo">
+            </label>
+            <label>
+              Orario a:
+              <input type="time" id="timeTo">
             </label>
             <button id="applyDateFilter">Applica</button>
             <button id="resetDateFilter" style="background:#dc3545;">Reset</button>
