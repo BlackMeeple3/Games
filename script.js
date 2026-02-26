@@ -5,6 +5,8 @@ const supabaseClient = window.supabase.createClient(
 );
 
 // --- 2️⃣ Lista giochi completa con macrocategorie e difficoltà ---
+// NOTA: Aggiungi il campo "pdfLink" per mostrare l'icona PDF nel popup.
+// Esempio: pdfLink: 'https://github.com/tuo-repo/regolamenti/raw/main/cascadia.pdf'
 const gamesRaw = [
   {
     id: 'game-1',
@@ -18,6 +20,7 @@ const gamesRaw = [
     macroCategory: 'strategici',
     difficulty: 2,
     weightBGG: 1.85
+    // pdfLink: 'https://...'
   },
   {
     id: 'game-2',
@@ -218,182 +221,182 @@ const gamesRaw = [
     weightBGG: 2.08
   },
   {
-  id: 'game-17',
-  name: 'Exploding Kittens',
-  description: `Exploding Kittens è un gioco di carte per 2-5 giocatori della durata di circa 15-20 minuti, in cui i partecipanti pescano carte evitando di esplodere, usando azioni folli, bluff e colpi bassi per rimanere gli ultimi in gioco.`,
-  image: 'games/exploding kittens.jpg',
-  imageClass: 'img-horizontal',
-  players: { min: 2, max: 5 },
-  time: { min: 10, max: 30 },
-  playtimeCategory: '< 30 min',
-  tags: ['party', 'carte', 'bluff', 'leggero', 'familiare'],
-  macroCategory: 'party game',
-  difficulty: 0,
-  weightBGG: 1.07
-},
-{
-  id: 'game-18',
-  name: 'Saboteur',
-  description: `Saboteur è un gioco di carte per 3-10 giocatori della durata di circa 30 minuti, in cui i partecipanti interpretano nani minatori con ruoli segreti, cercando di costruire o sabotare tunnel per raggiungere l’oro.`,
-  image: 'games/saboteur.jpg',
-  players: { min: 3, max: 10 },
-  time: { min: 20, max: 40 },
-  playtimeCategory: 'Tra 30 e 60 min',
-  tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppi numerosi'],
-  macroCategory: 'party game',
-  difficulty: 1,
-  weightBGG: 1.38
-},
-{
-  id: 'game-19',
-  name: 'Bang! La Pallottola',
-  description: `Bang! La Pallottola è un gioco di carte per 4-7 giocatori della durata di circa 30-40 minuti, ambientato nel Far West, in cui i partecipanti assumono ruoli segreti e si eliminano a colpi di carte tra bluff, deduzione e alleanze.`,
-  image: 'games/bang.jpg',
-  imageClass: 'img-soft-cover',
-  players: { min: 4, max: 7 },
-  time: { min: 30, max: 60 },
-  playtimeCategory: 'Tra 30 e 60 min',
-  tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppo'],
-  macroCategory: 'party game',
-  difficulty: 2,
-  weightBGG: 1.65
-},
-{
-  id: 'game-20',
-  name: 'Monopoly',
-  description: `Monopoly è un gioco da tavolo per 2-6 giocatori della durata di circa 60-180 minuti, in cui i partecipanti comprano, scambiano e sviluppano proprietà immobiliari cercando di mandare in bancarotta gli avversari.`,
-  image: 'games/monopoly.jpg',
-  players: { min: 2, max: 6 },
-  time: { min: 60, max: 180 },
-  playtimeCategory: '> 60 min',
-  tags: ['familiare', 'economico', 'competitivo', 'classico'],
-  macroCategory: 'party game',
-  difficulty: 1,
-  weightBGG: 1.19
-},
-{
-  id: 'game-21',
-  name: 'Labirinto',
-  description: `Labirinto è un gioco da tavolo per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti modificano un labirinto scorrevole per raggiungere tesori nascosti prima degli avversari.`,
-  image: 'games/labirinto.jpg',
-  imageClass: 'img-horizontal',
-  players: { min: 2, max: 4 },
-  time: { min: 20, max: 30 },
-  playtimeCategory: '< 30 min',
-  tags: ['familiare', 'movimento', 'leggero', 'competitivo'],
-  macroCategory: 'party game',
-  difficulty: 1,
-  weightBGG: 1.35
-},
-{
-  id: 'game-22',
-  name: 'Hive',
-  description: `Hive è un gioco scacchistico per 2 giocatori della durata di circa 20-30 minuti, in cui i partecipanti muovono insetti con abilità uniche cercando di circondare l’ape regina avversaria.`,
-  image: 'games/hive.jpg',
-  players: { min: 2, max: 2 },
-  time: { min: 20, max: 30 },
-  playtimeCategory: '< 30 min',
-  tags: ['astratto', 'strategico', 'duello', 'competitivo'],
-  macroCategory: 'strategici',
-  difficulty: 2,
-  weightBGG: 2.32
-},
-{
-  id: 'game-23',
-  name: 'Slapzi',
-  description: `Slapzi è un gioco di carte rapido per 2-8 giocatori della durata di circa 10-15 minuti, in cui i partecipanti associano velocemente carte immagine e carte parola per essere i primi a liberarsi della mano.`,
-  image: 'games/slapzi.png',
-  imageClass: 'img-horizontal',
-  players: { min: 2, max: 8 },
-  time: { min: 10, max: 20 },
-  playtimeCategory: '< 30 min',
-  tags: ['party', 'velocità', 'familiare', 'leggero'],
-  macroCategory: 'party game',
-  difficulty: 0,
-  weightBGG: '0 (non da BGG)'
-},
-{
-  id: 'game-24',
-  name: 'Unstable Unicorns',
-  description: `Unstable Unicorns è un gioco di carte per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono eserciti di unicorni sabotando gli avversari con carte azione e colpi di scena.`,
-  image: 'games/unstable unicorns.jpg',
-  imageClass: 'img-horizontal',
-  players: { min: 2, max: 8 },
-  time: { min: 30, max: 60 },
-  playtimeCategory: 'Tra 30 e 60 min',
-  tags: ['party', 'carte', 'caotico', 'competitivo'],
-  macroCategory: 'party game',
-  difficulty: 1,
-  weightBGG: 1.49
-},
-{
-  id: 'game-25',
-  name: 'Munchkin',
-  description: `Munchkin è un gioco di carte per 3-6 giocatori della durata di circa 60-90 minuti, in cui i partecipanti esplorano dungeon, combattono mostri e tradiscono gli alleati per raggiungere per primi il livello 10.`,
-  image: 'games/munchkin.jpg',
-  imageClass: 'img-soft-cover',
-  players: { min: 3, max: 6 },
-  time: { min: 60, max: 120 },
-  playtimeCategory: '> 60 min',
-  tags: ['party', 'carte', 'umoristico', 'competitivo'],
-  macroCategory: 'party game',
-  difficulty: 2,
-  weightBGG: 1.61
-},
-{
-  id: 'game-26',
-  name: 'Santorini',
-  description: `Santorini è un gioco astratto per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti costruiscono edifici e muovono i propri personaggi usando poteri divini per ottenere vantaggi strategici.`,
-  image: 'games/santorini.jpg',
-  players: { min: 2, max: 4 },
-  time: { min: 20, max: 30 },
-  playtimeCategory: '< 30 min',
-  tags: ['astratto', 'strategico', 'competitivo'],
-  macroCategory: 'strategici',
-  difficulty: 2,
-  weightBGG: 2.35
-},
-{
-  id: 'game-27',
-  name: 'Pandemic Legacy Season 1',
-  description: `Pandemic Legacy Season 1 è un gioco cooperativo per 2-4 giocatori della durata di circa 60 minuti a partita, in cui i partecipanti affrontano una campagna narrativa evolutiva cercando di salvare l’umanità in un mondo post-apocalittico.`,
-  image: 'games/pandemic legacy season 1.jpg',
-  imageClass: 'img-horizontal',
-  players: { min: 2, max: 4 },
-  time: { min: 60, max: 120 },
-  playtimeCategory: '> 60 min',
-  tags: ['cooperativo', 'campagna', 'narrativo', 'pesante'],
-  macroCategory: 'strategici',
-  difficulty: 3,
-  weightBGG: 3.26
-},
-{
-  id: 'game-28',
-  name: 'Paladin',
-  description: `Paladin è un gioco da tavolo strategico per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti gestiscono risorse, lavoratori e azioni per sviluppare il proprio regno medievale.`,
-  image: 'games/paladin.jpg',
-  imageClass: 'img-horizontal',
-  players: { min: 1, max: 4 },
-  time: { min: 60, max: 120 },
-  playtimeCategory: '> 60 min',
-  tags: ['strategico', 'gestionale', 'pesante', 'solitario'],
-  macroCategory: 'strategici',
-  difficulty: 3,
-  weightBGG: 3.01
-},
-{
-  id: 'game-29',
-  name: 'Taboo',
-  description: `Taboo è un party game per 4-8 giocatori della durata di circa 20-30 minuti, in cui i partecipanti devono far indovinare parole evitando termini proibiti, creando situazioni caotiche e divertenti.`,
-  image: 'games/Taboo.jpg',
-  players: { min: 4, max: 8 },
-  time: { min: 20, max: 30 },
-  playtimeCategory: '< 30 min',
-  tags: ['party', 'parole', 'gruppi numerosi', 'familiare'],
-  macroCategory: 'party game',
-  difficulty: 0,
-  weightBGG: 1.1
-},
+    id: 'game-17',
+    name: 'Exploding Kittens',
+    description: `Exploding Kittens è un gioco di carte per 2-5 giocatori della durata di circa 15-20 minuti, in cui i partecipanti pescano carte evitando di esplodere, usando azioni folli, bluff e colpi bassi per rimanere gli ultimi in gioco.`,
+    image: 'games/exploding kittens.jpg',
+    imageClass: 'img-horizontal',
+    players: { min: 2, max: 5 },
+    time: { min: 10, max: 30 },
+    playtimeCategory: '< 30 min',
+    tags: ['party', 'carte', 'bluff', 'leggero', 'familiare'],
+    macroCategory: 'party game',
+    difficulty: 0,
+    weightBGG: 1.07
+  },
+  {
+    id: 'game-18',
+    name: 'Saboteur',
+    description: `Saboteur è un gioco di carte per 3-10 giocatori della durata di circa 30 minuti, in cui i partecipanti interpretano nani minatori con ruoli segreti, cercando di costruire o sabotare tunnel per raggiungere l'oro.`,
+    image: 'games/saboteur.jpg',
+    players: { min: 3, max: 10 },
+    time: { min: 20, max: 40 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppi numerosi'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: 1.38
+  },
+  {
+    id: 'game-19',
+    name: 'Bang! La Pallottola',
+    description: `Bang! La Pallottola è un gioco di carte per 4-7 giocatori della durata di circa 30-40 minuti, ambientato nel Far West, in cui i partecipanti assumono ruoli segreti e si eliminano a colpi di carte tra bluff, deduzione e alleanze.`,
+    image: 'games/bang.jpg',
+    imageClass: 'img-soft-cover',
+    players: { min: 4, max: 7 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppo'],
+    macroCategory: 'party game',
+    difficulty: 2,
+    weightBGG: 1.65
+  },
+  {
+    id: 'game-20',
+    name: 'Monopoly',
+    description: `Monopoly è un gioco da tavolo per 2-6 giocatori della durata di circa 60-180 minuti, in cui i partecipanti comprano, scambiano e sviluppano proprietà immobiliari cercando di mandare in bancarotta gli avversari.`,
+    image: 'games/monopoly.jpg',
+    players: { min: 2, max: 6 },
+    time: { min: 60, max: 180 },
+    playtimeCategory: '> 60 min',
+    tags: ['familiare', 'economico', 'competitivo', 'classico'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: 1.19
+  },
+  {
+    id: 'game-21',
+    name: 'Labirinto',
+    description: `Labirinto è un gioco da tavolo per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti modificano un labirinto scorrevole per raggiungere tesori nascosti prima degli avversari.`,
+    image: 'games/labirinto.jpg',
+    imageClass: 'img-horizontal',
+    players: { min: 2, max: 4 },
+    time: { min: 20, max: 30 },
+    playtimeCategory: '< 30 min',
+    tags: ['familiare', 'movimento', 'leggero', 'competitivo'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: 1.35
+  },
+  {
+    id: 'game-22',
+    name: 'Hive',
+    description: `Hive è un gioco scacchistico per 2 giocatori della durata di circa 20-30 minuti, in cui i partecipanti muovono insetti con abilità uniche cercando di circondare l'ape regina avversaria.`,
+    image: 'games/hive.jpg',
+    players: { min: 2, max: 2 },
+    time: { min: 20, max: 30 },
+    playtimeCategory: '< 30 min',
+    tags: ['astratto', 'strategico', 'duello', 'competitivo'],
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 2.32
+  },
+  {
+    id: 'game-23',
+    name: 'Slapzi',
+    description: `Slapzi è un gioco di carte rapido per 2-8 giocatori della durata di circa 10-15 minuti, in cui i partecipanti associano velocemente carte immagine e carte parola per essere i primi a liberarsi della mano.`,
+    image: 'games/slapzi.png',
+    imageClass: 'img-horizontal',
+    players: { min: 2, max: 8 },
+    time: { min: 10, max: 20 },
+    playtimeCategory: '< 30 min',
+    tags: ['party', 'velocità', 'familiare', 'leggero'],
+    macroCategory: 'party game',
+    difficulty: 0,
+    weightBGG: '0 (non da BGG)'
+  },
+  {
+    id: 'game-24',
+    name: 'Unstable Unicorns',
+    description: `Unstable Unicorns è un gioco di carte per 2-8 giocatori della durata di circa 30-45 minuti, in cui i partecipanti costruiscono eserciti di unicorni sabotando gli avversari con carte azione e colpi di scena.`,
+    image: 'games/unstable unicorns.jpg',
+    imageClass: 'img-horizontal',
+    players: { min: 2, max: 8 },
+    time: { min: 30, max: 60 },
+    playtimeCategory: 'Tra 30 e 60 min',
+    tags: ['party', 'carte', 'caotico', 'competitivo'],
+    macroCategory: 'party game',
+    difficulty: 1,
+    weightBGG: 1.49
+  },
+  {
+    id: 'game-25',
+    name: 'Munchkin',
+    description: `Munchkin è un gioco di carte per 3-6 giocatori della durata di circa 60-90 minuti, in cui i partecipanti esplorano dungeon, combattono mostri e tradiscono gli alleati per raggiungere per primi il livello 10.`,
+    image: 'games/munchkin.jpg',
+    imageClass: 'img-soft-cover',
+    players: { min: 3, max: 6 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
+    tags: ['party', 'carte', 'umoristico', 'competitivo'],
+    macroCategory: 'party game',
+    difficulty: 2,
+    weightBGG: 1.61
+  },
+  {
+    id: 'game-26',
+    name: 'Santorini',
+    description: `Santorini è un gioco astratto per 2-4 giocatori della durata di circa 20-30 minuti, in cui i partecipanti costruiscono edifici e muovono i propri personaggi usando poteri divini per ottenere vantaggi strategici.`,
+    image: 'games/santorini.jpg',
+    players: { min: 2, max: 4 },
+    time: { min: 20, max: 30 },
+    playtimeCategory: '< 30 min',
+    tags: ['astratto', 'strategico', 'competitivo'],
+    macroCategory: 'strategici',
+    difficulty: 2,
+    weightBGG: 2.35
+  },
+  {
+    id: 'game-27',
+    name: 'Pandemic Legacy Season 1',
+    description: `Pandemic Legacy Season 1 è un gioco cooperativo per 2-4 giocatori della durata di circa 60 minuti a partita, in cui i partecipanti affrontano una campagna narrativa evolutiva cercando di salvare l'umanità in un mondo post-apocalittico.`,
+    image: 'games/pandemic legacy season 1.jpg',
+    imageClass: 'img-horizontal',
+    players: { min: 2, max: 4 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
+    tags: ['cooperativo', 'campagna', 'narrativo', 'pesante'],
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: 3.26
+  },
+  {
+    id: 'game-28',
+    name: 'Paladin',
+    description: `Paladin è un gioco da tavolo strategico per 1-4 giocatori della durata di circa 60-120 minuti, in cui i partecipanti gestiscono risorse, lavoratori e azioni per sviluppare il proprio regno medievale.`,
+    image: 'games/paladin.jpg',
+    imageClass: 'img-horizontal',
+    players: { min: 1, max: 4 },
+    time: { min: 60, max: 120 },
+    playtimeCategory: '> 60 min',
+    tags: ['strategico', 'gestionale', 'pesante', 'solitario'],
+    macroCategory: 'strategici',
+    difficulty: 3,
+    weightBGG: 3.01
+  },
+  {
+    id: 'game-29',
+    name: 'Taboo',
+    description: `Taboo è un party game per 4-8 giocatori della durata di circa 20-30 minuti, in cui i partecipanti devono far indovinare parole evitando termini proibiti, creando situazioni caotiche e divertenti.`,
+    image: 'games/Taboo.jpg',
+    players: { min: 4, max: 8 },
+    time: { min: 20, max: 30 },
+    playtimeCategory: '< 30 min',
+    tags: ['party', 'parole', 'gruppi numerosi', 'familiare'],
+    macroCategory: 'party game',
+    difficulty: 0,
+    weightBGG: 1.1
+  },
   {
     id: 'game-30',
     name: 'Sky Team',
@@ -407,8 +410,7 @@ const gamesRaw = [
     difficulty: 3,
     weightBGG: '2.4 (non da BGG)'
   },
-
-{
+  {
     id: 'game-31',
     name: 'Citadels',
     description: `Citadels è un gioco di carte e ruoli in cui i giocatori costruiscono città e utilizzano abilità speciali dei personaggi per accumulare punti vittoria.`,
@@ -421,8 +423,7 @@ const gamesRaw = [
     difficulty: 2,
     weightBGG: '2.1 (non da BGG)'
   },
-
-{
+  {
     id: 'game-32',
     name: 'Patchwork',
     description: `Patchwork è un gioco strategico per 2 giocatori in cui si costruisce una coperta patchwork ottimizzando risorse, tempo e posizionamento delle tessere.`,
@@ -435,8 +436,7 @@ const gamesRaw = [
     difficulty: 2,
     weightBGG: '1.8 (non da BGG)'
   },
-
-{
+  {
     id: 'game-33',
     name: 'Piccioni Esplosivi',
     description: `Piccioni Esplosivi è un party game veloce e caotico in cui i giocatori si lanciano carte e sabotaggi per eliminarsi a vicenda.`,
@@ -449,8 +449,7 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1 (non da BGG)'
   },
-
-{
+  {
     id: 'game-34',
     name: 'The Crew: Missioni nello Spazio',
     description: `The Crew è un gioco cooperativo di prese ambientato nello spazio, in cui i giocatori devono completare missioni comunicando in modo limitato.`,
@@ -463,8 +462,7 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '2.2 (non da BGG)'
   },
-
-{
+  {
     id: 'game-35',
     name: 'Dixit',
     description: `Dixit è un party game creativo basato su immagini e narrazione, in cui i giocatori devono indovinare le carte tramite indizi astratti.`,
@@ -477,8 +475,7 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1.3 (non da BGG)'
   },
-
-{
+  {
     id: 'game-36',
     name: 'Catan per 2 giocatori - gioco di carte',
     description: `Versione a due giocatori di Catan, dove i partecipanti competono per raccogliere risorse e costruire strade e insediamenti in un formato rapido e strategico.`,
@@ -491,8 +488,7 @@ const gamesRaw = [
     difficulty: 2,
     weightBGG: '2 (non da BGG)'
   },
-
-{
+  {
     id: 'game-37',
     name: 'Scacchi',
     description: `Scacchi è il classico gioco da tavolo strategico per due giocatori, basato su mosse tattiche e pianificazione a lungo termine.`,
@@ -505,8 +501,7 @@ const gamesRaw = [
     difficulty: 4,
     weightBGG: '3.5 (non da BGG)'
   },
-
-{
+  {
     id: 'game-38',
     name: 'Gioco di dadi di Jack Sparrow',
     description: `Gioco di dadi ispirato a Pirati dei Caraibi, in cui i giocatori lanciano dadi per ottenere tesori e completare missioni in un party game veloce e divertente.`,
@@ -519,12 +514,11 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1 (non da BGG)'
   },
-
-{
+  {
     id: 'game-39',
-    name: 'Gioco dell’Impostore (gioco di parole)',
-    description: `Gioco di parole e deduzione sociale in cui i giocatori devono scoprire l’impostore tra loro, divertente e adatto a gruppi grandi.`,
-    image: 'games/Gioco dell’Impostore.jpg',
+    name: "Gioco dell'Impostore (gioco di parole)",
+    description: `Gioco di parole e deduzione sociale in cui i giocatori devono scoprire l'impostore tra loro, divertente e adatto a gruppi grandi.`,
+    image: "games/Gioco dell'Impostore.jpg",
     players: { min: 4, max: 10 },
     time: { min: 20, max: 40 },
     playtimeCategory: 'Tra 30 e 60 min',
@@ -533,8 +527,7 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1.2 (non da BGG)'
   },
-
-{
+  {
     id: 'game-40',
     name: 'Lupus in Tabula',
     description: `Lupus in Tabula è un gioco di deduzione sociale e bluff in cui i giocatori devono scoprire chi sono i lupi mannari nascosti tra di loro.`,
@@ -547,8 +540,7 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1.5 (non da BGG)'
   },
-
-{
+  {
     id: 'game-41',
     name: 'Avalon',
     description: `Avalon è un gioco di deduzione sociale ambientato nel ciclo arturiano, in cui i giocatori assumono ruoli segreti e cercano di completare missioni o sabotarle.`,
@@ -561,8 +553,7 @@ const gamesRaw = [
     difficulty: 2,
     weightBGG: '2 (non da BGG)'
   },
-
-{
+  {
     id: 'game-42',
     name: 'When I Dream',
     description: `When I Dream è un party game creativo in cui un giocatore deve indovinare parole mentre gli altri lo aiutano o lo confondono attraverso indizi, bluff e immaginazione.`,
@@ -575,18 +566,16 @@ const gamesRaw = [
     difficulty: 1,
     weightBGG: '1.7 (non da BGG)'
   }
-
 ];
 
 // ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
-let games = [];// --- 1️⃣ Supabase client ---
-
+let games = [];
 
 // --- 3️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
 const submitBtn = document.getElementById('submitBtn');
 const nameSection = document.getElementById('nameSection');
-const nameInput = document.getElementById('nameInput');
+const nameInput = document.getElementById('altroInput');
 const sendBtn = document.getElementById('send');
 const closeNameSectionBtn = document.getElementById('closeNameSection');
 const adminBtn = document.getElementById('adminBtn');
@@ -608,6 +597,8 @@ const loadingScreen = document.getElementById('loadingScreen');
 const mainTitle = document.getElementById('mainTitle');
 const dateFrom = document.getElementById('dateFrom');
 const dateTo = document.getElementById('dateTo');
+const timeFrom = document.getElementById('timeFrom');
+const timeTo = document.getElementById('timeTo');
 const applyDateFilter = document.getElementById('applyDateFilter');
 const resetDateFilter = document.getElementById('resetDateFilter');
 
@@ -619,6 +610,9 @@ let activeFilters = {
   maxTime: null
 };
 let dateFilterRange = { from: null, to: null };
+
+// Stato selezione nome
+let selectedPresetName = null; // null = nessuno, '__altro__' = mostra input
 
 // --- 4️⃣ Toggle filtri ---
 filterHeader.onclick = () => {
@@ -633,7 +627,16 @@ const popupClose = document.getElementById('popupClose');
 
 function showPopup(game) {
   const difficultyStars = '★'.repeat(game.difficulty) + '☆'.repeat(5 - game.difficulty);
-  
+
+  // Icona PDF (se il gioco ha il campo pdfLink)
+  const pdfLinkHtml = game.pdfLink
+    ? `<div class="popup-section">
+        <a href="${game.pdfLink}" target="_blank" rel="noopener noreferrer" class="popup-pdf-link">
+          <span class="pdf-icon">📄</span> Regolamento PDF
+        </a>
+      </div>`
+    : '';
+
   popupText.innerHTML = `
     <h3>${game.name}</h3>
     <div class="popup-section">
@@ -651,6 +654,7 @@ function showPopup(game) {
     <div class="popup-section">
       <span class="popup-label">Tags:</span> ${game.tags.join(', ')}
     </div>
+    ${pdfLinkHtml}
     <div class="popup-section" style="margin-top: 16px;">
       ${game.description}
     </div>
@@ -692,8 +696,6 @@ function loadGames() {
 
     createFilters();
     renderGames();
-    
-    // Nascondi loading e mostra titolo animato
     hideLoadingScreen();
   });
 }
@@ -702,19 +704,14 @@ function loadGames() {
 function hideLoadingScreen() {
   loadingScreen.classList.add('fade-out');
   document.body.classList.add('loaded');
-  
-  setTimeout(() => {
-    animateTitle();
-  }, 500);
+  setTimeout(() => { animateTitle(); }, 500);
 }
 
 function animateTitle() {
   const text = 'A cosa\nsi gioca?';
   const lines = text.split('\n');
-
   lines.forEach((line, lineIndex) => {
     const letters = line.split('');
-
     letters.forEach((letter, index) => {
       const span = document.createElement('span');
       span.textContent = letter === ' ' ? '\u00A0' : letter;
@@ -722,8 +719,6 @@ function animateTitle() {
       span.style.animationDelay = `${(index + lineIndex * 10) * 0.05}s`;
       mainTitle.appendChild(span);
     });
-
-    // A capo tra le righe
     if (lineIndex < lines.length - 1) {
       mainTitle.appendChild(document.createElement('br'));
     }
@@ -732,10 +727,7 @@ function animateTitle() {
 
 // --- 8️⃣ CREAZIONE FILTRI ---
 function createFilters() {
-  // Estrai tutte le macrocategorie uniche
   const categories = [...new Set(games.map(g => g.macroCategory))].sort();
-  
-  // Crea pulsanti categoria
   categories.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
@@ -743,15 +735,13 @@ function createFilters() {
     btn.onclick = () => toggleCategoryFilter(cat, btn);
     categoryFiltersDiv.appendChild(btn);
   });
-  
-  // Filtri numero giocatori
+
   tagFiltersDiv.innerHTML = '<div style="margin-bottom: 10px;"><strong>Giocatori:</strong></div>';
   const playersDiv = document.createElement('div');
   playersDiv.style.display = 'flex';
   playersDiv.style.gap = '8px';
   playersDiv.style.flexWrap = 'wrap';
   playersDiv.style.marginBottom = '20px';
-  
   [2, 3, 4, 5, 6, 7, 8].forEach(num => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
@@ -760,18 +750,16 @@ function createFilters() {
     playersDiv.appendChild(btn);
   });
   tagFiltersDiv.appendChild(playersDiv);
-  
-  // Filtri durata
+
   const durationLabel = document.createElement('div');
   durationLabel.innerHTML = '<strong>Giochi che durano meno di:</strong>';
   durationLabel.style.marginBottom = '10px';
   tagFiltersDiv.appendChild(durationLabel);
-  
+
   const durationDiv = document.createElement('div');
   durationDiv.style.display = 'flex';
   durationDiv.style.gap = '8px';
   durationDiv.style.flexWrap = 'wrap';
-  
   [30, 45, 60, 90, 120, 150].forEach(time => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
@@ -819,9 +807,9 @@ function toggleTimeFilter(time, btn) {
 }
 
 function updateFilters() {
-  const hasFilters = activeFilters.categories.length > 0 || 
-                     activeFilters.maxPlayers !== null || 
-                     activeFilters.maxTime !== null;
+  const hasFilters = activeFilters.categories.length > 0 ||
+    activeFilters.maxPlayers !== null ||
+    activeFilters.maxTime !== null;
   clearFiltersBtn.style.display = hasFilters ? 'inline-block' : 'none';
   renderGames();
 }
@@ -838,29 +826,19 @@ clearFiltersBtn.onclick = () => {
 // --- 9️⃣ RENDERING GIOCHI ---
 function renderGames() {
   grid.innerHTML = '';
-  
   let filteredGames = games;
-  
+
   if (activeFilters.categories.length > 0) {
-    filteredGames = filteredGames.filter(g => 
-      activeFilters.categories.includes(g.macroCategory)
-    );
+    filteredGames = filteredGames.filter(g => activeFilters.categories.includes(g.macroCategory));
   }
-  
   if (activeFilters.maxPlayers !== null) {
-    filteredGames = filteredGames.filter(g => 
-      g.players.max >= activeFilters.maxPlayers
-    );
+    filteredGames = filteredGames.filter(g => g.players.max >= activeFilters.maxPlayers);
   }
-  
   if (activeFilters.maxTime !== null) {
-    filteredGames = filteredGames.filter(g => 
-      g.time.max <= activeFilters.maxTime
-    );
+    filteredGames = filteredGames.filter(g => g.time.max <= activeFilters.maxTime);
   }
-  
+
   let currentCategory = null;
-  
   filteredGames.forEach(game => {
     if (game.macroCategory !== currentCategory) {
       currentCategory = game.macroCategory;
@@ -869,7 +847,6 @@ function renderGames() {
       header.textContent = currentCategory;
       grid.appendChild(header);
     }
-    
     renderGame(game);
   });
 }
@@ -877,19 +854,11 @@ function renderGames() {
 function renderGame(game) {
   const div = document.createElement('div');
   div.className = 'card';
-
-  if (selected.includes(game.id)) {
-    div.classList.add('selected');
-  }
+  if (selected.includes(game.id)) div.classList.add('selected');
 
   const difficultyClass = game.difficulty < 3 ? 'easy' : 'hard';
-
   div.innerHTML = `
-    <img 
-      src="${game.image}" 
-      alt="${game.name}" 
-      class="${game.imageClass || ''}"
-    >
+    <img src="${game.image}" alt="${game.name}" class="${game.imageClass || ''}">
     <div class="game-icons">
       <div class="game-icon">👥 ${game.players.min}-${game.players.max}</div>
       <div class="game-icon">⏱️ ${game.time.min}-${game.time.max}'</div>
@@ -900,7 +869,6 @@ function renderGame(game) {
 
   div.onclick = (e) => {
     if (e.target.classList.contains('info-icon')) return;
-
     if (selected.includes(game.id)) {
       selected = selected.filter(id => id !== game.id);
       div.classList.remove('selected');
@@ -908,7 +876,6 @@ function renderGame(game) {
       selected.push(game.id);
       div.classList.add('selected');
     }
-
     submitBtn.style.display = selected.length ? 'block' : 'none';
   };
 
@@ -920,12 +887,36 @@ function renderGame(game) {
   grid.appendChild(div);
 }
 
-
 // --- 🔟 Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+  // Reset stato nome
+  selectedPresetName = null;
+  nameInput.style.display = 'none';
+  nameInput.value = '';
+  document.querySelectorAll('.name-preset-btn').forEach(b => b.classList.remove('selected-name'));
 };
+
+// --- Gestione pulsanti nome preimpostati ---
+document.getElementById('nameButtonsGrid').addEventListener('click', (e) => {
+  const btn = e.target.closest('.name-preset-btn');
+  if (!btn) return;
+
+  const name = btn.getAttribute('data-name');
+  document.querySelectorAll('.name-preset-btn').forEach(b => b.classList.remove('selected-name'));
+  btn.classList.add('selected-name');
+
+  if (name === '__altro__') {
+    selectedPresetName = '__altro__';
+    nameInput.style.display = 'block';
+    nameInput.focus();
+  } else {
+    selectedPresetName = name;
+    nameInput.style.display = 'none';
+    nameInput.value = '';
+  }
+});
 
 // --- 1️⃣1️⃣ Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
@@ -935,7 +926,19 @@ closeNameSectionBtn.onclick = () => {
 
 // --- 1️⃣2️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
-  const name = nameInput.value.trim() || null;
+  let name = null;
+
+  if (selectedPresetName === null) {
+    alert('Seleziona il tuo nome!');
+    return;
+  }
+
+  if (selectedPresetName === '__altro__') {
+    const customName = nameInput.value.trim();
+    name = customName || null;
+  } else {
+    name = selectedPresetName;
+  }
 
   const { data: participant, error } = await supabaseClient
     .from('participants')
@@ -966,6 +969,7 @@ sendBtn.onclick = async () => {
   selected = [];
   document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
   nameInput.value = '';
+  selectedPresetName = null;
   submitBtn.style.display = 'none';
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
@@ -998,10 +1002,15 @@ adminLoginBtn.onclick = () => {
   }
 };
 
-// --- 1️⃣4️⃣ Filtro date admin ---
+// --- 1️⃣4️⃣ Filtro date + orario admin ---
 applyDateFilter.onclick = () => {
-  dateFilterRange.from = dateFrom.value || null;
-  dateFilterRange.to = dateTo.value || null;
+  const fromDate = dateFrom.value || null;
+  const fromTime = timeFrom.value || '00:00';
+  const toDate = dateTo.value || null;
+  const toTime = timeTo.value || '23:59';
+
+  dateFilterRange.from = fromDate ? `${fromDate}T${fromTime}:00` : null;
+  dateFilterRange.to   = toDate   ? `${toDate}T${toTime}:59`     : null;
   loadAdminData();
 };
 
@@ -1010,6 +1019,8 @@ resetDateFilter.onclick = () => {
   dateFilterRange.to = null;
   dateFrom.value = '';
   dateTo.value = '';
+  timeFrom.value = '';
+  timeTo.value = '';
   loadAdminData();
 };
 
@@ -1024,9 +1035,7 @@ async function loadAdminData() {
     participantsQuery = participantsQuery.gte('created_at', dateFilterRange.from);
   }
   if (dateFilterRange.to) {
-    const toDate = new Date(dateFilterRange.to);
-    toDate.setDate(toDate.getDate() + 1);
-    participantsQuery = participantsQuery.lt('created_at', toDate.toISOString().split('T')[0]);
+    participantsQuery = participantsQuery.lte('created_at', dateFilterRange.to);
   }
 
   const { data: participants } = await participantsQuery;
@@ -1037,11 +1046,8 @@ async function loadAdminData() {
   }
 
   const participantIds = participants.map(p => p.id);
-  
-  let selectionsQuery = supabaseClient
-    .from('selections')
-    .select('*');
 
+  let selectionsQuery = supabaseClient.from('selections').select('*');
   if (participantIds.length > 0) {
     selectionsQuery = selectionsQuery.in('participant_id', participantIds);
   } else {
@@ -1129,14 +1135,11 @@ function displayChart(selections) {
 // --- 1️⃣8️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
   if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
-
   try {
     const { error: e1 } = await supabaseClient.from('selections').delete().gte('id', 0);
     if (e1) throw e1;
-
     const { error: e2 } = await supabaseClient.from('participants').delete().gte('id', 0);
     if (e2) throw e2;
-
     alert('Tutti i dati sono stati cancellati!');
     loadAdminData();
   } catch (err) {
@@ -1154,24 +1157,18 @@ const MEEPLES = [];
 function createFloatingObjects() {
   const container = document.createElement('div');
   container.className = 'floating-objects';
-
   for (let i = 0; i < 6; i++) {
     const el = document.createElement('div');
     el.className = 'floating-object';
-
     const randomMeeple = MEEPLES[Math.floor(Math.random() * MEEPLES.length)];
     el.innerHTML = randomMeeple;
-
     el.style.left = Math.random() * 100 + '%';
     el.style.animationDuration = (18 + Math.random() * 12) + 's';
-
     container.appendChild(el);
   }
-
   document.body.appendChild(container);
 }
 
-// --- ✨ CARICA IL FILE SVG ESTERNO ---
 fetch('/games/meeple.svg')
   .then(res => res.text())
   .then(svg => {
@@ -1179,156 +1176,83 @@ fetch('/games/meeple.svg')
     createFloatingObjects();
   });
 
-// --- 🎲 DADO 3D REALISTICO - LANCIO CON PUNTINI ---
+// --- 🎲 DADO 3D REALISTICO ---
 function createDiceLauncher() {
-  console.log('🎲 Inizializzazione dado launcher...');
-  
-  // Icona launcher
   const launcher = document.createElement('div');
   launcher.className = 'dice-launcher';
   launcher.innerHTML = '🎲';
   launcher.title = 'Lancia il dado!';
-  
-  // Overlay per il dado
+
   const overlay = document.createElement('div');
   overlay.className = 'dice-result-overlay';
-  
-  // Scena 3D
+
   const scene = document.createElement('div');
   scene.className = 'dice-scene';
-  
-  // Dado 3D
+
   const dice = document.createElement('div');
   dice.className = 'dice-3d';
-  
-  // Crea le 6 facce del dado con i puntini
+
   function createDots(num) {
     const dots = [];
-    for (let i = 0; i < num; i++) {
-      dots.push('<div class="dice-dot"></div>');
-    }
+    for (let i = 0; i < num; i++) dots.push('<div class="dice-dot"></div>');
     return dots.join('');
   }
-  
-  // Faccia 1
-  const face1 = document.createElement('div');
-  face1.className = 'dice-face';
-  face1.setAttribute('data-face', '1');
-  face1.innerHTML = createDots(1);
-  dice.appendChild(face1);
-  
-  // Faccia 2
-  const face2 = document.createElement('div');
-  face2.className = 'dice-face';
-  face2.setAttribute('data-face', '2');
-  face2.innerHTML = createDots(2);
-  dice.appendChild(face2);
-  
-  // Faccia 3
-  const face3 = document.createElement('div');
-  face3.className = 'dice-face';
-  face3.setAttribute('data-face', '3');
-  face3.innerHTML = createDots(3);
-  dice.appendChild(face3);
-  
-  // Faccia 4
-  const face4 = document.createElement('div');
-  face4.className = 'dice-face';
-  face4.setAttribute('data-face', '4');
-  face4.innerHTML = createDots(4);
-  dice.appendChild(face4);
-  
-  // Faccia 5
-  const face5 = document.createElement('div');
-  face5.className = 'dice-face';
-  face5.setAttribute('data-face', '5');
-  face5.innerHTML = createDots(5);
-  dice.appendChild(face5);
-  
-  // Faccia 6
-  const face6 = document.createElement('div');
-  face6.className = 'dice-face';
-  face6.setAttribute('data-face', '6');
-  face6.innerHTML = createDots(6);
-  dice.appendChild(face6);
-  
+
+  for (let i = 1; i <= 6; i++) {
+    const face = document.createElement('div');
+    face.className = 'dice-face';
+    face.setAttribute('data-face', String(i));
+    face.innerHTML = createDots(i);
+    dice.appendChild(face);
+  }
+
   scene.appendChild(dice);
   overlay.appendChild(scene);
-  
-  console.log('✅ Dado 3D creato con 6 facce e puntini');
-  
-  // Rotazioni per mostrare ogni faccia
+
   const faceRotations = [
-    { x: 0, y: 0 },      // Faccia 1
-    { x: 0, y: 180 },    // Faccia 2
-    { x: 0, y: -90 },    // Faccia 3
-    { x: 0, y: 90 },     // Faccia 4
-    { x: -90, y: 0 },    // Faccia 5
-    { x: 90, y: 0 }      // Faccia 6
+    { x: 0, y: 0 },
+    { x: 0, y: 180 },
+    { x: 0, y: -90 },
+    { x: 0, y: 90 },
+    { x: -90, y: 0 },
+    { x: 90, y: 0 }
   ];
-  
-  // Click sul launcher per lanciare il dado
+
   launcher.onclick = () => {
-    console.log('🎲 LANCIO DEL DADO!');
-    
     if (launcher.classList.contains('rolling')) return;
-    
     launcher.classList.add('rolling');
     const randomNumber = Math.floor(Math.random() * 6) + 1;
-    console.log('🎲 Numero estratto:', randomNumber);
-
-    // Mostra overlay
     overlay.classList.add('show');
 
-    // Reset iniziale
     dice.style.transition = 'none';
     dice.style.transform = 'rotateX(0deg) rotateY(0deg)';
-    
-    // Forza il reflow
     void dice.offsetWidth;
 
-    // 🎲 LANCIO REALISTICO - Rotazione caotica
     setTimeout(() => {
       dice.style.transition = 'transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      
-      // Tante rotazioni caotiche + rotazione finale
-      const spins = 4 + Math.floor(Math.random() * 2); // 4-5 giri
+      const spins = 4 + Math.floor(Math.random() * 2);
       const finalRotation = faceRotations[randomNumber - 1];
-      
-      const randomX = Math.random() * 360;
-      const randomY = Math.random() * 360;
-      const randomZ = Math.random() * 360;
-      
-      const totalX = (360 * spins) + randomX + finalRotation.x;
-      const totalY = (360 * spins) + randomY + finalRotation.y;
-      const totalZ = (360 * spins) + randomZ;
-      
-      dice.style.transform = 
-        `rotateX(${totalX}deg) rotateY(${totalY}deg) rotateZ(${totalZ}deg)`;
-      
-      console.log('🌀 Il dado sta rotolando...');
+      const totalX = (360 * spins) + Math.random() * 360 + finalRotation.x;
+      const totalY = (360 * spins) + Math.random() * 360 + finalRotation.y;
+      const totalZ = (360 * spins) + Math.random() * 360;
+      dice.style.transform = `rotateX(${totalX}deg) rotateY(${totalY}deg) rotateZ(${totalZ}deg)`;
     }, 50);
 
-    // Chiudi overlay dopo 3.5s
     setTimeout(() => {
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
-      console.log(`👋 Risultato finale: ${randomNumber}`);
     }, 3500);
   };
 
-  // Click sull'overlay per chiuderlo manualmente
   overlay.onclick = (e) => {
     if (e.target === overlay) {
       overlay.classList.remove('show');
       launcher.classList.remove('rolling');
     }
   };
-  
+
   document.body.appendChild(launcher);
   document.body.appendChild(overlay);
-  console.log('✅ Dado launcher aggiunto al DOM');
 }
 
-// Avvia il launcher
 createDiceLauncher();
