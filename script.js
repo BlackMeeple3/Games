@@ -19,7 +19,7 @@ const gamesRaw = [
     tags: ['strategico', 'familiare', 'piazzamento tessere', 'medio', 'solitario'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 1.85
+    weightBGG: 1.85,
     pdfLink: 'https://www.alderac.com/wp-content/uploads/2021/08/Cascadia-Rules.pdf'
   },
   {
