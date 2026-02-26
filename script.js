@@ -33,7 +33,8 @@ const gamesRaw = [
     tags: ['strategico', 'controllo territorio', 'competitivo', 'pesante'],
     macroCategory: 'strategici',
     difficulty: 3,
-    weightBGG: 2.88
+    weightBGG: 2.88,
+    pdfLink: 'https://www.the-forge.it/wp-content/uploads/2019/11/BloodRage_Rulebook_ITA.pdf'
   },
   {
     id: 'game-3',
@@ -46,7 +47,8 @@ const gamesRaw = [
     tags: ['carte', 'strategico', 'medio', 'competitivo'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: '2 (non da BGG)'
+    weightBGG: '2 (non da BGG)',
+    pdfLink:'https://www.brdgmz.nl/wp-content/uploads/Appendix-Forest-Shuffle-English.pdf'
   },
   {
     id: 'game-4',
@@ -59,7 +61,8 @@ const gamesRaw = [
     tags: ['familiare', 'piazzamento tessere', 'leggero', 'competitivo'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 1.91
+    weightBGG: 1.91,
+    pdfLink: 'https://parpignol.info/wp-content/uploads/2017/09/Carcassonne.pdf'
   },
   {
     id: 'game-5',
@@ -72,7 +75,8 @@ const gamesRaw = [
     tags: ['strategico', 'gestionale', 'pesante', 'competitivo'],
     macroCategory: 'strategici',
     difficulty: 3,
-    weightBGG: 3.27
+    weightBGG: 3.27,
+    pdfLink: 'https://www.riograndegames.com/wp-content/uploads/2019/08/Puerto-Rico-Deluxe-Rules.pdf'
   },
   {
     id: 'game-6',
@@ -85,7 +89,8 @@ const gamesRaw = [
     tags: ['strategico', 'gestionale', 'medio', 'competitivo'],
     macroCategory: 'strategici',
     difficulty: 3,
-    weightBGG: 2.99
+    weightBGG: 2.99,
+    pdfLink: 'https://cdn.1j1ju.com/medias/04/f5/f9-the-castles-of-burgundy-rulebook.pdf'
   },
   {
     id: 'game-7',
@@ -98,7 +103,8 @@ const gamesRaw = [
     tags: ['corse', 'familiare', 'competitivo', 'medio', 'solitario'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 2.4
+    weightBGG: 2.4,
+    pdfLink: 'https://it.scribd.com/document/737796843/Heat-Regolamento-ITA'
   },
   {
     id: 'game-8',
@@ -111,7 +117,8 @@ const gamesRaw = [
     tags: ['carte', 'strategico', 'gruppi numerosi', 'medio'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 2.32
+    weightBGG: 2.32,
+    pdfLink: 'https://www.migliorigiochi.eu/wp-content/uploads/2017/12/7-wonders-regole.pdf'
   },
   {
     id: 'game-9',
@@ -124,7 +131,8 @@ const gamesRaw = [
     tags: ['familiare', 'strategico', 'medio', 'competitivo'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 1.88
+    weightBGG: 1.88,
+    pdfLink: 'https://www.goblins.net/files/downloads/tickettorideeurope_ITA.pdf'
   },
   {
     id: 'game-10',
@@ -138,7 +146,8 @@ const gamesRaw = [
     tags: ['strategico', 'gestionale', 'medio', 'solitario'],
     macroCategory: 'strategici',
     difficulty: 3,
-    weightBGG: 2.46
+    weightBGG: 2.46,
+    pdfLink: 'https://it.scribd.com/doc/190219285/Wingspan-Italiano'
   },
   {
     id: 'game-11',
