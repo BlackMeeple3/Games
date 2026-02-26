@@ -638,13 +638,17 @@ function showPopup(game) {
   const difficultyStars = '★'.repeat(game.difficulty) + '☆'.repeat(5 - game.difficulty);
 
   // Icona PDF (se il gioco ha il campo pdfLink)
-  const pdfLinkHtml = game.pdfLink
-    ? `<div class="popup-section">
-        <a href="${game.pdfLink}" target="_blank" rel="noopener noreferrer" class="popup-pdf-link">
-          <span class="pdf-icon">📄</span> Regolamento PDF
-        </a>
-      </div>`
-    : '';
+const pdfLinkHtml = game.pdfLink
+  ? `<div class="popup-section">
+      <a href="${game.pdfLink}" target="_blank" rel="noopener noreferrer" class="popup-pdf-link">
+        <svg class="pdf-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+          <path d="M14 2v6h6"/>
+        </svg>
+        <span>Regolamento</span>
+      </a>
+    </div>`
+  : '';
 
   popupText.innerHTML = `
     <h3>${game.name}</h3>
