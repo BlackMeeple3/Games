@@ -1,13 +1,14 @@
 // --- 1️⃣ Supabase client ---
 const supabaseClient = window.supabase.createClient(
-  'https://axdwlpufjxbjxqtuveal.supabase.co',  
+  'https://axdwlpufjxbjxqtuveal.supabase.co',
   'sb_publishable_j3_92NhNt3Ui-GDFxbpcbQ_Km4oDBDg'
 );
 
-// ⚠️ LISTA FINALE USATA DA TUTTO IL CODICE
+// ⚠️ LISTA iFINALE USATA DA TUTTO IL CODICE
+// gamesRaw è definita in games-data.js, incluso prima di questo script
 let games = [];
 
-// --- 3️⃣ Riferimenti DOM ---
+// --- 2️⃣ Riferimenti DOM ---
 const grid = document.getElementById('grid');
 const submitBtn = document.getElementById('submitBtn');
 const nameSection = document.getElementById('nameSection');
@@ -23,12 +24,6 @@ const closeAdminBtn = document.getElementById('closeAdminBtn');
 const adminContent = document.getElementById('adminContent');
 const resetDataBtn = document.getElementById('resetDataBtn');
 const chartCanvas = document.getElementById('voteChart');
-const categoryFiltersDiv = document.getElementById('categoryFilters');
-const tagFiltersDiv = document.getElementById('tagFilters');
-const clearFiltersBtn = document.getElementById('clearFilters');
-const filterHeader = document.getElementById('filterHeader');
-const filterContent = document.getElementById('filterContent');
-const filterToggle = document.querySelector('.filter-toggle');
 const loadingScreen = document.getElementById('loadingScreen');
 const mainTitle = document.getElementById('mainTitle');
 const dateFrom = document.getElementById('dateFrom');
@@ -40,23 +35,22 @@ const resetDateFilter = document.getElementById('resetDateFilter');
 
 let selected = [];
 let isAdmin = false;
-let activeFilters = {
-  categories: [],
-  maxPlayers: null,
-  maxTime: null
-};
 let dateFilterRange = { from: null, to: null };
 
 // Stato selezione nome
-let selectedPresetName = null; // null = nessuno, '__altro__' = mostra input
+let selectedPresetName = null;
 
-// --- 4️⃣ Toggle filtri ---
-filterHeader.onclick = () => {
-  filterContent.classList.toggle('collapsed');
-  filterToggle.classList.toggle('collapsed');
+// --- 3️⃣ Stato filtri e ordinamento ---
+let activeFilters = {
+  playersRange: null,   // [min, max] | null
+  difficulty: null,     // 'easy' | 'hard' | null
+  time: null            // 'short' | 'long' | null
 };
 
-// --- 5️⃣ Popup ---
+let activeSortOrder = 'default';
+// 'default' | 'difficulty-asc' | 'difficulty-desc' | 'time-asc' | 'time-desc'
+
+// --- 4️⃣ Popup ---
 const popupOverlay = document.getElementById('popupOverlay');
 const popupText = document.getElementById('popupText');
 const popupClose = document.getElementById('popupClose');
@@ -64,18 +58,17 @@ const popupClose = document.getElementById('popupClose');
 function showPopup(game) {
   const difficultyStars = '★'.repeat(game.difficulty) + '☆'.repeat(5 - game.difficulty);
 
-  // Icona PDF (se il gioco ha il campo pdfLink)
-const pdfLinkHtml = game.pdfLink
-  ? `<div class="popup-section">
-      <a href="${game.pdfLink}" target="_blank" rel="noopener noreferrer" class="popup-pdf-link">
-        <svg class="pdf-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-          <path d="M14 2v6h6"/>
-        </svg>
-        <span>Regolamento</span>
-      </a>
-    </div>`
-  : '';
+  const pdfLinkHtml = game.pdfLink
+    ? `<div class="popup-section">
+        <a href="${game.pdfLink}" target="_blank" rel="noopener noreferrer" class="popup-pdf-link">
+          <svg class="pdf-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+            <path d="M14 2v6h6"/>
+          </svg>
+          <span>Regolamento</span>
+        </a>
+      </div>`
+    : '';
 
   popupText.innerHTML = `
     <h3>${game.name}</h3>
@@ -111,7 +104,7 @@ popupOverlay.onclick = (e) => {
   if (e.target === popupOverlay) closePopup();
 };
 
-// --- 6️⃣ CARICAMENTO GIOCHI ---
+// --- 5️⃣ CARICAMENTO GIOCHI ---
 function loadGames() {
   const checks = gamesRaw.map(game => {
     return new Promise(resolve => {
@@ -123,24 +116,19 @@ function loadGames() {
   });
 
   Promise.all(checks).then(validGames => {
-    games = validGames
-      .filter(Boolean)
-      .slice(0, 50);
-
+    games = validGames.filter(Boolean).slice(0, 50);
     games.sort((a, b) => {
-      if (a.macroCategory !== b.macroCategory) {
+      if (a.macroCategory !== b.macroCategory)
         return a.macroCategory.localeCompare(b.macroCategory, 'it');
-      }
       return a.name.localeCompare(b.name, 'it');
     });
-
     createFilters();
     renderGames();
     hideLoadingScreen();
   });
 }
 
-// --- 7️⃣ ANIMAZIONE TITOLO ---
+// --- 6️⃣ ANIMAZIONE TITOLO ---
 function hideLoadingScreen() {
   loadingScreen.classList.add('fade-out');
   document.body.classList.add('loaded');
@@ -165,122 +153,274 @@ function animateTitle() {
   });
 }
 
-// --- 8️⃣ CREAZIONE FILTRI ---
+// --- 7️⃣ CREAZIONE FILTRI ---
 function createFilters() {
-  const categories = [...new Set(games.map(g => g.macroCategory))].sort();
-  categories.forEach(cat => {
+  const container = document.getElementById('filterSection');
+
+  // Mantieni solo l'header originale dal DOM, ricostruisci il resto
+  const header = container.querySelector('.filter-header');
+  container.innerHTML = '';
+  container.appendChild(header);
+
+  const content = document.createElement('div');
+  content.id = 'filterContent';
+  content.className = 'filter-content';
+  container.appendChild(content);
+
+  // ── 1. GIOCATORI ────────────────────────────────────────
+  const playersGroup = makeFilterGroup('👥 Numero di giocatori');
+  const playersRanges = [
+    { label: '1–2', range: [1, 2] },
+    { label: '3–4', range: [3, 4] },
+    { label: '5–6', range: [5, 6] },
+    { label: '7–8', range: [7, 8] },
+    { label: '8+',  range: [9, 99] },
+  ];
+
+  const playersButtons = document.createElement('div');
+  playersButtons.className = 'filter-buttons';
+
+  playersRanges.forEach(({ label, range }) => {
     const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.textContent = cat;
-    btn.onclick = () => toggleCategoryFilter(cat, btn);
-    categoryFiltersDiv.appendChild(btn);
+    btn.className = 'filter-btn-players';
+    btn.innerHTML = `👥 ${label}`;
+    btn.addEventListener('click', () => {
+      if (activeFilters.playersRange && activeFilters.playersRange[0] === range[0]) {
+        activeFilters.playersRange = null;
+        btn.classList.remove('active');
+      } else {
+        playersButtons.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        activeFilters.playersRange = range;
+        btn.classList.add('active');
+      }
+      applyFilters();
+    });
+    playersButtons.appendChild(btn);
   });
 
-  tagFiltersDiv.innerHTML = '<div style="margin-bottom: 10px;"><strong>Giocatori:</strong></div>';
-  const playersDiv = document.createElement('div');
-  playersDiv.style.display = 'flex';
-  playersDiv.style.gap = '8px';
-  playersDiv.style.flexWrap = 'wrap';
-  playersDiv.style.marginBottom = '20px';
-  [2, 3, 4, 5, 6, 7, 8].forEach(num => {
+  playersGroup.appendChild(playersButtons);
+  content.appendChild(playersGroup);
+  content.appendChild(makeFilterDivider());
+
+  // ── 2. DIFFICOLTÀ ────────────────────────────────────────
+  const diffGroup = makeFilterGroup('⚖️ Difficoltà');
+  const diffRow = document.createElement('div');
+  diffRow.className = 'filter-buttons';
+
+  const easyBtn = document.createElement('button');
+  easyBtn.className = 'filter-btn-easy';
+  easyBtn.innerHTML = '🟢 Facile <small style="opacity:.7;font-weight:400">(≤ 2/5)</small>';
+
+  const hardBtn = document.createElement('button');
+  hardBtn.className = 'filter-btn-hard';
+  hardBtn.innerHTML = '🔴 Difficile <small style="opacity:.7;font-weight:400">(≥ 3/5)</small>';
+
+  easyBtn.addEventListener('click', () => toggleDifficultyFilter('easy', easyBtn, hardBtn));
+  hardBtn.addEventListener('click', () => toggleDifficultyFilter('hard', hardBtn, easyBtn));
+
+  diffRow.appendChild(easyBtn);
+  diffRow.appendChild(hardBtn);
+  diffGroup.appendChild(diffRow);
+  content.appendChild(diffGroup);
+  content.appendChild(makeFilterDivider());
+
+  // ── 3. TEMPO ─────────────────────────────────────────────
+  const timeGroup = makeFilterGroup('⏱️ Durata partita');
+  const timeRow = document.createElement('div');
+  timeRow.className = 'filter-buttons';
+
+  const shortBtn = document.createElement('button');
+  shortBtn.className = 'filter-btn-short';
+  shortBtn.innerHTML = '⚡ Veloce <small style="opacity:.7;font-weight:400">(≤ 45 min)</small>';
+
+  const longBtn = document.createElement('button');
+  longBtn.className = 'filter-btn-long';
+  longBtn.innerHTML = '🕰️ Lungo <small style="opacity:.7;font-weight:400">(&gt; 45 min)</small>';
+
+  shortBtn.addEventListener('click', () => toggleTimeFilter('short', shortBtn, longBtn));
+  longBtn.addEventListener('click', () => toggleTimeFilter('long', longBtn, shortBtn));
+
+  timeRow.appendChild(shortBtn);
+  timeRow.appendChild(longBtn);
+  timeGroup.appendChild(timeRow);
+  content.appendChild(timeGroup);
+  content.appendChild(makeFilterDivider());
+
+  // ── 4. ORDINAMENTO ────────────────────────────────────────
+  const sortGroup = makeFilterGroup('↕️ Ordina per');
+  const sortRow = document.createElement('div');
+  sortRow.className = 'sort-buttons';
+
+  const sorts = [
+    { id: 'default',         icon: '🎲', label: 'Default' },
+    { id: 'difficulty-asc',  icon: '⚖️↑', label: 'Più facile' },
+    { id: 'difficulty-desc', icon: '⚖️↓', label: 'Più difficile' },
+    { id: 'time-asc',        icon: '⏱️↑', label: 'Più breve' },
+    { id: 'time-desc',       icon: '⏱️↓', label: 'Più lungo' },
+  ];
+
+  sorts.forEach(({ id, icon, label }) => {
     const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.textContent = `${num}`;
-    btn.onclick = () => togglePlayersFilter(num, btn);
-    playersDiv.appendChild(btn);
+    btn.className = 'filter-btn-sort' + (id === 'default' ? ' active' : '');
+    btn.innerHTML = `${icon} ${label}`;
+    btn.addEventListener('click', () => {
+      sortRow.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeSortOrder = id;
+      applyFilters();
+    });
+    sortRow.appendChild(btn);
   });
-  tagFiltersDiv.appendChild(playersDiv);
 
-  const durationLabel = document.createElement('div');
-  durationLabel.innerHTML = '<strong>Giochi che durano meno di:</strong>';
-  durationLabel.style.marginBottom = '10px';
-  tagFiltersDiv.appendChild(durationLabel);
+  sortGroup.appendChild(sortRow);
+  content.appendChild(sortGroup);
 
-  const durationDiv = document.createElement('div');
-  durationDiv.style.display = 'flex';
-  durationDiv.style.gap = '8px';
-  durationDiv.style.flexWrap = 'wrap';
-  [30, 45, 60, 90, 120, 150].forEach(time => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.textContent = `${time} minuti`;
-    btn.onclick = () => toggleTimeFilter(time, btn);
-    durationDiv.appendChild(btn);
-  });
-  tagFiltersDiv.appendChild(durationDiv);
+  // ── Clear ────────────────────────────────────────────────
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'clear-filters';
+  clearBtn.id = 'clearFilters';
+  clearBtn.textContent = '✕ Rimuovi filtri';
+  clearBtn.style.display = 'none';
+  clearBtn.addEventListener('click', resetAllFilters);
+  content.appendChild(clearBtn);
+
+  // ── Toggle collassa/espandi ──────────────────────────────
+  const filterToggleEl = container.querySelector('.filter-toggle');
+  header.onclick = () => {
+    content.classList.toggle('collapsed');
+    if (filterToggleEl) filterToggleEl.classList.toggle('collapsed');
+  };
 }
 
-function toggleCategoryFilter(category, btn) {
-  const idx = activeFilters.categories.indexOf(category);
-  if (idx > -1) {
-    activeFilters.categories.splice(idx, 1);
-    btn.classList.remove('active');
+// Helper: crea gruppo filtro con etichetta
+function makeFilterGroup(labelText) {
+  const group = document.createElement('div');
+  group.className = 'filter-group';
+  const label = document.createElement('div');
+  label.className = 'filter-group-label';
+  label.textContent = labelText;
+  group.appendChild(label);
+  return group;
+}
+
+// Helper: divisore visivo
+function makeFilterDivider() {
+  const d = document.createElement('div');
+  d.className = 'filter-divider';
+  return d;
+}
+
+// Toggle difficoltà (mutuamente esclusivi)
+function toggleDifficultyFilter(val, activeBtn, otherBtn) {
+  if (activeFilters.difficulty === val) {
+    activeFilters.difficulty = null;
+    activeBtn.classList.remove('active');
   } else {
-    activeFilters.categories.push(category);
-    btn.classList.add('active');
+    activeFilters.difficulty = val;
+    activeBtn.classList.add('active');
+    otherBtn.classList.remove('active');
   }
-  updateFilters();
+  applyFilters();
 }
 
-function togglePlayersFilter(num, btn) {
-  if (activeFilters.maxPlayers === num) {
-    activeFilters.maxPlayers = null;
-    btn.classList.remove('active');
+// Toggle tempo (mutuamente esclusivi)
+function toggleTimeFilter(val, activeBtn, otherBtn) {
+  if (activeFilters.time === val) {
+    activeFilters.time = null;
+    activeBtn.classList.remove('active');
   } else {
-    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    activeFilters.maxPlayers = num;
-    btn.classList.add('active');
+    activeFilters.time = val;
+    activeBtn.classList.add('active');
+    otherBtn.classList.remove('active');
   }
-  updateFilters();
+  applyFilters();
 }
 
-function toggleTimeFilter(time, btn) {
-  if (activeFilters.maxTime === time) {
-    activeFilters.maxTime = null;
-    btn.classList.remove('active');
-  } else {
-    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    activeFilters.maxTime = time;
-    btn.classList.add('active');
-  }
-  updateFilters();
-}
-
-function updateFilters() {
-  const hasFilters = activeFilters.categories.length > 0 ||
-    activeFilters.maxPlayers !== null ||
-    activeFilters.maxTime !== null;
-  clearFiltersBtn.style.display = hasFilters ? 'inline-block' : 'none';
+// Reset completo filtri + ordinamento
+function resetAllFilters() {
+  activeFilters = { playersRange: null, difficulty: null, time: null };
+  activeSortOrder = 'default';
+  document.querySelectorAll(
+    '.filter-btn-players, .filter-btn-easy, .filter-btn-hard, .filter-btn-short, .filter-btn-long'
+  ).forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn-sort').forEach(b => b.classList.remove('active'));
+  const defBtn = document.querySelector('.filter-btn-sort');
+  if (defBtn) defBtn.classList.add('active');
+  const clearBtn = document.getElementById('clearFilters');
+  if (clearBtn) clearBtn.style.display = 'none';
   renderGames();
 }
 
-clearFiltersBtn.onclick = () => {
-  activeFilters.categories = [];
-  activeFilters.maxPlayers = null;
-  activeFilters.maxTime = null;
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  clearFiltersBtn.style.display = 'none';
+// Aggiorna visibilità clearBtn e ridisegna
+function applyFilters() {
+  const hasFilter = activeFilters.playersRange || activeFilters.difficulty || activeFilters.time;
+  const clearBtn = document.getElementById('clearFilters');
+  if (clearBtn) clearBtn.style.display = hasFilter ? 'inline-block' : 'none';
   renderGames();
-};
+}
 
-// --- 9️⃣ RENDERING GIOCHI ---
+// --- 8️⃣ RENDERING GIOCHI ---
 function renderGames() {
   grid.innerHTML = '';
-  let filteredGames = games;
+  let filtered = [...games];
 
-  if (activeFilters.categories.length > 0) {
-    filteredGames = filteredGames.filter(g => activeFilters.categories.includes(g.macroCategory));
-  }
-  if (activeFilters.maxPlayers !== null) {
-    filteredGames = filteredGames.filter(g => g.players.max >= activeFilters.maxPlayers);
-  }
-  if (activeFilters.maxTime !== null) {
-    filteredGames = filteredGames.filter(g => g.time.max <= activeFilters.maxTime);
+  // Filtro giocatori per range
+  if (activeFilters.playersRange) {
+    const [rMin, rMax] = activeFilters.playersRange;
+    filtered = filtered.filter(g => g.players.max >= rMin && g.players.min <= rMax);
   }
 
+  // Filtro difficoltà
+  if (activeFilters.difficulty === 'easy') {
+    filtered = filtered.filter(g => Number(g.difficulty) <= 2);
+  } else if (activeFilters.difficulty === 'hard') {
+    filtered = filtered.filter(g => Number(g.difficulty) >= 3);
+  }
+
+  // Filtro tempo
+  if (activeFilters.time === 'short') {
+    filtered = filtered.filter(g => g.time.max <= 45);
+  } else if (activeFilters.time === 'long') {
+    filtered = filtered.filter(g => g.time.max > 45);
+  }
+
+  // Ordinamento
+  switch (activeSortOrder) {
+    case 'difficulty-asc':
+      filtered.sort((a, b) => Number(a.difficulty) - Number(b.difficulty));
+      break;
+    case 'difficulty-desc':
+      filtered.sort((a, b) => Number(b.difficulty) - Number(a.difficulty));
+      break;
+    case 'time-asc':
+      filtered.sort((a, b) => a.time.max - b.time.max);
+      break;
+    case 'time-desc':
+      filtered.sort((a, b) => b.time.max - a.time.max);
+      break;
+    default:
+      filtered.sort((a, b) => {
+        if (a.macroCategory !== b.macroCategory)
+          return a.macroCategory.localeCompare(b.macroCategory, 'it');
+        return a.name.localeCompare(b.name, 'it');
+      });
+  }
+
+  // Messaggio lista vuota
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.6);font-size:1.1rem;';
+    empty.textContent = 'Nessun gioco corrisponde ai filtri selezionati.';
+    grid.appendChild(empty);
+    return;
+  }
+
+  // Header di categoria solo nell'ordinamento default
+  const showCategoryHeaders = activeSortOrder === 'default';
   let currentCategory = null;
-  filteredGames.forEach(game => {
-    if (game.macroCategory !== currentCategory) {
+
+  filtered.forEach(game => {
+    if (showCategoryHeaders && game.macroCategory !== currentCategory) {
       currentCategory = game.macroCategory;
       const header = document.createElement('div');
       header.className = 'category-header';
@@ -327,18 +467,17 @@ function renderGame(game) {
   grid.appendChild(div);
 }
 
-// --- 🔟 Mostra sezione nome ---
+// --- 9️⃣ Mostra sezione nome ---
 submitBtn.onclick = () => {
   nameSection.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
-  // Reset stato nome
   selectedPresetName = null;
   nameInput.style.display = 'none';
   nameInput.value = '';
   document.querySelectorAll('.name-preset-btn').forEach(b => b.classList.remove('selected-name'));
 };
 
-// --- Gestione pulsanti nome preimpostati ---
+// Gestione pulsanti nome preimpostati
 document.getElementById('nameButtonsGrid').addEventListener('click', (e) => {
   const btn = e.target.closest('.name-preset-btn');
   if (!btn) return;
@@ -358,13 +497,13 @@ document.getElementById('nameButtonsGrid').addEventListener('click', (e) => {
   }
 });
 
-// --- 1️⃣1️⃣ Chiudi sezione nome ---
+// --- 🔟 Chiudi sezione nome ---
 closeNameSectionBtn.onclick = () => {
   nameSection.classList.add('hidden');
   document.body.style.overflow = 'auto';
 };
 
-// --- 1️⃣2️⃣ Invia dati a Supabase ---
+// --- 1️⃣1️⃣ Invia dati a Supabase ---
 sendBtn.onclick = async () => {
   let name = null;
 
@@ -386,10 +525,7 @@ sendBtn.onclick = async () => {
     .select()
     .single();
 
-  if (error) {
-    alert(error.message);
-    return;
-  }
+  if (error) { alert(error.message); return; }
 
   const rows = selected.map(game_id => ({
     participant_id: participant.id,
@@ -400,10 +536,7 @@ sendBtn.onclick = async () => {
     .from('selections')
     .insert(rows);
 
-  if (selectionError) {
-    alert(selectionError.message);
-    return;
-  }
+  if (selectionError) { alert(selectionError.message); return; }
 
   alert('Scelte inviate!');
   selected = [];
@@ -415,7 +548,7 @@ sendBtn.onclick = async () => {
   document.body.style.overflow = 'auto';
 };
 
-// --- 1️⃣3️⃣ ADMIN PANEL ---
+// --- 1️⃣2️⃣ ADMIN PANEL ---
 adminBtn.onclick = () => {
   adminPanel.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -442,48 +575,40 @@ adminLoginBtn.onclick = () => {
   }
 };
 
-// --- 1️⃣4️⃣ Filtro date + orario admin ---
+// --- 1️⃣3️⃣ Filtro date + orario admin ---
 applyDateFilter.onclick = () => {
   const fromDate = dateFrom.value || null;
   const fromTime = timeFrom.value || '00:00';
-  const toDate = dateTo.value || null;
-  const toTime = timeTo.value || '23:59';
+  const toDate   = dateTo.value   || null;
+  const toTime   = timeTo.value   || '23:59';
 
   dateFilterRange.from = fromDate ? `${fromDate}T${fromTime}:00` : null;
-  dateFilterRange.to   = toDate   ? `${toDate}T${toTime}:59`     : null;
+  dateFilterRange.to   = toDate   ? `${toDate}T${toTime}:59`    : null;
   loadAdminData();
 };
 
 resetDateFilter.onclick = () => {
   dateFilterRange.from = null;
-  dateFilterRange.to = null;
+  dateFilterRange.to   = null;
   dateFrom.value = '';
-  dateTo.value = '';
+  dateTo.value   = '';
   timeFrom.value = '';
-  timeTo.value = '';
+  timeTo.value   = '';
   loadAdminData();
 };
 
-// --- 1️⃣5️⃣ Carica dati admin ---
+// --- 1️⃣4️⃣ Carica dati admin ---
 async function loadAdminData() {
   let participantsQuery = supabaseClient
     .from('participants')
     .select('*')
     .order('created_at', { ascending: false });
 
-  if (dateFilterRange.from) {
-    participantsQuery = participantsQuery.gte('created_at', dateFilterRange.from);
-  }
-  if (dateFilterRange.to) {
-    participantsQuery = participantsQuery.lte('created_at', dateFilterRange.to);
-  }
+  if (dateFilterRange.from) participantsQuery = participantsQuery.gte('created_at', dateFilterRange.from);
+  if (dateFilterRange.to)   participantsQuery = participantsQuery.lte('created_at', dateFilterRange.to);
 
   const { data: participants } = await participantsQuery;
-
-  if (!participants) {
-    alert('Errore nel caricamento dei dati');
-    return;
-  }
+  if (!participants) { alert('Errore nel caricamento dei dati'); return; }
 
   const participantIds = participants.map(p => p.id);
 
@@ -495,12 +620,11 @@ async function loadAdminData() {
   }
 
   const { data: selections } = await selectionsQuery;
-
   displayVotesTable(participants, selections || []);
   displayChart(selections || []);
 }
 
-// --- 1️⃣6️⃣ Tabella voti ---
+// --- 1️⃣5️⃣ Tabella voti ---
 function displayVotesTable(participants, selections) {
   const tableDiv = document.getElementById('votesTable');
   let html = '<h3>Voti per Partecipante</h3><div style="overflow-x:auto;">';
@@ -524,7 +648,7 @@ function displayVotesTable(participants, selections) {
   tableDiv.innerHTML = html;
 }
 
-// --- 1️⃣7️⃣ Grafico ---
+// --- 1️⃣6️⃣ Grafico ---
 function displayChart(selections) {
   const voteCounts = {};
   selections.forEach(s => {
@@ -539,7 +663,7 @@ function displayChart(selections) {
   }
 
   const labels = sortedGames.map(([id]) => games.find(g => g.id === id)?.name || id);
-  const data = sortedGames.map(([, count]) => count);
+  const data   = sortedGames.map(([, count]) => count);
   const colors = sortedGames.map((_, i) => `hsl(${(i * 137.5) % 360},70%,60%)`);
 
   const ctx = chartCanvas.getContext('2d');
@@ -572,7 +696,7 @@ function displayChart(selections) {
   });
 }
 
-// --- 1️⃣8️⃣ Reset dati ---
+// --- 1️⃣7️⃣ Reset dati ---
 resetDataBtn.onclick = async () => {
   if (!confirm('Sei sicuro di voler cancellare TUTTI i dati?')) return;
   try {
@@ -650,12 +774,12 @@ function createDiceLauncher() {
   overlay.appendChild(scene);
 
   const faceRotations = [
-    { x: 0, y: 0 },
-    { x: 0, y: 180 },
-    { x: 0, y: -90 },
-    { x: 0, y: 90 },
-    { x: -90, y: 0 },
-    { x: 90, y: 0 }
+    { x: 0,   y: 0   },
+    { x: 0,   y: 180 },
+    { x: 0,   y: -90 },
+    { x: 0,   y: 90  },
+    { x: -90, y: 0   },
+    { x: 90,  y: 0   }
   ];
 
   launcher.onclick = () => {
