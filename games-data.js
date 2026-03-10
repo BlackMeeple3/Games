@@ -205,9 +205,9 @@ const gamesRaw = [
   },
   {
     id: 'game-15',
-    name: 'Monsters of Loch Lomond',
-    description: `Monsters of Loch Lomond è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
-    image: 'games/monster_.jpg',
+    name: 'sgablab',
+    description: `Sgablab è un gioco di carte per 2-6 giocatori della durata di circa 20-30 minuti, in cui i partecipanti cercano di catturare creature leggendarie utilizzando strategia, fortuna e colpi di scena per accumulare punti.`,
+    image: 'games/sgablab.png',
     imageClass: 'img-soft-cover',
     players: { min: 2, max: 6 },
     time: { min: 10, max: 30 },
@@ -215,7 +215,8 @@ const gamesRaw = [
     tags: ['carte', 'leggero', 'familiare', 'competitivo'],
     macroCategory: 'party game',
     difficulty: 2,
-    weightBGG: '1.8'
+    weightBGG: '1.8',
+    pdfLink: '/games/Regolamento_sgablab.pdf'
   },
   {
     id: 'game-16',
