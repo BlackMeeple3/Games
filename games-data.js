@@ -158,7 +158,8 @@ const gamesRaw = [
     tags: ['party', 'carte', 'bluff', 'gruppi numerosi', 'leggero'],
     macroCategory: 'party game',
     difficulty: 0,
-    weightBGG: '0 (non da BGG)'
+    weightBGG: '0 (non da BGG)',
+    pdfLink: 'https://www.schmidtspiele.de/files/Produkte/7/75024%20-%20Skull%20King/75024_Skull_King_DE_FR_IT.pdf'
   },
   {
     id: 'game-12',
@@ -171,7 +172,8 @@ const gamesRaw = [
     tags: ['party', 'ruoli segreti', 'carte', 'leggero'],
     macroCategory: 'party game',
     difficulty: 2,
-    weightBGG: '1.76'
+    weightBGG: '1.76',
+    pdfLink: 'https://www.goblins.net/files/downloads/samurai_sword-regole.pdf'
   },
   {
     id: 'game-13',
@@ -184,7 +186,8 @@ const gamesRaw = [
     tags: ['strategico', 'deck-building', 'piazzamento lavoratori', 'pesante', 'solitario'],
     macroCategory: 'strategici',
     difficulty: 3,
-    weightBGG: 2.9
+    weightBGG: 2.9,
+     pdfLink:'https://www.brickone.it/wp-content/uploads/2022/02/Istruzioni-di-gioco-rovine-perdute-di-arnak.pdf?srsltid=AfmBOopChYAhOJFPmYViMr1e2ql-QBq0bFcHVnhIK7elMOTlNn-3vlAE'
   },
   {
     id: 'game-14',
@@ -197,7 +200,8 @@ const gamesRaw = [
     tags: ['cooperativo', 'familiare', 'piazzamento tessere', 'rilassante'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 1.75
+    weightBGG: 1.75,
+    pdfLink:'https://www.bigcream.it/upload/riviste/articolo/file_28351.pdf'
   },
   {
     id: 'game-15',
@@ -571,6 +575,21 @@ const gamesRaw = [
     tags: ['party', 'creativo', 'immaginazione', 'deduzione'],
     macroCategory: 'party game',
     difficulty: 1,
-    weightBGG: '1.7 (non da BGG)'
-  }
+    weightBGG: '1.7 (non da BGG)',
+    pdfLink: 'https://cdn.1j1ju.com/medias/e5/06/28-when-i-dream-rule.pdf'
+  },
+  {
+  id: 'game-43',
+  name: '13 Foglie',
+  description: `13 Foglie è un gioco di carte rapido e strategico in cui i giocatori devono giocare una o più carte dello stesso valore per estendere la sequenza sul tavolo. L'obiettivo è liberarsi delle proprie carte prima degli altri, cercando allo stesso tempo di bloccare le mosse degli avversari e costruire una sequenza numerica armoniosa.`,
+  image: 'games/13 Foglie.jpg',
+  players: { min: 3, max: 6 },
+  time: { min: 15, max: 20 },
+  playtimeCategory: 'Meno di 30 min',
+  tags: ['carte', 'sequenze', 'hand management', 'set collection'],
+  macroCategory: 'party game',
+  difficulty: 1,
+  weightBGG: '1.5 (stima)',
+  pdfLink: 'https://www.craniocreations.it/storage/media/product_downloads/177/2009/13Foglie_Regolamento-ITA_low.pdf'
+}
 ];
