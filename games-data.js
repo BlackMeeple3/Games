@@ -218,7 +218,7 @@ const gamesRaw = [
     weightBGG: '1.8',
     pdfLink: '/games/Regolamento_sgablab.pdf'
   },
-  {
+ {
     id: 'game-16',
     name: 'Scotland Yard',
     description: `Scotland Yard è un gioco da tavolo di deduzione per 3-6 giocatori della durata di circa 45-60 minuti, in cui un giocatore interpreta Mister X mentre gli altri sono detective che collaborano per rintracciarlo muovendosi su una mappa di Londra usando indizi e logica.`,
@@ -230,7 +230,8 @@ const gamesRaw = [
     tags: ['deduzione', 'movimento nascosto', 'gruppo', 'medio'],
     macroCategory: 'strategici',
     difficulty: 2,
-    weightBGG: 2.08
+    weightBGG: 2.08,
+    pdfLink: 'https://www.manualeduso.it/manuals/243247/ravensburger-scotland-yard.html'
   },
   {
     id: 'game-17',
@@ -244,7 +245,8 @@ const gamesRaw = [
     tags: ['party', 'carte', 'bluff', 'leggero', 'familiare'],
     macroCategory: 'party game',
     difficulty: 0,
-    weightBGG: 1.07
+    weightBGG: 1.07,
+    pdfLink: 'https://www.explodingkittens.com/pages/rules-kittens'
   },
   {
     id: 'game-18',
@@ -257,7 +259,8 @@ const gamesRaw = [
     tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppi numerosi'],
     macroCategory: 'party game',
     difficulty: 1,
-    weightBGG: 1.38
+    weightBGG: 1.38,
+    pdfLink: 'https://www.goblins.net/files/download/saboter_ITArules.pdf'
   },
   {
     id: 'game-19',
@@ -271,7 +274,8 @@ const gamesRaw = [
     tags: ['party', 'ruoli segreti', 'carte', 'bluff', 'gruppo'],
     macroCategory: 'party game',
     difficulty: 2,
-    weightBGG: 1.65
+    weightBGG: 1.65,
+    pdfLink: 'https://www.dvgiochi.com/giochi/bang/Bang_rules_IT.pdf'
   },
   {
     id: 'game-20',
@@ -284,7 +288,8 @@ const gamesRaw = [
     tags: ['familiare', 'economico', 'competitivo', 'classico'],
     macroCategory: 'party game',
     difficulty: 1,
-    weightBGG: 1.19
+    weightBGG: 1.19,
+    pdfLink: 'https://instructions.hasbro.com/api/download/C1009_it-it_monopoly-classic-game.pdf'
   },
   {
     id: 'game-21',
