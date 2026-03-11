@@ -597,5 +597,19 @@ const gamesRaw = [
   difficulty: 1,
   weightBGG: '1.5 (stima)',
   pdfLink: 'https://www.craniocreations.it/storage/media/product_downloads/177/2009/13Foglie_Regolamento-ITA_low.pdf'
+},
+  {
+  id: 'game-44',
+  name: 'Elden Letter',
+  description: `Elden Letter è un party game di deduzione rapido in cui i giocatori cercano di ottenere la grazie di Dafne la strega prima degli altri. Ogni turno si pesca una carta e se ne gioca una, attivando l'abilità del personaggio per ottenere informazioni, proteggersi o eliminare gli avversari dal round. Il gioco combina bluff, intuizione e rischio in partite veloci e piene di tensione.`,
+  image: 'games/elden letter.png',
+  players: { min: 2, max: 4 },
+  time: { min: 15, max: 20 },
+  playtimeCategory: 'Meno di 30 min',
+  tags: ['carte', 'deduzione', 'bluff', 'eliminazione giocatori', 'hand management'],
+  macroCategory: 'party game',
+  difficulty: 1,
+  weightBGG: '1.18',
+  pdfLink: 'https://images.zmangames.com/filer_public/5b/6c/5b6c17d7-7e0e-4b70-a311-9a6c32066010/ll-rulebook.pdf'
 }
 ];
