@@ -603,13 +603,13 @@ const gamesRaw = [
   name: 'Elden Letter',
   description: `Elden Letter è un party game di deduzione rapido in cui i giocatori cercano di ottenere la grazie di Dafne la strega prima degli altri. Ogni turno si pesca una carta e se ne gioca una, attivando l'abilità del personaggio per ottenere informazioni, proteggersi o eliminare gli avversari dal round. Il gioco combina bluff, intuizione e rischio in partite veloci e piene di tensione.`,
   image: 'games/elden letter.png',
-  players: { min: 2, max: 4 },
+  players: { min: 2, max: 6 },
   time: { min: 15, max: 20 },
   playtimeCategory: 'Meno di 30 min',
   tags: ['carte', 'deduzione', 'bluff', 'eliminazione giocatori', 'hand management'],
   macroCategory: 'party game',
   difficulty: 1,
   weightBGG: '1.18',
-  pdfLink: 'https://images.zmangames.com/filer_public/5b/6c/5b6c17d7-7e0e-4b70-a311-9a6c32066010/ll-rulebook.pdf'
+  pdfLink: '/games/Elden_letter_regolamento.pdf'
 }
 ];
