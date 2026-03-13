@@ -613,5 +613,24 @@ A ogni turno si pesca una carta e se ne gioca una, attivando l’abilità del pe
   difficulty: 1,
   weightBGG: '1.18',
   pdfLink: '/games/Elden_letter_regolamento.pdf'
+},
+  {
+  id: 'game-45',
+  name: 'Intrighi di Corte',
+  description: `Benvenuti a Intrighi di Corte, un elegante gioco di carte dove strategia, bluff e colpi bassi si fondono in una lotta per il favore della Regina. Sei famiglie — Carpe, Cervi, Rospi, Lepri, Farfalle e Usignoli — si contendono l’influenza a corte cercando di emergere o far precipitare in disgrazia i propri rivali.
+
+Durante la partita i giocatori giocano tre carte a turno: una al tavolo della Regina per influenzare lo status delle famiglie e due nei domini dei giocatori, determinando i punti in base all’influenza finale delle famiglie coinvolte.
+
+Missioni segrete e ruoli speciali come Nobili, Spie, Assassini e Guardie introducono poteri unici che permettono di manipolare la corte e cambiare l’equilibrio della partita. Tra intrighi, alleanze e tradimenti, solo chi saprà muoversi con più astuzia tra le famiglie della corte riuscirà a conquistare la vittoria.`,
+  image: 'games/intrighi di corte.png',
+  players: { min: 2, max: 5 },
+  time: { min: 20, max: 30 },
+  playtimeCategory: 'Meno di 30 min',
+  tags: ['carte', 'strategia', 'bluff', 'controllo area', 'missioni segrete'],
+  macroCategory: 'party game',
+  difficulty: 2,
+  weightBGG: '1.90',
+  pdfLink: 'https://www.goblins.net/files/download/Love%20Letters%20-%20Regolamento%20ITA.pdf'
 }
+  
 ];
